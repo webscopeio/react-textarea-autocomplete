@@ -222,11 +222,11 @@ class ReactTextareaAutocomplete extends React.Component {
 
   modifyCurrentToken = newToken => {
     const { currentTrigger } = this.state;
-    const { end = false } = this.getCurrentTriggerSettings();
+    const { pair = false } = this.getCurrentTriggerSettings();
 
     this.textareaRef.value = this.textareaRef.value.replace(
       this.tokenRegExp,
-      `${currentTrigger + newToken}${end ? currentTrigger : ''}`
+      `${currentTrigger + newToken}${pair ? currentTrigger : ''}`
     );
     this.closeAutocomplete();
   };
