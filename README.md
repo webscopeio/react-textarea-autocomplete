@@ -19,7 +19,6 @@ In the folder run `yarn link` in your project then `yarn link react-textarea-aut
                 dataProvider: token =>
                     new Promise(res => setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000)),
                 component: TestComponent,
-                end: false,
             },
             ':': {
                 dataProvider: token =>
