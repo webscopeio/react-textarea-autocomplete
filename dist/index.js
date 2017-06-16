@@ -240,7 +240,6 @@
               className: (0, _classnames2.default)('rta__item', {
                 'rta__item--selected': selected,
               }),
-              key: item,
             },
             _react2.default.createElement(Component, {
               selected: selected,
@@ -279,6 +278,8 @@
       };
 
       _this2.scroll = function(e) {
+        e.preventDefault();
+
         var values = _this2.props.values;
 
         var code = e.keyCode || e.which;
@@ -303,26 +304,19 @@
       };
 
       _this2.onPressEnter = function(e) {
+        e.preventDefault();
+
         var _this2$props = _this2.props,
           values = _this2$props.values,
-          onSelect = _this2$props.onSelect;
+          onSelect = _this2$props.onSelect,
+          getTextToReplace = _this2$props.getTextToReplace;
 
         e.preventDefault();
-        onSelect(_this2.getTextToReplace(values[_this2.getPositionInList()]));
+        onSelect(getTextToReplace(values[_this2.getPositionInList()]));
       };
 
       _this2.getId = function(item) {
-        return (typeof item === 'undefined' ? 'undefined' : _typeof(item)) ===
-          'object'
-          ? item.id
-          : item;
-      };
-
-      _this2.getTextToReplace = function(item) {
-        return (typeof item === 'undefined' ? 'undefined' : _typeof(item)) ===
-          'object'
-          ? item.text
-          : item;
+        return _this2.props.getTextToReplace(item);
       };
 
       _this2.isSelected = function(item) {
@@ -486,26 +480,35 @@
             onChange(e);
           }
         }),
-        (_this4.modifyCurrentToken = function(newToken) {
+        (_this4.getTextToReplace = function() {
+          var _this4$getCurrentTrig = _this4.getCurrentTriggerSettings(),
+            output = _this4$getCurrentTrig.output;
+
           var currentTrigger = _this4.state.currentTrigger;
 
-          var _this4$getCurrentTrig = _this4.getCurrentTriggerSettings(),
-            _this4$getCurrentTrig2 = _this4$getCurrentTrig.pair,
-            pair = _this4$getCurrentTrig2 === undefined
-              ? false
-              : _this4$getCurrentTrig2;
+          return function(item) {
+            if (
+              (typeof item === 'undefined' ? 'undefined' : _typeof(item)) ===
+              'object'
+            ) {
+              if (!output || typeof output !== 'function') {
+                throw new Error('RTA: Output function is not defined!');
+              }
 
-          _this4.textareaRef.value = _this4.textareaRef.value.replace(
-            _this4.tokenRegExp,
-            '' + (currentTrigger + newToken) + (pair ? currentTrigger : ''),
-          );
-          _this4.closeAutocomplete();
+              return output(item, currentTrigger);
+            }
+
+            return currentTrigger + item;
+          };
         }),
         (_this4.closeAutocomplete = function() {
           _this4.setState({ currentTrigger: null });
         }),
         (_this4.onSelect = function(newToken) {
-          _this4.modifyCurrentToken(newToken);
+          _this4.textareaRef.value = _this4.textareaRef.value.replace(
+            _this4.tokenRegExp,
+            newToken,
+          );
           _this4.closeAutocomplete();
         }),
         (_this4.getCurrentTriggerSettings = function() {
@@ -520,12 +523,12 @@
             return;
           }
 
-          var _this4$getCurrentTrig3 = _this4.getCurrentTriggerSettings(),
-            dataProvider = _this4$getCurrentTrig3.dataProvider,
-            component = _this4$getCurrentTrig3.component;
+          var _this4$getCurrentTrig2 = _this4.getCurrentTriggerSettings(),
+            dataProvider = _this4$getCurrentTrig2.dataProvider,
+            component = _this4$getCurrentTrig2.component;
 
           if (typeof dataProvider !== 'function') {
-            console.warn('Trigger provider has to be a function!');
+            new Error('RTA: Trigger provider has to be a function!');
           }
 
           _this4.setState({
@@ -567,6 +570,18 @@
         value: function componentDidMount() {
           this.update();
           Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
+
+          var _props3 = this.props,
+            loadingComponent = _props3.loadingComponent,
+            trigger = _props3.trigger;
+
+          if (!loadingComponent) {
+            throw new Error('RTA: loadingComponent is not defined');
+          }
+
+          if (!trigger) {
+            throw new Error('RTA: trigger is not defined');
+          }
         },
       },
       {
@@ -586,9 +601,9 @@
         value: function render() {
           var _this5 = this;
 
-          var _props3 = this.props,
-            Loader = _props3.loadingComponent,
-            otherProps = _objectWithoutProperties(_props3, [
+          var _props4 = this.props,
+            Loader = _props4.loadingComponent,
+            otherProps = _objectWithoutProperties(_props4, [
               'loadingComponent',
             ]);
 
@@ -636,6 +651,7 @@
                 data &&
                   _react2.default.createElement(List, {
                     values: data,
+                    getTextToReplace: this.getTextToReplace(),
                     component: component,
                     onSelect: this.onSelect,
                   }),

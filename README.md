@@ -27,6 +27,7 @@ In the folder run `yarn link` in your project then `yarn link react-textarea-aut
                 component: TestComponent,
             },
             ':': {
+                output: (item, trigger) => `___${item.text}___`,
                 dataProvider: token =>
                     new Promise(res =>
                     setTimeout(

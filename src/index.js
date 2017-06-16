@@ -61,7 +61,6 @@ class Item extends React.Component {
     return (
       <li
         className={classNames('rta__item', { 'rta__item--selected': selected })}
-        key={item}
       >
         <Component selected={selected} entity={item} />
       </li>
@@ -85,7 +84,10 @@ class List extends React.PureComponent {
   };
 
   scroll = e => {
+    e.preventDefault();
+
     const { values } = this.props;
+
     const code = e.keyCode || e.which;
 
     const oldPosition = this.getPositionInList();
@@ -107,10 +109,12 @@ class List extends React.PureComponent {
   };
 
   onPressEnter = e => {
-    const { values, onSelect } = this.props;
+    e.preventDefault();
+
+    const { values, onSelect, getTextToReplace } = this.props;
 
     e.preventDefault();
-    onSelect(this.getTextToReplace(values[this.getPositionInList()]));
+    onSelect(getTextToReplace(values[this.getPositionInList()]));
   };
 
   componentDidMount() {
@@ -132,11 +136,7 @@ class List extends React.PureComponent {
   }
 
   getId = item => {
-    return typeof item === 'object' ? item.id : item;
-  };
-
-  getTextToReplace = item => {
-    return typeof item === 'object' ? item.text : item;
+    return this.props.getTextToReplace(item);
   };
 
   isSelected = item => {
@@ -171,6 +171,16 @@ class ReactTextareaAutocomplete extends React.Component {
   componentDidMount() {
     this.update();
     Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
+
+    const { loadingComponent, trigger } = this.props;
+
+    if (!loadingComponent) {
+      throw new Error('RTA: loadingComponent is not defined');
+    }
+
+    if (!trigger) {
+      throw new Error('RTA: trigger is not defined');
+    }
   }
 
   componentWillUnmount() {
@@ -232,15 +242,20 @@ class ReactTextareaAutocomplete extends React.Component {
     }
   };
 
-  modifyCurrentToken = newToken => {
+  getTextToReplace = () => {
+    const { output } = this.getCurrentTriggerSettings();
     const { currentTrigger } = this.state;
-    const { pair = false } = this.getCurrentTriggerSettings();
+    return item => {
+      if (typeof item === 'object') {
+        if (!output || typeof output !== 'function') {
+          throw new Error('RTA: Output function is not defined!');
+        }
 
-    this.textareaRef.value = this.textareaRef.value.replace(
-      this.tokenRegExp,
-      `${currentTrigger + newToken}${pair ? currentTrigger : ''}`,
-    );
-    this.closeAutocomplete();
+        return output(item, currentTrigger);
+      }
+
+      return currentTrigger + item;
+    };
   };
 
   closeAutocomplete = () => {
@@ -248,7 +263,10 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   onSelect = newToken => {
-    this.modifyCurrentToken(newToken);
+    this.textareaRef.value = this.textareaRef.value.replace(
+      this.tokenRegExp,
+      newToken,
+    );
     this.closeAutocomplete();
   };
 
@@ -265,7 +283,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const { dataProvider, component } = this.getCurrentTriggerSettings();
 
     if (typeof dataProvider !== 'function') {
-      console.warn('Trigger provider has to be a function!');
+      new Error('RTA: Trigger provider has to be a function!');
     }
 
     this.setState({
@@ -324,6 +342,7 @@ class ReactTextareaAutocomplete extends React.Component {
             {data &&
               <List
                 values={data}
+                getTextToReplace={this.getTextToReplace()}
                 component={component}
                 onSelect={this.onSelect}
               />}
