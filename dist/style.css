@@ -1,0 +1,24 @@
+.rta__wrapper {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+}
+.rta__textarea {
+  width: 100%;
+  height: 100%;
+}
+.rta__autocomplete {
+  position: absolute;
+
+  display: block;
+}
+.rta__list {
+  margin: 0;
+  padding: 0;
+}
+.rta__item {
+  list-style: none;
+}
+.rta__item--selected {
+}
