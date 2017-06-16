@@ -1,6 +1,6 @@
 {
     "name": "react-textarea-autocomplete",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Offers autocomplete over textarea in style of GitHub.",
     "repository": {
         "type": "git",
@@ -41,7 +41,6 @@
         "eslint": "^4.0.0",
         "eslint-plugin-babel": "^4.1.1",
         "eslint-plugin-react": "^7.1.0",
-        "flow-bin": "0.48.0",
         "husky": "0.13.4",
         "lint-staged": "3.6.1",
         "prettier": "1.4.4",

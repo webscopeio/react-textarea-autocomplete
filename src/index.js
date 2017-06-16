@@ -191,7 +191,7 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   changeHandler = e => {
-    const { trigger } = this.props;
+    const { trigger, onChange } = this.props;
 
     const triggerChars = Object.keys(trigger);
 
@@ -225,6 +225,11 @@ class ReactTextareaAutocomplete extends React.Component {
       },
       this.getValuesFromProvider,
     );
+
+    if (onChange) {
+      e.persist();
+      onChange(e);
+    }
   };
 
   modifyCurrentToken = newToken => {
@@ -277,8 +282,25 @@ class ReactTextareaAutocomplete extends React.Component {
     });
   };
 
+  cleanUpProps = () => {
+    const props = { ...this.props };
+    const notSafe = [
+      'loadingComponent',
+      'ref',
+      'onChange',
+      'className',
+      'trigger',
+    ];
+
+    for (let prop in props) {
+      if (notSafe.includes(prop)) delete props[prop];
+    }
+
+    return props;
+  };
+
   render() {
-    const { loadingComponent: Loader } = this.props;
+    const { loadingComponent: Loader, ...otherProps } = this.props;
     const {
       left,
       top,
@@ -294,6 +316,7 @@ class ReactTextareaAutocomplete extends React.Component {
           ref={ref => (this.textareaRef = ref)}
           className="rta__textarea"
           onChange={this.changeHandler}
+          {...this.cleanUpProps(otherProps)}
         />
         {(dataLoading || (currentTrigger && data)) &&
           <div style={{ top, left }} className="rta__autocomplete">

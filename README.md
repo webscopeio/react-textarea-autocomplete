@@ -17,6 +17,8 @@ In the folder run `yarn link` in your project then `yarn link react-textarea-aut
 
 
     <ReactTextareaAutocomplete
+        onChange={e => console.log('on change')}
+        style={{ background: 'red' }}
         loadingComponent={Loading}
         trigger={{
             '@': {
