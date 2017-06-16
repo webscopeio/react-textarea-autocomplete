@@ -270,10 +270,11 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   render() {
+    const { loadingComponent: Loader } = this.props;
     const { left, top, currentTrigger, data, dataLoading, component } = this.state;
 
     return (
-      <div className="rta__wrapper">
+      <div className={classNames('rta', { 'rta--loading': dataLoading })}>
         <textarea
           ref={ref => (this.textareaRef = ref)}
           className="rta__textarea"
@@ -281,7 +282,7 @@ class ReactTextareaAutocomplete extends React.Component {
         />
         {(dataLoading || (currentTrigger && data)) &&
           <div style={{ top, left }} className="rta__autocomplete">
-            {dataLoading && <div>Loading...</div>}
+            {dataLoading && <div className="rta__loader"><Loader /></div>}
             {data && <List values={data} component={component} onSelect={this.onSelect} />}
           </div>}
       </div>

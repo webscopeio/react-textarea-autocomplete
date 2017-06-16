@@ -414,6 +414,7 @@
       value: function render() {
         var _this5 = this;
 
+        var Loader = this.props.loadingComponent;
         var _state = this.state,
             left = _state.left,
             top = _state.top,
@@ -425,7 +426,7 @@
 
         return _react2.default.createElement(
           'div',
-          { className: 'rta__wrapper' },
+          { className: (0, _classnames2.default)('rta', { 'rta--loading': dataLoading }) },
           _react2.default.createElement('textarea', {
             ref: function ref(_ref3) {
               return _this5.textareaRef = _ref3;
@@ -438,8 +439,8 @@
             { style: { top: top, left: left }, className: 'rta__autocomplete' },
             dataLoading && _react2.default.createElement(
               'div',
-              null,
-              'Loading...'
+              { className: 'rta__loader' },
+              _react2.default.createElement(Loader, null)
             ),
             data && _react2.default.createElement(List, { values: data, component: component, onSelect: this.onSelect })
           )

@@ -53,7 +53,10 @@
         "guard-for-in": 2,
         "indent": [
             2,
-            2
+            2,
+            {
+                "SwitchCase": 1
+            }
         ],
         "max-len": [
             0,
