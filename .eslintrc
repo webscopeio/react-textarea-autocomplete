@@ -5,8 +5,8 @@
         "node": true,
         "es6": true
     },
-    "ecmaFeatures": {
-        "modules": true
+    "parserOptions": {
+        "sourceType": "module"
     },
     "rules": {
         "no-bitwise": 2,

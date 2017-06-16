@@ -19,11 +19,13 @@
         "react"
     ],
     "scripts": {
-        "prepublish": "npm run copy & babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
+        "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
+        "prepublish": "npm run copy & npm run build",
         "lint": "eslint ./src",
         "lint-fix": "eslint ./src --fix",
         "copy": "cpx \"src/*.css\" dist",
-        "dev": "npm run copy -- --watch & babel -w --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist"
+        "dev": "npm run copy -- --watch & npm run build -- --watch",
+        "precommit": "lint-staged"
     },
     "devDependencies": {
         "babel-cli": "^6.6.4",
@@ -39,6 +41,10 @@
         "eslint": "^4.0.0",
         "eslint-plugin-babel": "^4.1.1",
         "eslint-plugin-react": "^7.1.0",
+        "flow-bin": "0.48.0",
+        "husky": "0.13.4",
+        "lint-staged": "3.6.1",
+        "prettier": "1.4.4",
         "react": "^15.0.0",
         "react-addons-test-utils": "^15.0.0",
         "react-dom": "^15.0.0"
@@ -50,5 +56,12 @@
     "dependencies": {
         "classnames": "2.2.5",
         "textarea-caret": "3.0.2"
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix",
+            "prettier --single-quote --trailing-comma all --write",
+            "git add"
+        ]
     }
 }

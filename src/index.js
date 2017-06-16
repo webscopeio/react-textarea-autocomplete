@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
-import './style.css';
 import classNames from 'classnames';
 
-// todo Flow
+import './style.css';
 
 const KEY_CODES = {
   ESC: 27,
@@ -12,7 +12,6 @@ const KEY_CODES = {
   ENTER: 13,
 };
 
-// very cool, I should open-source it, indeed
 const Listeners = (function() {
   let i = 0;
   const listeners = {};
@@ -22,7 +21,9 @@ const Listeners = (function() {
     if (typeof keyCode !== 'object') keyCode = [keyCode];
     if (
       keyCode.includes(code) &&
-      Object.values(listeners).find(({ keyCode: triggerKeyCode }) => triggerKeyCode === keyCode)
+      Object.values(listeners).find(
+        ({ keyCode: triggerKeyCode }) => triggerKeyCode === keyCode,
+      )
     )
       return fn(e);
   };
@@ -58,7 +59,10 @@ class Item extends React.Component {
   render() {
     const { component: Component, item, selected } = this.props;
     return (
-      <li className={classNames('rta__item', { 'rta__item--selected': selected })} key={item}>
+      <li
+        className={classNames('rta__item', { 'rta__item--selected': selected })}
+        key={item}
+      >
         <Component selected={selected} entity={item} />
       </li>
     );
@@ -87,10 +91,10 @@ class List extends React.PureComponent {
     const oldPosition = this.getPositionInList();
     let newPosition;
     switch (code) {
-      case KEY_CODES.DOWN: // down
+      case KEY_CODES.DOWN:
         newPosition = oldPosition + 1;
         break;
-      case KEY_CODES.UP: // up
+      case KEY_CODES.UP:
         newPosition = oldPosition - 1;
         break;
       default:
@@ -118,7 +122,7 @@ class List extends React.PureComponent {
 
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
-      Listeners.add([KEY_CODES.ENTER], this.onPressEnter)
+      Listeners.add([KEY_CODES.ENTER], this.onPressEnter),
     );
   }
 
@@ -151,7 +155,7 @@ class List extends React.PureComponent {
             selected={this.isSelected(item)}
             item={item}
             component={component}
-          />
+          />,
         )}
       </ul>
     );
@@ -192,7 +196,9 @@ class ReactTextareaAutocomplete extends React.Component {
     const triggerChars = Object.keys(trigger);
 
     const target = e.target;
-    const tokenMatch = this.tokenRegExp.exec(target.value.slice(0, target.selectionEnd));
+    const tokenMatch = this.tokenRegExp.exec(
+      target.value.slice(0, target.selectionEnd),
+    );
     const lastToken = tokenMatch && tokenMatch[0];
 
     if (!lastToken || lastToken.length <= 1) {
@@ -201,7 +207,8 @@ class ReactTextareaAutocomplete extends React.Component {
       });
     }
 
-    const currentTrigger = (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
+    const currentTrigger =
+      (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
 
     if (!currentTrigger) {
       return;
@@ -216,7 +223,7 @@ class ReactTextareaAutocomplete extends React.Component {
         currentTrigger,
         actualToken: lastToken && lastToken.slice(1),
       },
-      this.getValuesFromProvider
+      this.getValuesFromProvider,
     );
   };
 
@@ -226,7 +233,7 @@ class ReactTextareaAutocomplete extends React.Component {
 
     this.textareaRef.value = this.textareaRef.value.replace(
       this.tokenRegExp,
-      `${currentTrigger + newToken}${pair ? currentTrigger : ''}`
+      `${currentTrigger + newToken}${pair ? currentTrigger : ''}`,
     );
     this.closeAutocomplete();
   };
@@ -240,7 +247,8 @@ class ReactTextareaAutocomplete extends React.Component {
     this.closeAutocomplete();
   };
 
-  getCurrentTriggerSettings = () => this.props.trigger[this.state.currentTrigger];
+  getCurrentTriggerSettings = () =>
+    this.props.trigger[this.state.currentTrigger];
 
   getValuesFromProvider = () => {
     const { currentTrigger, actualToken } = this.state;
@@ -271,7 +279,14 @@ class ReactTextareaAutocomplete extends React.Component {
 
   render() {
     const { loadingComponent: Loader } = this.props;
-    const { left, top, currentTrigger, data, dataLoading, component } = this.state;
+    const {
+      left,
+      top,
+      currentTrigger,
+      data,
+      dataLoading,
+      component,
+    } = this.state;
 
     return (
       <div className={classNames('rta', { 'rta--loading': dataLoading })}>
@@ -283,11 +298,21 @@ class ReactTextareaAutocomplete extends React.Component {
         {(dataLoading || (currentTrigger && data)) &&
           <div style={{ top, left }} className="rta__autocomplete">
             {dataLoading && <div className="rta__loader"><Loader /></div>}
-            {data && <List values={data} component={component} onSelect={this.onSelect} />}
+            {data &&
+              <List
+                values={data}
+                component={component}
+                onSelect={this.onSelect}
+              />}
           </div>}
       </div>
     );
   }
 }
+
+ReactTextareaAutocomplete.propTypes = {
+  trigger: PropTypes.object.isRequired,
+  loadingComponent: PropTypes.func.isRequired,
+};
 
 export default ReactTextareaAutocomplete;

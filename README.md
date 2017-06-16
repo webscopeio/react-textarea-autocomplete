@@ -10,10 +10,14 @@ In the folder run `yarn link` in your project then `yarn link react-textarea-aut
 
 ## Example of use
     import ReactTextareaAutocomplete from 'react-textarea-autocomplete'
+
     const TestComponent = ({ entity }) => <div>swag: {entity}</div>;
     const SmileItemComponent = ({ entity: { label, text } }) => <div style={{ background: 'pink' }}>{label}</div>;
+    const Loading = () => <div>Loading...</div>;
+
 
     <ReactTextareaAutocomplete
+        loadingComponent={Loading}
         trigger={{
             '@': {
                 dataProvider: token =>
