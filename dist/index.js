@@ -413,12 +413,22 @@
           )),
           _this4
         )),
-        (_this4.update = function() {
-          var trigger = _this4.props.trigger;
+        (_this4.update = function(prevProps) {
+          var _this4$props = _this4.props,
+            trigger = _this4$props.trigger,
+            newValue = _this4$props.value;
+          var value = _this4.state.value;
 
           _this4.tokenRegExp = new RegExp(
             '[' + Object.keys(trigger).join('') + ']\\w*$',
           );
+
+          if (!prevProps) return;
+
+          if (value !== newValue) {
+            _this4.textareaRef.value = newValue;
+            _this4.setState({ value: newValue });
+          }
         }),
         (_this4.state = {
           top: 0,
@@ -426,12 +436,13 @@
           currentTrigger: false,
           actualToken: '',
           data: null,
+          value: '',
           dataLoading: false,
         }),
         (_this4.changeHandler = function(e) {
-          var _this4$props = _this4.props,
-            trigger = _this4$props.trigger,
-            onChange = _this4$props.onChange;
+          var _this4$props2 = _this4.props,
+            trigger = _this4$props2.trigger,
+            onChange = _this4$props2.onChange;
 
           var triggerChars = Object.keys(trigger);
 
@@ -551,6 +562,7 @@
             'ref',
             'onChange',
             'className',
+            'value',
             'trigger',
           ];
 
@@ -568,7 +580,7 @@
       {
         key: 'componentDidMount',
         value: function componentDidMount() {
-          this.update();
+          this.update(this.props);
           Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
 
           var _props3 = this.props,
@@ -592,8 +604,8 @@
       },
       {
         key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-          this.update();
+        value: function componentDidUpdate(prevProps, prevState) {
+          this.update(prevProps, prevState);
         },
       },
       {

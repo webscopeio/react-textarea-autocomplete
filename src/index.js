@@ -163,13 +163,21 @@ class List extends React.PureComponent {
 }
 
 class ReactTextareaAutocomplete extends React.Component {
-  update = () => {
-    const { trigger } = this.props;
+  update = prevProps => {
+    const { trigger, value: newValue } = this.props;
+    const { value } = this.state;
     this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
+
+    if (!prevProps) return;
+
+    if (value !== newValue) {
+      this.textareaRef.value = newValue;
+      this.setState({ value: newValue });
+    }
   };
 
   componentDidMount() {
-    this.update();
+    this.update(this.props);
     Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
 
     const { loadingComponent, trigger } = this.props;
@@ -187,8 +195,8 @@ class ReactTextareaAutocomplete extends React.Component {
     Listeners.removeAll();
   }
 
-  componentDidUpdate() {
-    this.update();
+  componentDidUpdate(prevProps, prevState) {
+    this.update(prevProps, prevState);
   }
 
   state = {
@@ -197,6 +205,7 @@ class ReactTextareaAutocomplete extends React.Component {
     currentTrigger: false,
     actualToken: '',
     data: null,
+    value: '',
     dataLoading: false,
   };
 
@@ -307,6 +316,7 @@ class ReactTextareaAutocomplete extends React.Component {
       'ref',
       'onChange',
       'className',
+      'value',
       'trigger',
     ];
 
