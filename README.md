@@ -23,26 +23,27 @@ const Loading = () => <div>Loading...</div>;
     onChange={e => console.log('On change event: ', e)}
     style={{ background: 'red' }}
     loadingComponent={Loading}
-    trigger={{
-        '@': {
-            dataProvider: token => new Promise(res => setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000)),
-            component: TestComponent,
-        },
-        ':': {
-            output: (item, trigger) => `___${item.text}___`,
-            dataProvider: token =>
-                new Promise(res =>
-                setTimeout(() => 
-                    res([
-                        { id: 1, label: ':D', text: 'lol' },
-                        { id: 2, label: ':)', text: 'very_lol' }
-                    ]),
-                    1000)
-                ),
-                component: SmileItemComponent,
+    trigger={
+        {
+            '@': {
+                dataProvider: token => new Promise(res => setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000)),
+                component: TestComponent,
             },
-        }}
-/>
+            ':': {
+                output: (item, trigger) => `___${item.text}___`,
+                dataProvider: token =>
+                    new Promise(res =>
+                        setTimeout(() => 
+                            res([
+                                { id: 1, label: ':D', text: 'lol' },
+                                { id: 2, label: ':)', text: 'very_lol' }
+                            ]),
+                        1000)
+                    ),
+                component: SmileItemComponent,
+            }
+        }
+    } />
 ````
 
 ## License
