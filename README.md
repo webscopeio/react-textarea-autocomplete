@@ -42,11 +42,12 @@ In the folder run `yarn link` in your project then `yarn link react-textarea-aut
                     )
                     ),
                     component: SmileItemComponent,
-                    pair: true,
                 },
             }}
     />
 
 ## License
+
+<img src="https://media.giphy.com/media/AuIvUrZpzBl04/giphy.gif" width="500">
 
 MIT
