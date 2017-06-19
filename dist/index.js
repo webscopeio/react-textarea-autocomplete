@@ -536,16 +536,25 @@
             0,
             selectionEnd + offsetToEndOfToken,
           );
+          var startOfTokenPosition = textToModify.lastIndexOf(' ');
+          var newCaretPosition = startOfTokenPosition + newToken.length + 1;
           var modifiedText =
-            textToModify.substring(0, textToModify.lastIndexOf(' ')) +
-            ' ' +
-            newToken;
+            textToModify.substring(0, startOfTokenPosition) + ' ' + newToken;
 
           _this4.textareaRef.value = textareaValue.replace(
             textToModify,
             modifiedText,
           );
+          _this4.setTextareaCaret(newCaretPosition);
           _this4.closeAutocomplete();
+        }),
+        (_this4.setTextareaCaret = function() {
+          var position = arguments.length > 0 && arguments[0] !== undefined
+            ? arguments[0]
+            : 0;
+
+          _this4.textareaRef.selectionStart = position;
+          _this4.textareaRef.selectionEnd = position;
         }),
         (_this4.getCurrentTriggerSettings = function() {
           return _this4.props.trigger[_this4.state.currentTrigger];
