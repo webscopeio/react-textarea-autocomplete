@@ -444,6 +444,11 @@
             trigger = _this4$props2.trigger,
             onChange = _this4$props2.onChange;
 
+          if (onChange) {
+            e.persist();
+            onChange(e);
+          }
+
           var triggerChars = Object.keys(trigger);
 
           var target = e.target;
@@ -485,11 +490,6 @@
             },
             _this4.getValuesFromProvider,
           );
-
-          if (onChange) {
-            e.persist();
-            onChange(e);
-          }
         }),
         (_this4.getTextToReplace = function() {
           var _this4$getCurrentTrig = _this4.getCurrentTriggerSettings(),

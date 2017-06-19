@@ -212,6 +212,11 @@ class ReactTextareaAutocomplete extends React.Component {
   changeHandler = e => {
     const { trigger, onChange } = this.props;
 
+    if (onChange) {
+      e.persist();
+      onChange(e);
+    }
+
     const triggerChars = Object.keys(trigger);
 
     const target = e.target;
@@ -244,11 +249,6 @@ class ReactTextareaAutocomplete extends React.Component {
       },
       this.getValuesFromProvider,
     );
-
-    if (onChange) {
-      e.persist();
-      onChange(e);
-    }
   };
 
   getTextToReplace = () => {
