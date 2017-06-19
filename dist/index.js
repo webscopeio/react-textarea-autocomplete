@@ -572,6 +572,15 @@
 
           return props;
         }),
+        (_this4.getSuggestions = function() {
+          var _this4$state2 = _this4.state,
+            currentTrigger = _this4$state2.currentTrigger,
+            data = _this4$state2.data;
+
+          if (!currentTrigger || !data || (data && !data.length)) return null;
+
+          return data;
+        }),
         _temp
       )), _possibleConstructorReturn(_this4, _ret);
     }
@@ -623,9 +632,10 @@
             left = _state.left,
             top = _state.top,
             currentTrigger = _state.currentTrigger,
-            data = _state.data,
             dataLoading = _state.dataLoading,
             component = _state.component;
+
+          var suggestionData = this.getSuggestions();
 
           return _react2.default.createElement(
             'div',
@@ -647,7 +657,7 @@
                 this.cleanUpProps(otherProps),
               ),
             ),
-            (dataLoading || (currentTrigger && data)) &&
+            (dataLoading || suggestionData) &&
               _react2.default.createElement(
                 'div',
                 {
@@ -660,9 +670,9 @@
                     { className: 'rta__loader' },
                     _react2.default.createElement(Loader, null),
                   ),
-                data &&
+                suggestionData &&
                   _react2.default.createElement(List, {
-                    values: data,
+                    values: suggestionData,
                     getTextToReplace: this.getTextToReplace(),
                     component: component,
                     onSelect: this.onSelect,

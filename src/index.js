@@ -327,16 +327,19 @@ class ReactTextareaAutocomplete extends React.Component {
     return props;
   };
 
+  getSuggestions = () => {
+    const { currentTrigger, data } = this.state;
+
+    if (!currentTrigger || !data || (data && !data.length)) return null;
+
+    return data;
+  };
+
   render() {
     const { loadingComponent: Loader, ...otherProps } = this.props;
-    const {
-      left,
-      top,
-      currentTrigger,
-      data,
-      dataLoading,
-      component,
-    } = this.state;
+    const { left, top, currentTrigger, dataLoading, component } = this.state;
+
+    const suggestionData = this.getSuggestions();
 
     return (
       <div className={classNames('rta', { 'rta--loading': dataLoading })}>
@@ -346,12 +349,12 @@ class ReactTextareaAutocomplete extends React.Component {
           onChange={this.changeHandler}
           {...this.cleanUpProps(otherProps)}
         />
-        {(dataLoading || (currentTrigger && data)) &&
+        {(dataLoading || suggestionData) &&
           <div style={{ top, left }} className="rta__autocomplete">
             {dataLoading && <div className="rta__loader"><Loader /></div>}
-            {data &&
+            {suggestionData &&
               <List
-                values={data}
+                values={suggestionData}
                 getTextToReplace={this.getTextToReplace()}
                 component={component}
                 onSelect={this.onSelect}
