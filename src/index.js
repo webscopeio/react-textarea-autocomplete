@@ -244,6 +244,8 @@ class ReactTextareaAutocomplete extends React.Component {
       {
         top,
         left,
+        selectionEnd: target.selectionEnd,
+        selectionStart: target.selectionStart,
         currentTrigger,
         actualToken: lastToken && lastToken.slice(1),
       },
@@ -272,10 +274,25 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   onSelect = newToken => {
-    this.textareaRef.value = this.textareaRef.value.replace(
-      this.tokenRegExp,
-      newToken,
+    const { actualToken, selectionEnd, selectionStart } = this.state;
+
+    let offsetToEndOfToken = 0;
+    const textareaValue = this.textareaRef.value;
+    while (
+      textareaValue[selectionEnd + offsetToEndOfToken] &&
+      textareaValue[selectionEnd + offsetToEndOfToken] !== ' '
+    ) {
+      offsetToEndOfToken++;
+    }
+
+    const textToModify = textareaValue.slice(
+      0,
+      selectionEnd + offsetToEndOfToken,
     );
+    const modifiedText =
+      textToModify.substring(0, textToModify.lastIndexOf(' ')) + ' ' + newToken;
+
+    this.textareaRef.value = textareaValue.replace(textToModify, modifiedText);
     this.closeAutocomplete();
   };
 

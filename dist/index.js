@@ -485,6 +485,8 @@
             {
               top: top,
               left: left,
+              selectionEnd: target.selectionEnd,
+              selectionStart: target.selectionStart,
               currentTrigger: currentTrigger,
               actualToken: lastToken && lastToken.slice(1),
             },
@@ -516,9 +518,32 @@
           _this4.setState({ currentTrigger: null });
         }),
         (_this4.onSelect = function(newToken) {
-          _this4.textareaRef.value = _this4.textareaRef.value.replace(
-            _this4.tokenRegExp,
-            newToken,
+          var _this4$state = _this4.state,
+            actualToken = _this4$state.actualToken,
+            selectionEnd = _this4$state.selectionEnd,
+            selectionStart = _this4$state.selectionStart;
+
+          var offsetToEndOfToken = 0;
+          var textareaValue = _this4.textareaRef.value;
+          while (
+            textareaValue[selectionEnd + offsetToEndOfToken] &&
+            textareaValue[selectionEnd + offsetToEndOfToken] !== ' '
+          ) {
+            offsetToEndOfToken++;
+          }
+
+          var textToModify = textareaValue.slice(
+            0,
+            selectionEnd + offsetToEndOfToken,
+          );
+          var modifiedText =
+            textToModify.substring(0, textToModify.lastIndexOf(' ')) +
+            ' ' +
+            newToken;
+
+          _this4.textareaRef.value = textareaValue.replace(
+            textToModify,
+            modifiedText,
           );
           _this4.closeAutocomplete();
         }),
@@ -526,9 +551,9 @@
           return _this4.props.trigger[_this4.state.currentTrigger];
         }),
         (_this4.getValuesFromProvider = function() {
-          var _this4$state = _this4.state,
-            currentTrigger = _this4$state.currentTrigger,
-            actualToken = _this4$state.actualToken;
+          var _this4$state2 = _this4.state,
+            currentTrigger = _this4$state2.currentTrigger,
+            actualToken = _this4$state2.actualToken;
 
           if (!currentTrigger) {
             return;
@@ -573,9 +598,9 @@
           return props;
         }),
         (_this4.getSuggestions = function() {
-          var _this4$state2 = _this4.state,
-            currentTrigger = _this4$state2.currentTrigger,
-            data = _this4$state2.data;
+          var _this4$state3 = _this4.state,
+            currentTrigger = _this4$state3.currentTrigger,
+            data = _this4$state3.data;
 
           if (!currentTrigger || !data || (data && !data.length)) return null;
 
