@@ -546,6 +546,11 @@
             modifiedText,
           );
           _this4.setTextareaCaret(newCaretPosition);
+
+          // Hack way how to emit SyntethicEvent 'change', I'm not very satisfied with this solution.
+          _this4.textareaRef.blur();
+          _this4.textareaRef.focus();
+
           _this4.closeAutocomplete();
         }),
         (_this4.setTextareaCaret = function() {
@@ -686,6 +691,7 @@
                     return (_this5.textareaRef = _ref3);
                   },
                   className: 'rta__textarea',
+                  onBlur: this.changeHandler,
                   onChange: this.changeHandler,
                 },
                 this.cleanUpProps(otherProps),

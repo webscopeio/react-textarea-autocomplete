@@ -296,6 +296,11 @@ class ReactTextareaAutocomplete extends React.Component {
 
     this.textareaRef.value = textareaValue.replace(textToModify, modifiedText);
     this.setTextareaCaret(newCaretPosition);
+
+    // Hack way how to emit SyntethicEvent 'change', I'm not very satisfied with this solution.
+    this.textareaRef.blur();
+    this.textareaRef.focus();
+
     this.closeAutocomplete();
   };
 
@@ -371,6 +376,7 @@ class ReactTextareaAutocomplete extends React.Component {
         <textarea
           ref={ref => (this.textareaRef = ref)}
           className="rta__textarea"
+          onBlur={this.changeHandler}
           onChange={this.changeHandler}
           {...this.cleanUpProps(otherProps)}
         />
