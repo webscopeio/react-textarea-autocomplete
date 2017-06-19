@@ -289,10 +289,10 @@ class ReactTextareaAutocomplete extends React.Component {
       0,
       selectionEnd + offsetToEndOfToken,
     );
-    const startOfTokenPosition = textToModify.lastIndexOf(' ');
+    const startOfTokenPosition = textToModify.search(/\S*$/);
     const newCaretPosition = startOfTokenPosition + newToken.length + 1;
     const modifiedText =
-      textToModify.substring(0, startOfTokenPosition) + ' ' + newToken;
+      textToModify.substring(0, startOfTokenPosition) + newToken;
 
     this.textareaRef.value = textareaValue.replace(textToModify, modifiedText);
     this.setTextareaCaret(newCaretPosition);

@@ -536,10 +536,10 @@
             0,
             selectionEnd + offsetToEndOfToken,
           );
-          var startOfTokenPosition = textToModify.lastIndexOf(' ');
+          var startOfTokenPosition = textToModify.search(/\S*$/);
           var newCaretPosition = startOfTokenPosition + newToken.length + 1;
           var modifiedText =
-            textToModify.substring(0, startOfTokenPosition) + ' ' + newToken;
+            textToModify.substring(0, startOfTokenPosition) + newToken;
 
           _this4.textareaRef.value = textareaValue.replace(
             textToModify,
