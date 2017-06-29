@@ -280,7 +280,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const textareaValue = this.textareaRef.value;
     while (
       textareaValue[selectionEnd + offsetToEndOfToken] &&
-      textareaValue[selectionEnd + offsetToEndOfToken] !== ' '
+      /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
     ) {
       offsetToEndOfToken++;
     }
@@ -289,8 +289,9 @@ class ReactTextareaAutocomplete extends React.Component {
       0,
       selectionEnd + offsetToEndOfToken,
     );
+
     const startOfTokenPosition = textToModify.search(/\S*$/);
-    const newCaretPosition = startOfTokenPosition + newToken.length + 1;
+    const newCaretPosition = startOfTokenPosition + newToken.length;
     const modifiedText =
       textToModify.substring(0, startOfTokenPosition) + newToken;
 
@@ -382,7 +383,10 @@ class ReactTextareaAutocomplete extends React.Component {
         />
         {(dataLoading || suggestionData) &&
           <div style={{ top, left }} className="rta__autocomplete">
-            {dataLoading && <div className="rta__loader"><Loader /></div>}
+            {dataLoading &&
+              <div className="rta__loader">
+                <Loader />
+              </div>}
             {suggestionData &&
               <List
                 values={suggestionData}
