@@ -36,6 +36,7 @@
   }
 })(this, function(exports, _react, _propTypes, _textareaCaret, _classnames) {
   'use strict';
+
   Object.defineProperty(exports, '__esModule', {
     value: true,
   });
@@ -142,19 +143,19 @@
         : (subClass.__proto__ = superClass);
   }
 
-  var _typeof = typeof Symbol === 'function' &&
-    typeof Symbol.iterator === 'symbol'
-    ? function(obj) {
-        return typeof obj;
-      }
-    : function(obj) {
-        return obj &&
+  var _typeof =
+    typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol'
+      ? function(obj) {
+          return typeof obj;
+        }
+      : function(obj) {
+          return obj &&
           typeof Symbol === 'function' &&
           obj.constructor === Symbol &&
           obj !== Symbol.prototype
-          ? 'symbol'
-          : typeof obj;
-      };
+            ? 'symbol'
+            : typeof obj;
+        };
 
   var KEY_CODES = {
     ESC: 27,
@@ -217,12 +218,40 @@
     _inherits(Item, _React$Component);
 
     function Item() {
+      var _ref2;
+
+      var _temp, _this, _ret;
+
       _classCallCheck(this, Item);
 
-      return _possibleConstructorReturn(
-        this,
-        (Item.__proto__ || Object.getPrototypeOf(Item)).apply(this, arguments),
-      );
+      for (
+        var _len = arguments.length, args = Array(_len), _key = 0;
+        _key < _len;
+        _key++
+      ) {
+        args[_key] = arguments[_key];
+      }
+
+      return (_ret = (
+        (_temp = (
+          (_this = _possibleConstructorReturn(
+            this,
+            (_ref2 = Item.__proto__ || Object.getPrototypeOf(Item)).call.apply(
+              _ref2,
+              [this].concat(args),
+            ),
+          )),
+          _this
+        )),
+        (_this.onMouseEnterHandler = function() {
+          var _this$props = _this.props,
+            item = _this$props.item,
+            onMouseEnterHandler = _this$props.onMouseEnterHandler;
+
+          onMouseEnterHandler(item);
+        }),
+        _temp
+      )), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(Item, [
@@ -231,6 +260,8 @@
         value: function render() {
           var _props = this.props,
             Component = _props.component,
+            onMouseEnterHandler = _props.onMouseEnterHandler,
+            onClickHandler = _props.onClickHandler,
             item = _props.item,
             selected = _props.selected;
 
@@ -240,6 +271,8 @@
               className: (0, _classnames2.default)('rta__item', {
                 'rta__item--selected': selected,
               }),
+              onClick: onClickHandler,
+              onMouseEnter: this.onMouseEnterHandler,
             },
             _react2.default.createElement(Component, {
               selected: selected,
@@ -306,13 +339,21 @@
       _this2.onPressEnter = function(e) {
         e.preventDefault();
 
+        var values = _this2.props.values;
+
+        _this2.modifyText(values[_this2.getPositionInList()]);
+      };
+
+      _this2.modifyText = function(value) {
         var _this2$props = _this2.props,
-          values = _this2$props.values,
           onSelect = _this2$props.onSelect,
           getTextToReplace = _this2$props.getTextToReplace;
 
-        e.preventDefault();
-        onSelect(getTextToReplace(values[_this2.getPositionInList()]));
+        onSelect(getTextToReplace(value));
+      };
+
+      _this2.selectItem = function(item) {
+        _this2.setState({ selectedItem: item });
       };
 
       _this2.getId = function(item) {
@@ -371,6 +412,8 @@
                 key: _this3.getId(item),
                 selected: _this3.isSelected(item),
                 item: item,
+                onClickHandler: _this3.onPressEnter,
+                onMouseEnterHandler: _this3.selectItem,
                 component: component,
               });
             }),
@@ -386,28 +429,28 @@
     _inherits(ReactTextareaAutocomplete, _React$Component2);
 
     function ReactTextareaAutocomplete() {
-      var _ref2;
+      var _ref3;
 
-      var _temp, _this4, _ret;
+      var _temp2, _this4, _ret2;
 
       _classCallCheck(this, ReactTextareaAutocomplete);
 
       for (
-        var _len = arguments.length, args = Array(_len), _key = 0;
-        _key < _len;
-        _key++
+        var _len2 = arguments.length, args = Array(_len2), _key2 = 0;
+        _key2 < _len2;
+        _key2++
       ) {
-        args[_key] = arguments[_key];
+        args[_key2] = arguments[_key2];
       }
 
-      return (_ret = (
-        (_temp = (
+      return (_ret2 = (
+        (_temp2 = (
           (_this4 = _possibleConstructorReturn(
             this,
-            (_ref2 =
+            (_ref3 =
               ReactTextareaAutocomplete.__proto__ ||
               Object.getPrototypeOf(ReactTextareaAutocomplete)).call.apply(
-              _ref2,
+              _ref3,
               [this].concat(args),
             ),
           )),
@@ -474,17 +517,27 @@
             return;
           }
 
-          var _getCaretCoordinates = (0, _textareaCaret2.default)(
-            target,
-            target.selectionEnd,
-          ),
-            top = _getCaretCoordinates.top,
-            left = _getCaretCoordinates.left;
+          /* 
+          JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
+          so this try - catch is walk-around for Jest 
+        */
+          try {
+            var _getCaretCoordinates = (0, _textareaCaret2.default)(
+                target,
+                target.selectionEnd,
+              ),
+              top = _getCaretCoordinates.top,
+              left = _getCaretCoordinates.left;
+
+            _this4.setState({ top: top, left: left });
+          } catch (e) {
+            console.warn(
+              'RTA: failed to get caret coordinates. This is not a browser?',
+            );
+          }
 
           _this4.setState(
             {
-              top: top,
-              left: left,
               selectionEnd: target.selectionEnd,
               selectionStart: target.selectionStart,
               currentTrigger: currentTrigger,
@@ -527,7 +580,7 @@
           var textareaValue = _this4.textareaRef.value;
           while (
             textareaValue[selectionEnd + offsetToEndOfToken] &&
-            textareaValue[selectionEnd + offsetToEndOfToken] !== ' '
+            /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
           ) {
             offsetToEndOfToken++;
           }
@@ -536,8 +589,9 @@
             0,
             selectionEnd + offsetToEndOfToken,
           );
+
           var startOfTokenPosition = textToModify.search(/\S*$/);
-          var newCaretPosition = startOfTokenPosition + newToken.length + 1;
+          var newCaretPosition = startOfTokenPosition + newToken.length;
           var modifiedText =
             textToModify.substring(0, startOfTokenPosition) + newToken;
 
@@ -554,9 +608,10 @@
           _this4.closeAutocomplete();
         }),
         (_this4.setTextareaCaret = function() {
-          var position = arguments.length > 0 && arguments[0] !== undefined
-            ? arguments[0]
-            : 0;
+          var position =
+            arguments.length > 0 && arguments[0] !== undefined
+              ? arguments[0]
+              : 0;
 
           _this4.textareaRef.selectionStart = position;
           _this4.textareaRef.selectionEnd = position;
@@ -620,8 +675,8 @@
 
           return data;
         }),
-        _temp
-      )), _possibleConstructorReturn(_this4, _ret);
+        _temp2
+      )), _possibleConstructorReturn(_this4, _ret2);
     }
 
     _createClass(ReactTextareaAutocomplete, [
@@ -687,8 +742,8 @@
               'textarea',
               _extends(
                 {
-                  ref: function ref(_ref3) {
-                    return (_this5.textareaRef = _ref3);
+                  ref: function ref(_ref4) {
+                    return (_this5.textareaRef = _ref4);
                   },
                   className: 'rta__textarea',
                   onBlur: this.changeHandler,

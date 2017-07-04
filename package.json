@@ -1,66 +1,76 @@
 {
-    "name": "react-textarea-autocomplete",
-    "version": "0.1.0",
-    "description": "Offers autocomplete over textarea in style of GitHub.",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/webscopeio/react-textarea-autocomplete"
-    },
-    "author": "Jakub Benes <benes@webscope.io>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
-    },
-    "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-    "keywords": [
-        "react-component",
-        "textarea",
-        "autocomplete",
-        "react"
-    ],
-    "scripts": {
-        "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
-        "prepublish": "npm run copy & npm run build",
-        "lint": "eslint ./src",
-        "lint-fix": "eslint ./src --fix",
-        "copy": "cpx \"src/*.css\" dist",
-        "dev": "npm run copy -- --watch & npm run build -- --watch",
-        "precommit": "lint-staged"
-    },
-    "devDependencies": {
-        "babel-cli": "^6.6.4",
-        "babel-core": "^6.7.4",
-        "babel-eslint": "^7.2.3",
-        "babel-plugin-transform-es2015-modules-umd": "^6.6.5",
-        "babel-polyfill": "^6.7.4",
-        "babel-preset-es2015": "^6.6.0",
-        "babel-preset-react": "^6.5.0",
-        "babel-preset-stage-2": "^6.5.0",
-        "babel-runtime": "^6.6.1",
-        "cpx": "1.5.0",
-        "eslint": "^4.0.0",
-        "eslint-plugin-babel": "^4.1.1",
-        "eslint-plugin-react": "^7.1.0",
-        "husky": "0.13.4",
-        "lint-staged": "3.6.1",
-        "prettier": "1.4.4",
-        "react": "^15.0.0",
-        "react-addons-test-utils": "^15.0.0",
-        "react-dom": "^15.0.0"
-    },
-    "peerDependencies": {
-        "react": "~0.14.8 || ^15.0.0",
-        "react-dom": "~0.14.8 || ^15.0.0"
-    },
-    "dependencies": {
-        "classnames": "2.2.5",
-        "textarea-caret": "3.0.2"
-    },
-    "lint-staged": {
-        "*.js": [
-            "eslint --fix",
-            "prettier --single-quote --trailing-comma all --write",
-            "git add"
-        ]
+  "name": "react-textarea-autocomplete",
+  "version": "0.1.0",
+  "description": "Offers autocomplete over textarea in style of GitHub.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webscopeio/react-textarea-autocomplete"
+  },
+  "author": "Jakub Benes <benes@webscope.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
+  },
+  "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
+  "keywords": [
+    "react-component",
+    "textarea",
+    "autocomplete",
+    "react"
+  ],
+  "scripts": {
+    "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
+    "prepublish": "npm run copy & npm run build",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint ./src --fix",
+    "copy": "cpx \"src/*.css\" dist",
+    "test": "jest --watch",
+    "dev": "npm run copy -- --watch & npm run build -- --watch",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.25.0",
+    "babel-eslint": "7.2.3",
+    "babel-jest": "20.0.3",
+    "babel-plugin-transform-es2015-modules-umd": "6.24.1",
+    "babel-polyfill": "6.23.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
+    "babel-runtime": "6.23.0",
+    "cpx": "1.5.0",
+    "enzyme": "2.9.1",
+    "eslint": "4.1.1",
+    "eslint-plugin-babel": "4.1.1",
+    "eslint-plugin-react": "7.1.0",
+    "husky": "^0.14.2",
+    "jest": "20.0.4",
+    "lint-staged": "4.0.0",
+    "prettier": "1.5.2",
+    "react": "15.6.1",
+    "react-addons-test-utils": "15.6.0",
+    "react-dom": "15.6.1"
+  },
+  "peerDependencies": {
+    "react": "15.0.0",
+    "react-dom": "15.0.0"
+  },
+  "dependencies": {
+    "classnames": "2.2.5",
+    "react-test-renderer": "15.6.1",
+    "textarea-caret": "3.0.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --single-quote --trailing-comma all --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
+  }
 }

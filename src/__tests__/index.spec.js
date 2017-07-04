@@ -1,0 +1,86 @@
+import React from 'react';
+// import Shallow from 'react-test-renderer/shallow';
+import { shallow, mount } from 'enzyme';
+import ReactTextareaAutocomplete from './../index';
+
+const wait = (time = 0) => new Promise(res => setTimeout(() => res(), time));
+
+const TestComponent = ({ entity }) =>
+  <div>
+    swag: {entity}
+  </div>;
+
+const SmileItemComponent = ({ entity: { label, text } }) =>
+  <div style={{ background: 'pink' }}>
+    {label}
+  </div>;
+
+const Loading = () => <div>Loading...</div>;
+
+const mockedFn = jest.fn();
+
+const rta = mount(
+  <ReactTextareaAutocomplete
+    placeholder={'Write a message.'}
+    value={'Controlled text'}
+    onChange={mockedFn}
+    style={{ background: 'red' }}
+    loadingComponent={Loading}
+    trigger={{
+      '@': {
+        dataProvider: token =>
+          new Promise(res =>
+            setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000),
+          ),
+        component: TestComponent,
+      },
+      ':': {
+        output: (item, trigger) => `___${item.text}___`,
+        dataProvider: token =>
+          Promise.resolve([
+            { id: 1, label: ':)', text: 'happy_face' },
+            { id: 2, label: ':(', text: 'sad_face' },
+          ]),
+        component: SmileItemComponent,
+      },
+    }}
+  />,
+);
+
+it('Textarea exists', () => {
+  expect(rta.find('textarea')).toHaveLength(1);
+});
+
+it('After the trigger was typed, it should appear list of options', async () => {
+  rta.find('textarea').simulate('change', { target: { value: 'some test :' } });
+  expect(rta.find('.rta__autocomplete')).toHaveLength(1);
+});
+
+it('should display all items', () => {
+  expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(2);
+});
+
+it('items should be rendered within the component', () => {
+  expect(
+    rta
+      .find('.rta__item')
+      .first()
+      .containsMatchingElement(<SmileItemComponent />),
+  ).toEqual(true);
+});
+
+it('should invoke onchange handler', () => {
+  expect(mockedFn).toHaveBeenCalled();
+});
+
+it('should close the autocomplete after mouse click', () => {
+  const item = rta.find('.rta__item').first();
+  item.simulate('click');
+  expect(rta.find('.rta__item')).toHaveLength(0);
+});
+
+it('should edit the text of textarea', () => {
+  expect(rta.find('textarea').node.value).toBe(
+    '___happy_face___Controlled text',
+  );
+});

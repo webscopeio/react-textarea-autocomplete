@@ -56,11 +56,24 @@ const Listeners = (function() {
 })();
 
 class Item extends React.Component {
+  onMouseEnterHandler = () => {
+    const { item, onMouseEnterHandler } = this.props;
+    onMouseEnterHandler(item);
+  };
+
   render() {
-    const { component: Component, item, selected } = this.props;
+    const {
+      component: Component,
+      onMouseEnterHandler,
+      onClickHandler,
+      item,
+      selected,
+    } = this.props;
     return (
       <li
         className={classNames('rta__item', { 'rta__item--selected': selected })}
+        onClick={onClickHandler}
+        onMouseEnter={this.onMouseEnterHandler}
       >
         <Component selected={selected} entity={item} />
       </li>
@@ -111,10 +124,18 @@ class List extends React.PureComponent {
   onPressEnter = e => {
     e.preventDefault();
 
-    const { values, onSelect, getTextToReplace } = this.props;
+    const { values } = this.props;
 
-    e.preventDefault();
-    onSelect(getTextToReplace(values[this.getPositionInList()]));
+    this.modifyText(values[this.getPositionInList()]);
+  };
+
+  modifyText = value => {
+    const { onSelect, getTextToReplace } = this.props;
+    onSelect(getTextToReplace(value));
+  };
+
+  selectItem = item => {
+    this.setState({ selectedItem: item });
   };
 
   componentDidMount() {
@@ -154,6 +175,8 @@ class List extends React.PureComponent {
             key={this.getId(item)}
             selected={this.isSelected(item)}
             item={item}
+            onClickHandler={this.onPressEnter}
+            onMouseEnterHandler={this.selectItem}
             component={component}
           />,
         )}
@@ -238,12 +261,21 @@ class ReactTextareaAutocomplete extends React.Component {
       return;
     }
 
-    const { top, left } = getCaretCoordinates(target, target.selectionEnd);
+    /* 
+      JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
+      so this try - catch is walk-around for Jest 
+    */
+    try {
+      const { top, left } = getCaretCoordinates(target, target.selectionEnd);
+      this.setState({ top, left });
+    } catch (e) {
+      console.warn(
+        'RTA: failed to get caret coordinates. This is not a browser?',
+      );
+    }
 
     this.setState(
       {
-        top,
-        left,
         selectionEnd: target.selectionEnd,
         selectionStart: target.selectionStart,
         currentTrigger,
