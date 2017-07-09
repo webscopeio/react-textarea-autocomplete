@@ -428,7 +428,7 @@ class ReactTextareaAutocomplete extends React.Component {
       <div className={classNames('rta', { 'rta--loading': dataLoading })}>
         <textarea
           ref={ref => (this.textareaRef = ref)}
-          className="rta__textarea"
+          className={'rta__textarea ' + (otherProps['className'] || '')}
           onChange={this.changeHandler}
           value={value}
           {...this.cleanUpProps(otherProps)}

@@ -1,5 +1,4 @@
 import React from 'react';
-// import Shallow from 'react-test-renderer/shallow';
 import { shallow, mount } from 'enzyme';
 import ReactTextareaAutocomplete from './../index';
 
@@ -14,11 +13,12 @@ const Loading = () => <div>Loading...</div>;
 
 const mockedFn = jest.fn();
 
-const rta = mount(
+const rtaComponent = (
   <ReactTextareaAutocomplete
     placeholder={'Write a message.'}
     value={'Controlled text'}
     onChange={mockedFn}
+    className={'ownClassName'}
     style={{ background: 'red' }}
     loadingComponent={Loading}
     trigger={{
@@ -31,8 +31,13 @@ const rta = mount(
         component: SmileItemComponent,
       },
     }}
-  />,
+  />
 );
+const rta = mount(rtaComponent);
+
+it('match match the snapshot', () => {
+  expect(shallow(rtaComponent)).toMatchSnapshot();
+});
 
 it('Textarea exists', () => {
   expect(rta.find('textarea')).toHaveLength(1);

@@ -766,7 +766,7 @@
                   ref: function ref(_ref5) {
                     return (_this6.textareaRef = _ref5);
                   },
-                  className: 'rta__textarea',
+                  className: 'rta__textarea ' + (otherProps['className'] || ''),
                   onChange: this.changeHandler,
                   value: value,
                 },
