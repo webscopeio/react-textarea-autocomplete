@@ -345,7 +345,7 @@ class ReactTextareaAutocomplete extends React.Component {
   getCurrentTriggerSettings = () =>
     this.props.trigger[this.state.currentTrigger];
 
-  getValuesFromProvider = () => {
+  getValuesFromProvider = async () => {
     const { currentTrigger, actualToken } = this.state;
 
     if (!currentTrigger) {
@@ -363,12 +363,20 @@ class ReactTextareaAutocomplete extends React.Component {
       data: null,
     });
 
-    dataProvider(actualToken).then(data => {
-      this.setState({
-        dataLoading: false,
-        data,
-        component,
-      });
+    let providedData = dataProvider(actualToken);
+
+    if (providedData instanceof Promise) {
+      providedData = await dataProvider(actualToken);
+    }
+
+    if (typeof dataProvider !== 'object') {
+      new Error('RTA: Trigger provider has to provide an array!');
+    }
+
+    this.setState({
+      dataLoading: false,
+      data: providedData,
+      component,
     });
   };
 
