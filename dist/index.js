@@ -578,8 +578,7 @@
               ? arguments[0]
               : 0;
 
-          _this4.textareaRef.selectionStart = position;
-          _this4.textareaRef.selectionEnd = position;
+          _this4.textareaRef.setSelectionRange(position, position);
         }),
         (_this4.getCurrentTriggerSettings = function() {
           return _this4.props.trigger[_this4.state.currentTrigger];
