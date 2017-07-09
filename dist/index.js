@@ -421,21 +421,11 @@
           _this4
         )),
         (_this4.update = function(prevProps) {
-          var _this4$props = _this4.props,
-            trigger = _this4$props.trigger,
-            newValue = _this4$props.value;
-          var value = _this4.state.value;
+          var trigger = _this4.props.trigger;
 
           _this4.tokenRegExp = new RegExp(
             '[' + Object.keys(trigger).join('') + ']\\w*$',
           );
-
-          if (!prevProps) return;
-
-          if (value !== newValue) {
-            _this4.textareaRef.value = newValue;
-            _this4.setState({ value: newValue });
-          }
         }),
         (_this4.state = {
           top: 0,
@@ -447,28 +437,40 @@
           dataLoading: false,
         }),
         (_this4.changeHandler = function(e) {
-          var _this4$props2 = _this4.props,
-            trigger = _this4$props2.trigger,
-            onChange = _this4$props2.onChange;
+          var _this4$props = _this4.props,
+            trigger = _this4$props.trigger,
+            onChange = _this4$props.onChange;
+
+          var textarea = e.target;
+          var selectionEnd = textarea.selectionEnd,
+            selectionStart = textarea.selectionStart;
+
+          var value = textarea.value;
 
           if (onChange) {
             e.persist();
             onChange(e);
           }
 
-          var triggerChars = Object.keys(trigger);
+          _this4.setState({
+            value: value,
+          });
 
-          var target = e.target;
           var tokenMatch = _this4.tokenRegExp.exec(
-            target.value.slice(0, target.selectionEnd),
+            value.slice(0, selectionEnd),
           );
           var lastToken = tokenMatch && tokenMatch[0];
 
+          /*
+         if we lost the trigger token or there is no following character we want to close
+         the autocomplete
+        */
           if (!lastToken || lastToken.length <= 1) {
-            _this4.setState({
-              data: null,
-            });
+            _this4.closeAutocomplete();
+            return;
           }
+
+          var triggerChars = Object.keys(trigger);
 
           var currentTrigger =
             (lastToken &&
@@ -477,6 +479,9 @@
               })) ||
             null;
 
+          var actualToken = lastToken.slice(1);
+
+          // if trigger is not configured step out from the function, otherwise proceed
           if (!currentTrigger) {
             return;
           }
@@ -487,8 +492,8 @@
         */
           try {
             var _getCaretCoordinates = (0, _textareaCaret2.default)(
-                target,
-                target.selectionEnd,
+                textarea,
+                selectionEnd,
               ),
               top = _getCaretCoordinates.top,
               left = _getCaretCoordinates.left;
@@ -502,10 +507,10 @@
 
           _this4.setState(
             {
-              selectionEnd: target.selectionEnd,
-              selectionStart: target.selectionStart,
+              selectionEnd: selectionEnd,
+              selectionStart: selectionStart,
               currentTrigger: currentTrigger,
-              actualToken: lastToken && lastToken.slice(1),
+              actualToken: actualToken,
             },
             _this4.getValuesFromProvider,
           );
@@ -533,16 +538,16 @@
           };
         }),
         (_this4.closeAutocomplete = function() {
-          _this4.setState({ currentTrigger: null });
+          _this4.setState({ data: null, currentTrigger: null });
         }),
         (_this4.onSelect = function(newToken) {
           var _this4$state = _this4.state,
             actualToken = _this4$state.actualToken,
             selectionEnd = _this4$state.selectionEnd,
-            selectionStart = _this4$state.selectionStart;
+            selectionStart = _this4$state.selectionStart,
+            textareaValue = _this4$state.value;
 
           var offsetToEndOfToken = 0;
-          var textareaValue = _this4.textareaRef.value;
           while (
             textareaValue[selectionEnd + offsetToEndOfToken] &&
             /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
@@ -560,16 +565,15 @@
           var modifiedText =
             textToModify.substring(0, startOfTokenPosition) + newToken;
 
-          _this4.textareaRef.value = textareaValue.replace(
-            textToModify,
-            modifiedText,
+          // set the new textarea value and after that set the caret back to its position
+          _this4.setState(
+            {
+              value: textareaValue.replace(textToModify, modifiedText),
+            },
+            function() {
+              return _this4.setTextareaCaret(newCaretPosition);
+            },
           );
-          _this4.setTextareaCaret(newCaretPosition);
-
-          // Hack way how to emit SyntethicEvent 'change', I'm not very satisfied with this solution.
-          _this4.textareaRef.blur();
-          _this4.textareaRef.focus();
-
           _this4.closeAutocomplete();
         }),
         (_this4.setTextareaCaret = function() {
@@ -743,7 +747,8 @@
             top = _state.top,
             currentTrigger = _state.currentTrigger,
             dataLoading = _state.dataLoading,
-            component = _state.component;
+            component = _state.component,
+            value = _state.value;
 
           var suggestionData = this.getSuggestions();
 
@@ -762,8 +767,8 @@
                     return (_this6.textareaRef = _ref5);
                   },
                   className: 'rta__textarea',
-                  onBlur: this.changeHandler,
                   onChange: this.changeHandler,
+                  value: value,
                 },
                 this.cleanUpProps(otherProps),
               ),

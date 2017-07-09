@@ -187,16 +187,8 @@ class List extends React.PureComponent {
 
 class ReactTextareaAutocomplete extends React.Component {
   update = prevProps => {
-    const { trigger, value: newValue } = this.props;
-    const { value } = this.state;
+    const { trigger } = this.props;
     this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
-
-    if (!prevProps) return;
-
-    if (value !== newValue) {
-      this.textareaRef.value = newValue;
-      this.setState({ value: newValue });
-    }
   };
 
   componentDidMount() {
@@ -234,29 +226,39 @@ class ReactTextareaAutocomplete extends React.Component {
 
   changeHandler = e => {
     const { trigger, onChange } = this.props;
+    const textarea = e.target;
+    const { selectionEnd, selectionStart } = textarea;
+    const value = textarea.value;
 
     if (onChange) {
       e.persist();
       onChange(e);
     }
 
-    const triggerChars = Object.keys(trigger);
+    this.setState({
+      value,
+    });
 
-    const target = e.target;
-    const tokenMatch = this.tokenRegExp.exec(
-      target.value.slice(0, target.selectionEnd),
-    );
+    const tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
     const lastToken = tokenMatch && tokenMatch[0];
 
+    /*
+     if we lost the trigger token or there is no following character we want to close
+     the autocomplete
+    */
     if (!lastToken || lastToken.length <= 1) {
-      this.setState({
-        data: null,
-      });
+      this.closeAutocomplete();
+      return;
     }
+
+    const triggerChars = Object.keys(trigger);
 
     const currentTrigger =
       (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
 
+    const actualToken = lastToken.slice(1);
+
+    // if trigger is not configured step out from the function, otherwise proceed
     if (!currentTrigger) {
       return;
     }
@@ -266,7 +268,7 @@ class ReactTextareaAutocomplete extends React.Component {
       so this try - catch is walk-around for Jest 
     */
     try {
-      const { top, left } = getCaretCoordinates(target, target.selectionEnd);
+      const { top, left } = getCaretCoordinates(textarea, selectionEnd);
       this.setState({ top, left });
     } catch (e) {
       console.warn(
@@ -276,10 +278,10 @@ class ReactTextareaAutocomplete extends React.Component {
 
     this.setState(
       {
-        selectionEnd: target.selectionEnd,
-        selectionStart: target.selectionStart,
+        selectionEnd,
+        selectionStart,
         currentTrigger,
-        actualToken: lastToken && lastToken.slice(1),
+        actualToken,
       },
       this.getValuesFromProvider,
     );
@@ -302,14 +304,18 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   closeAutocomplete = () => {
-    this.setState({ currentTrigger: null });
+    this.setState({ data: null, currentTrigger: null });
   };
 
   onSelect = newToken => {
-    const { actualToken, selectionEnd, selectionStart } = this.state;
+    const {
+      actualToken,
+      selectionEnd,
+      selectionStart,
+      value: textareaValue,
+    } = this.state;
 
     let offsetToEndOfToken = 0;
-    const textareaValue = this.textareaRef.value;
     while (
       textareaValue[selectionEnd + offsetToEndOfToken] &&
       /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
@@ -327,13 +333,13 @@ class ReactTextareaAutocomplete extends React.Component {
     const modifiedText =
       textToModify.substring(0, startOfTokenPosition) + newToken;
 
-    this.textareaRef.value = textareaValue.replace(textToModify, modifiedText);
-    this.setTextareaCaret(newCaretPosition);
-
-    // Hack way how to emit SyntethicEvent 'change', I'm not very satisfied with this solution.
-    this.textareaRef.blur();
-    this.textareaRef.focus();
-
+    // set the new textarea value and after that set the caret back to its position
+    this.setState(
+      {
+        value: textareaValue.replace(textToModify, modifiedText),
+      },
+      () => this.setTextareaCaret(newCaretPosition),
+    );
     this.closeAutocomplete();
   };
 
@@ -407,7 +413,14 @@ class ReactTextareaAutocomplete extends React.Component {
 
   render() {
     const { loadingComponent: Loader, ...otherProps } = this.props;
-    const { left, top, currentTrigger, dataLoading, component } = this.state;
+    const {
+      left,
+      top,
+      currentTrigger,
+      dataLoading,
+      component,
+      value,
+    } = this.state;
 
     const suggestionData = this.getSuggestions();
 
@@ -416,8 +429,8 @@ class ReactTextareaAutocomplete extends React.Component {
         <textarea
           ref={ref => (this.textareaRef = ref)}
           className="rta__textarea"
-          onBlur={this.changeHandler}
           onChange={this.changeHandler}
+          value={value}
           {...this.cleanUpProps(otherProps)}
         />
         {(dataLoading || suggestionData) &&

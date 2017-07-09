@@ -39,7 +39,9 @@ it('Textarea exists', () => {
 });
 
 it('After the trigger was typed, it should appear list of options', async () => {
-  rta.find('textarea').simulate('change', { target: { value: 'some test :' } });
+  rta
+    .find('textarea')
+    .simulate('change', { target: { value: 'some test :a' } });
   expect(rta.find('.rta__autocomplete')).toHaveLength(1);
 });
 
@@ -67,7 +69,5 @@ it('should close the autocomplete after mouse click', () => {
 });
 
 it('text in textarea should be changed', () => {
-  expect(rta.find('textarea').node.value).toBe(
-    '___happy_face___Controlled text',
-  );
+  expect(rta.find('textarea').node.value).toBe('___happy_face___some test :a');
 });
