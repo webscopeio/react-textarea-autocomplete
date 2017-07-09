@@ -5,11 +5,6 @@ import ReactTextareaAutocomplete from './../index';
 
 const wait = (time = 0) => new Promise(res => setTimeout(() => res(), time));
 
-const TestComponent = ({ entity }) =>
-  <div>
-    swag: {entity}
-  </div>;
-
 const SmileItemComponent = ({ entity: { label, text } }) =>
   <div style={{ background: 'pink' }}>
     {label}
@@ -27,20 +22,12 @@ const rta = mount(
     style={{ background: 'red' }}
     loadingComponent={Loading}
     trigger={{
-      '@': {
-        dataProvider: token =>
-          new Promise(res =>
-            setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000),
-          ),
-        component: TestComponent,
-      },
       ':': {
         output: (item, trigger) => `___${item.text}___`,
-        dataProvider: token =>
-          Promise.resolve([
-            { id: 1, label: ':)', text: 'happy_face' },
-            { id: 2, label: ':(', text: 'sad_face' },
-          ]),
+        dataProvider: token => [
+          { id: 1, label: ':)', text: 'happy_face' },
+          { id: 2, label: ':(', text: 'sad_face' },
+        ],
         component: SmileItemComponent,
       },
     }}
@@ -79,7 +66,7 @@ it('should close the autocomplete after mouse click', () => {
   expect(rta.find('.rta__item')).toHaveLength(0);
 });
 
-it('should edit the text of textarea', () => {
+it('text in textarea should be changed', () => {
   expect(rta.find('textarea').node.value).toBe(
     '___happy_face___Controlled text',
   );
