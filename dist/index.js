@@ -3,6 +3,15 @@
     define(
       [
         'exports',
+        'babel-runtime/helpers/objectWithoutProperties',
+        'babel-runtime/helpers/extends',
+        'babel-runtime/regenerator',
+        'babel-runtime/helpers/asyncToGenerator',
+        'babel-runtime/helpers/classCallCheck',
+        'babel-runtime/helpers/createClass',
+        'babel-runtime/helpers/possibleConstructorReturn',
+        'babel-runtime/helpers/inherits',
+        'babel-runtime/helpers/typeof',
         'react',
         'prop-types',
         'textarea-caret',
@@ -14,6 +23,15 @@
   } else if (typeof exports !== 'undefined') {
     factory(
       exports,
+      require('babel-runtime/helpers/objectWithoutProperties'),
+      require('babel-runtime/helpers/extends'),
+      require('babel-runtime/regenerator'),
+      require('babel-runtime/helpers/asyncToGenerator'),
+      require('babel-runtime/helpers/classCallCheck'),
+      require('babel-runtime/helpers/createClass'),
+      require('babel-runtime/helpers/possibleConstructorReturn'),
+      require('babel-runtime/helpers/inherits'),
+      require('babel-runtime/helpers/typeof'),
       require('react'),
       require('prop-types'),
       require('textarea-caret'),
@@ -26,6 +44,15 @@
     };
     factory(
       mod.exports,
+      global.objectWithoutProperties,
+      global._extends,
+      global.regenerator,
+      global.asyncToGenerator,
+      global.classCallCheck,
+      global.createClass,
+      global.possibleConstructorReturn,
+      global.inherits,
+      global._typeof,
       global.react,
       global.propTypes,
       global.textareaCaret,
@@ -34,12 +61,49 @@
     );
     global.index = mod.exports;
   }
-})(this, function(exports, _react, _propTypes, _textareaCaret, _classnames) {
+})(this, function(
+  exports,
+  _objectWithoutProperties2,
+  _extends2,
+  _regenerator,
+  _asyncToGenerator2,
+  _classCallCheck2,
+  _createClass2,
+  _possibleConstructorReturn2,
+  _inherits2,
+  _typeof2,
+  _react,
+  _propTypes,
+  _textareaCaret,
+  _classnames,
+) {
   'use strict';
 
   Object.defineProperty(exports, '__esModule', {
     value: true,
   });
+
+  var _objectWithoutProperties3 = _interopRequireDefault(
+    _objectWithoutProperties2,
+  );
+
+  var _extends3 = _interopRequireDefault(_extends2);
+
+  var _regenerator2 = _interopRequireDefault(_regenerator);
+
+  var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+  var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+  var _createClass3 = _interopRequireDefault(_createClass2);
+
+  var _possibleConstructorReturn3 = _interopRequireDefault(
+    _possibleConstructorReturn2,
+  );
+
+  var _inherits3 = _interopRequireDefault(_inherits2);
+
+  var _typeof3 = _interopRequireDefault(_typeof2);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -57,106 +121,6 @@
         };
   }
 
-  function _objectWithoutProperties(obj, keys) {
-    var target = {};
-
-    for (var i in obj) {
-      if (keys.indexOf(i) >= 0) continue;
-      if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
-      target[i] = obj[i];
-    }
-
-    return target;
-  }
-
-  var _extends =
-    Object.assign ||
-    function(target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
-      }
-
-      return target;
-    };
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError('Cannot call a class as a function');
-    }
-  }
-
-  var _createClass = (function() {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ('value' in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function(Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  })();
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError(
-        "this hasn't been initialised - super() hasn't been called",
-      );
-    }
-
-    return call && (typeof call === 'object' || typeof call === 'function')
-      ? call
-      : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== 'function' && superClass !== null) {
-      throw new TypeError(
-        'Super expression must either be null or a function, not ' +
-          typeof superClass,
-      );
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true,
-      },
-    });
-    if (superClass)
-      Object.setPrototypeOf
-        ? Object.setPrototypeOf(subClass, superClass)
-        : (subClass.__proto__ = superClass);
-  }
-
-  var _typeof =
-    typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol'
-      ? function(obj) {
-          return typeof obj;
-        }
-      : function(obj) {
-          return obj &&
-          typeof Symbol === 'function' &&
-          obj.constructor === Symbol &&
-          obj !== Symbol.prototype
-            ? 'symbol'
-            : typeof obj;
-        };
-
   var KEY_CODES = {
     ESC: 27,
     UP: 38,
@@ -171,8 +135,9 @@
     var f = function f(keyCode, fn, e) {
       var code = e.keyCode || e.which;
       if (
-        (typeof keyCode === 'undefined' ? 'undefined' : _typeof(keyCode)) !==
-        'object'
+        (typeof keyCode === 'undefined'
+          ? 'undefined'
+          : (0, _typeof3.default)(keyCode)) !== 'object'
       )
         keyCode = [keyCode];
       if (
@@ -215,14 +180,14 @@
   })();
 
   var Item = (function(_React$Component) {
-    _inherits(Item, _React$Component);
+    (0, _inherits3.default)(Item, _React$Component);
 
     function Item() {
       var _ref2;
 
       var _temp, _this, _ret;
 
-      _classCallCheck(this, Item);
+      (0, _classCallCheck3.default)(this, Item);
 
       for (
         var _len = arguments.length, args = Array(_len), _key = 0;
@@ -234,7 +199,7 @@
 
       return (_ret = (
         (_temp = (
-          (_this = _possibleConstructorReturn(
+          (_this = (0, _possibleConstructorReturn3.default)(
             this,
             (_ref2 = Item.__proto__ || Object.getPrototypeOf(Item)).call.apply(
               _ref2,
@@ -251,10 +216,10 @@
           onMouseEnterHandler(item);
         }),
         _temp
-      )), _possibleConstructorReturn(_this, _ret);
+      )), (0, _possibleConstructorReturn3.default)(_this, _ret);
     }
 
-    _createClass(Item, [
+    (0, _createClass3.default)(Item, [
       {
         key: 'render',
         value: function render() {
@@ -282,17 +247,16 @@
         },
       },
     ]);
-
     return Item;
   })(_react2.default.Component);
 
   var List = (function(_React$PureComponent) {
-    _inherits(List, _React$PureComponent);
+    (0, _inherits3.default)(List, _React$PureComponent);
 
     function List() {
-      _classCallCheck(this, List);
+      (0, _classCallCheck3.default)(this, List);
 
-      var _this2 = _possibleConstructorReturn(
+      var _this2 = (0, _possibleConstructorReturn3.default)(
         this,
         (List.__proto__ || Object.getPrototypeOf(List)).call(this),
       );
@@ -370,7 +334,7 @@
       return _this2;
     }
 
-    _createClass(List, [
+    (0, _createClass3.default)(List, [
       {
         key: 'componentDidMount',
         value: function componentDidMount() {
@@ -421,19 +385,19 @@
         },
       },
     ]);
-
     return List;
   })(_react2.default.PureComponent);
 
   var ReactTextareaAutocomplete = (function(_React$Component2) {
-    _inherits(ReactTextareaAutocomplete, _React$Component2);
+    (0, _inherits3.default)(ReactTextareaAutocomplete, _React$Component2);
 
     function ReactTextareaAutocomplete() {
-      var _ref3;
+      var _ref3,
+        _this5 = this;
 
       var _temp2, _this4, _ret2;
 
-      _classCallCheck(this, ReactTextareaAutocomplete);
+      (0, _classCallCheck3.default)(this, ReactTextareaAutocomplete);
 
       for (
         var _len2 = arguments.length, args = Array(_len2), _key2 = 0;
@@ -445,7 +409,7 @@
 
       return (_ret2 = (
         (_temp2 = (
-          (_this4 = _possibleConstructorReturn(
+          (_this4 = (0, _possibleConstructorReturn3.default)(
             this,
             (_ref3 =
               ReactTextareaAutocomplete.__proto__ ||
@@ -554,8 +518,9 @@
 
           return function(item) {
             if (
-              (typeof item === 'undefined' ? 'undefined' : _typeof(item)) ===
-              'object'
+              (typeof item === 'undefined'
+                ? 'undefined'
+                : (0, _typeof3.default)(item)) === 'object'
             ) {
               if (!output || typeof output !== 'function') {
                 throw new Error('RTA: Output function is not defined!');
@@ -619,38 +584,91 @@
         (_this4.getCurrentTriggerSettings = function() {
           return _this4.props.trigger[_this4.state.currentTrigger];
         }),
-        (_this4.getValuesFromProvider = function() {
-          var _this4$state2 = _this4.state,
-            currentTrigger = _this4$state2.currentTrigger,
-            actualToken = _this4$state2.actualToken;
+        (_this4.getValuesFromProvider = (0, _asyncToGenerator3.default)(
+          _regenerator2.default.mark(function _callee() {
+            var _this4$state2,
+              currentTrigger,
+              actualToken,
+              _this4$getCurrentTrig2,
+              dataProvider,
+              component,
+              providedData;
 
-          if (!currentTrigger) {
-            return;
-          }
+            return _regenerator2.default.wrap(
+              function _callee$(_context) {
+                while (1) {
+                  switch ((_context.prev = _context.next)) {
+                    case 0:
+                      (_this4$state2 = _this4.state), (currentTrigger =
+                        _this4$state2.currentTrigger), (actualToken =
+                        _this4$state2.actualToken);
 
-          var _this4$getCurrentTrig2 = _this4.getCurrentTriggerSettings(),
-            dataProvider = _this4$getCurrentTrig2.dataProvider,
-            component = _this4$getCurrentTrig2.component;
+                      if (currentTrigger) {
+                        _context.next = 3;
+                        break;
+                      }
 
-          if (typeof dataProvider !== 'function') {
-            new Error('RTA: Trigger provider has to be a function!');
-          }
+                      return _context.abrupt('return');
 
-          _this4.setState({
-            dataLoading: true,
-            data: null,
-          });
+                    case 3:
+                      (_this4$getCurrentTrig2 = _this4.getCurrentTriggerSettings()), (dataProvider =
+                        _this4$getCurrentTrig2.dataProvider), (component =
+                        _this4$getCurrentTrig2.component);
 
-          dataProvider(actualToken).then(function(data) {
-            _this4.setState({
-              dataLoading: false,
-              data: data,
-              component: component,
-            });
-          });
-        }),
+                      if (typeof dataProvider !== 'function') {
+                        new Error(
+                          'RTA: Trigger provider has to be a function!',
+                        );
+                      }
+
+                      _this4.setState({
+                        dataLoading: true,
+                        data: null,
+                      });
+
+                      providedData = dataProvider(actualToken);
+
+                      if (!(providedData instanceof Promise)) {
+                        _context.next = 11;
+                        break;
+                      }
+
+                      _context.next = 10;
+                      return dataProvider(actualToken);
+
+                    case 10:
+                      providedData = _context.sent;
+
+                    case 11:
+                      if (
+                        (typeof dataProvider === 'undefined'
+                          ? 'undefined'
+                          : (0, _typeof3.default)(dataProvider)) !== 'object'
+                      ) {
+                        new Error(
+                          'RTA: Trigger provider has to provide an array!',
+                        );
+                      }
+
+                      _this4.setState({
+                        dataLoading: false,
+                        data: providedData,
+                        component: component,
+                      });
+
+                    case 13:
+                    case 'end':
+                      return _context.stop();
+                  }
+                }
+              },
+              _callee,
+              _this5,
+            );
+          }),
+        )),
         (_this4.cleanUpProps = function() {
-          var props = _extends({}, _this4.props);
+          var props = (0, _extends3.default)({}, _this4.props);
           var notSafe = [
             'loadingComponent',
             'ref',
@@ -676,10 +694,10 @@
           return data;
         }),
         _temp2
-      )), _possibleConstructorReturn(_this4, _ret2);
+      )), (0, _possibleConstructorReturn3.default)(_this4, _ret2);
     }
 
-    _createClass(ReactTextareaAutocomplete, [
+    (0, _createClass3.default)(ReactTextareaAutocomplete, [
       {
         key: 'componentDidMount',
         value: function componentDidMount() {
@@ -714,14 +732,13 @@
       {
         key: 'render',
         value: function render() {
-          var _this5 = this;
+          var _this6 = this;
 
           var _props4 = this.props,
             Loader = _props4.loadingComponent,
-            otherProps = _objectWithoutProperties(_props4, [
+            otherProps = (0, _objectWithoutProperties3.default)(_props4, [
               'loadingComponent',
             ]);
-
           var _state = this.state,
             left = _state.left,
             top = _state.top,
@@ -740,10 +757,10 @@
             },
             _react2.default.createElement(
               'textarea',
-              _extends(
+              (0, _extends3.default)(
                 {
-                  ref: function ref(_ref4) {
-                    return (_this5.textareaRef = _ref4);
+                  ref: function ref(_ref5) {
+                    return (_this6.textareaRef = _ref5);
                   },
                   className: 'rta__textarea',
                   onBlur: this.changeHandler,
@@ -777,7 +794,6 @@
         },
       },
     ]);
-
     return ReactTextareaAutocomplete;
   })(_react2.default.Component);
 
