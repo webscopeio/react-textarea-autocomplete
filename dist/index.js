@@ -141,7 +141,7 @@
       )
         keyCode = [keyCode];
       if (
-        keyCode.includes(code) &&
+        keyCode.includes(code) && // $FlowFixMe
         Object.values(listeners).find(function(_ref) {
           var triggerKeyCode = _ref.keyCode;
           return triggerKeyCode === keyCode;
@@ -156,6 +156,7 @@
         fn: fn,
       };
 
+      // $FlowFixMe
       document.addEventListener('keydown', function(e) {
         return f(keyCode, fn, e);
       });
@@ -168,8 +169,9 @@
       i--;
     };
 
+    // $FlowFixMe
     var removeAllListeners = function removeAllListeners() {
-      document.removeEventListener('keydown', f);
+      return document.removeEventListener('keydown', f);
     };
 
     return {
@@ -261,13 +263,17 @@
         (List.__proto__ || Object.getPrototypeOf(List)).call(this),
       );
 
+      _this2.listeners = [];
       _this2.state = {
         selected: null,
+        selectedItem: null,
       };
 
       _this2.getPositionInList = function() {
         var values = _this2.props.values;
         var selectedItem = _this2.state.selectedItem;
+
+        if (!selectedItem) return 0;
 
         return values.findIndex(function(a) {
           return _this2.getId(a) === _this2.getId(selectedItem);
@@ -327,10 +333,11 @@
       _this2.isSelected = function(item) {
         var selectedItem = _this2.state.selectedItem;
 
+        if (!selectedItem) return false;
+
         return _this2.getId(selectedItem) === _this2.getId(item);
       };
 
-      _this2.listeners = [];
       return _this2;
     }
 
@@ -367,6 +374,8 @@
           var _props2 = this.props,
             values = _props2.values,
             component = _props2.component;
+
+          if (!component) return;
 
           return _react2.default.createElement(
             'ul',
@@ -427,14 +436,18 @@
             '[' + Object.keys(trigger).join('') + ']\\w*$',
           );
         }),
+        (_this4.textareaRef = null),
         (_this4.state = {
           top: 0,
           left: 0,
-          currentTrigger: false,
+          currentTrigger: null,
           actualToken: '',
           data: null,
           value: '',
           dataLoading: false,
+          selectionEnd: 0,
+          selectionStart: 0,
+          component: null,
         }),
         (_this4.changeHandler = function(e) {
           var _this4$props = _this4.props,
@@ -495,10 +508,10 @@
                 textarea,
                 selectionEnd,
               ),
-              top = _getCaretCoordinates.top,
-              left = _getCaretCoordinates.left;
+              _top = _getCaretCoordinates.top,
+              _left = _getCaretCoordinates.left;
 
-            _this4.setState({ top: top, left: left });
+            _this4.setState({ top: _top, left: _left });
           } catch (e) {
             console.warn(
               'RTA: failed to get caret coordinates. This is not a browser?',
@@ -516,10 +529,13 @@
           );
         }),
         (_this4.getTextToReplace = function() {
-          var _this4$getCurrentTrig = _this4.getCurrentTriggerSettings(),
-            output = _this4$getCurrentTrig.output;
-
           var currentTrigger = _this4.state.currentTrigger;
+
+          var triggerSettings = _this4.getCurrentTriggerSettings();
+
+          if (!currentTrigger || !triggerSettings) return;
+
+          var output = triggerSettings.output;
 
           return function(item) {
             if (
@@ -582,17 +598,23 @@
               ? arguments[0]
               : 0;
 
+          if (!_this4.textareaRef) return;
+
           _this4.textareaRef.setSelectionRange(position, position);
         }),
         (_this4.getCurrentTriggerSettings = function() {
-          return _this4.props.trigger[_this4.state.currentTrigger];
+          var currentTrigger = _this4.state.currentTrigger;
+
+          if (!currentTrigger) return null;
+
+          return _this4.props.trigger[currentTrigger];
         }),
         (_this4.getValuesFromProvider = (0, _asyncToGenerator3.default)(
           _regenerator2.default.mark(function _callee() {
             var _this4$state2,
               currentTrigger,
               actualToken,
-              _this4$getCurrentTrig2,
+              triggerSettings,
               dataProvider,
               component,
               providedData;
@@ -605,25 +627,30 @@
                       (_this4$state2 = _this4.state), (currentTrigger =
                         _this4$state2.currentTrigger), (actualToken =
                         _this4$state2.actualToken);
+                      triggerSettings = _this4.getCurrentTriggerSettings();
 
-                      if (currentTrigger) {
-                        _context.next = 3;
+                      if (!(!currentTrigger || !triggerSettings)) {
+                        _context.next = 4;
                         break;
                       }
 
                       return _context.abrupt('return');
 
-                    case 3:
-                      (_this4$getCurrentTrig2 = _this4.getCurrentTriggerSettings()), (dataProvider =
-                        _this4$getCurrentTrig2.dataProvider), (component =
-                        _this4$getCurrentTrig2.component);
+                    case 4:
+                      (dataProvider =
+                        triggerSettings.dataProvider), (component =
+                        triggerSettings.component);
 
-                      if (typeof dataProvider !== 'function') {
-                        new Error(
-                          'RTA: Trigger provider has to be a function!',
-                        );
+                      if (!(typeof dataProvider !== 'function')) {
+                        _context.next = 7;
+                        break;
                       }
 
+                      throw new Error(
+                        'RTA: Trigger provider has to be a function!',
+                      );
+
+                    case 7:
                       _this4.setState({
                         dataLoading: true,
                         data: null,
@@ -632,34 +659,48 @@
                       providedData = dataProvider(actualToken);
 
                       if (!(providedData instanceof Promise)) {
-                        _context.next = 11;
+                        _context.next = 13;
                         break;
                       }
 
-                      _context.next = 10;
+                      _context.next = 12;
                       return dataProvider(actualToken);
 
-                    case 10:
+                    case 12:
                       providedData = _context.sent;
 
-                    case 11:
+                    case 13:
                       if (
-                        (typeof dataProvider === 'undefined'
-                          ? 'undefined'
-                          : (0, _typeof3.default)(dataProvider)) !== 'object'
+                        !(
+                          (typeof providedData === 'undefined'
+                            ? 'undefined'
+                            : (0, _typeof3.default)(providedData)) !== 'object'
+                        )
                       ) {
-                        new Error(
-                          'RTA: Trigger provider has to provide an array!',
-                        );
+                        _context.next = 15;
+                        break;
                       }
 
+                      throw new Error(
+                        'RTA: Trigger provider has to provide an array!',
+                      );
+
+                    case 15:
+                      if (!(typeof component !== 'function')) {
+                        _context.next = 17;
+                        break;
+                      }
+
+                      throw new Error('RTA: Component should be defined!');
+
+                    case 17:
                       _this4.setState({
                         dataLoading: false,
                         data: providedData,
                         component: component,
                       });
 
-                    case 13:
+                    case 18:
                     case 'end':
                       return _context.stop();
                   }
@@ -704,8 +745,12 @@
       {
         key: 'componentDidMount',
         value: function componentDidMount() {
+          var _this6 = this;
+
           this.update(this.props);
-          Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
+          Listeners.add(KEY_CODES.ESC, function(e) {
+            return _this6.closeAutocomplete();
+          });
 
           var _props3 = this.props,
             loadingComponent = _props3.loadingComponent,
@@ -728,14 +773,14 @@
       },
       {
         key: 'componentDidUpdate',
-        value: function componentDidUpdate(prevProps, prevState) {
-          this.update(prevProps, prevState);
+        value: function componentDidUpdate(prevProps) {
+          this.update(prevProps);
         },
       },
       {
         key: 'render',
         value: function render() {
-          var _this6 = this;
+          var _this7 = this;
 
           var _props4 = this.props,
             Loader = _props4.loadingComponent,
@@ -764,13 +809,13 @@
               (0, _extends3.default)(
                 {
                   ref: function ref(_ref5) {
-                    return (_this6.textareaRef = _ref5);
+                    return (_this7.textareaRef = _ref5);
                   },
                   className: 'rta__textarea ' + (otherProps['className'] || ''),
                   onChange: this.changeHandler,
                   value: value,
                 },
-                this.cleanUpProps(otherProps),
+                this.cleanUpProps(),
               ),
             ),
             (dataLoading || suggestionData) &&
