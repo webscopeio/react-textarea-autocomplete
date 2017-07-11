@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
@@ -14,13 +16,15 @@ const KEY_CODES = {
 
 const Listeners = (function() {
   let i = 0;
-  const listeners = {};
+  const listeners: {
+    [number]: {| keyCode: number | Array<number>, fn: Function |},
+  } = {};
 
   const f = (keyCode, fn, e) => {
     const code = e.keyCode || e.which;
     if (typeof keyCode !== 'object') keyCode = [keyCode];
     if (
-      keyCode.includes(code) &&
+      keyCode.includes(code) && // $FlowFixMe
       Object.values(listeners).find(
         ({ keyCode: triggerKeyCode }) => triggerKeyCode === keyCode,
       )
@@ -28,25 +32,25 @@ const Listeners = (function() {
       return fn(e);
   };
 
-  const addListener = (keyCode, fn) => {
+  const addListener = (keyCode: Array<number> | number, fn: Function) => {
     listeners[i] = {
       keyCode,
       fn,
     };
 
+    // $FlowFixMe
     document.addEventListener('keydown', e => f(keyCode, fn, e));
 
     return i++;
   };
 
-  const removeListener = id => {
+  const removeListener = (id: number) => {
     delete listeners[id];
     i--;
   };
 
-  const removeAllListeners = () => {
-    document.removeEventListener('keydown', f);
-  };
+  // $FlowFixMe
+  const removeAllListeners = () => document.removeEventListener('keydown', f);
 
   return {
     add: addListener,
@@ -55,7 +59,17 @@ const Listeners = (function() {
   };
 })();
 
+type ItemProps = {
+  component: React$Component<*, *, *>,
+  onMouseEnterHandler: (Object | string) => void,
+  item: Object | string,
+  onClickHandler: SyntheticEvent => void,
+  selected: boolean,
+};
+
 class Item extends React.Component {
+  props: ItemProps;
+
   onMouseEnterHandler = () => {
     const { item, onMouseEnterHandler } = this.props;
     onMouseEnterHandler(item);
@@ -69,12 +83,14 @@ class Item extends React.Component {
       item,
       selected,
     } = this.props;
+
     return (
       <li
         className={classNames('rta__item', { 'rta__item--selected': selected })}
         onClick={onClickHandler}
         onMouseEnter={this.onMouseEnterHandler}
       >
+        {/*$FlowFixMe*/}
         <Component selected={selected} entity={item} />
       </li>
     );
@@ -82,17 +98,26 @@ class Item extends React.Component {
 }
 
 class List extends React.PureComponent {
+  listeners: Array<number> = [];
+
   constructor() {
     super();
-    this.listeners = [];
   }
-  state = {
+
+  state: {
+    selected: ?boolean,
+    selectedItem: ?Object | ?string,
+  } = {
     selected: null,
+    selectedItem: null,
   };
 
   getPositionInList = () => {
     const { values } = this.props;
     const { selectedItem } = this.state;
+
+    if (!selectedItem) return 0;
+
     return values.findIndex(a => this.getId(a) === this.getId(selectedItem));
   };
 
@@ -156,17 +181,21 @@ class List extends React.PureComponent {
     while ((listener = this.listeners.pop())) Listeners.remove(listener);
   }
 
-  getId = item => {
+  getId = (item: Object | string): string => {
     return this.props.getTextToReplace(item);
   };
 
-  isSelected = item => {
+  isSelected = (item: Object | string): boolean => {
     const { selectedItem } = this.state;
+    if (!selectedItem) return false;
+
     return this.getId(selectedItem) === this.getId(item);
   };
 
   render() {
     const { values, component } = this.props;
+
+    if (!component) return;
 
     return (
       <ul className="rta__list">
@@ -185,15 +214,33 @@ class List extends React.PureComponent {
   }
 }
 
+type dataProviderType = string =>
+  | Promise<Array<Object | string>>
+  | Array<Object | string>;
+
+type Props = {
+  trigger: {
+    [string]: {
+      output: (Object | string, string) => string,
+      dataProvider: dataProviderType,
+      component: React$Component<*, *, *>,
+    },
+  },
+  loadingComponent: Function,
+  onChange: SyntheticEvent => void,
+};
+
 class ReactTextareaAutocomplete extends React.Component {
-  update = prevProps => {
+  props: Props;
+
+  update = (prevProps: Props) => {
     const { trigger } = this.props;
     this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
   };
 
   componentDidMount() {
     this.update(this.props);
-    Listeners.add(KEY_CODES.ESC, this.closeAutocomplete);
+    Listeners.add(KEY_CODES.ESC, e => this.closeAutocomplete());
 
     const { loadingComponent, trigger } = this.props;
 
@@ -210,21 +257,39 @@ class ReactTextareaAutocomplete extends React.Component {
     Listeners.removeAll();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.update(prevProps, prevState);
+  componentDidUpdate(prevProps: Props) {
+    this.update(prevProps);
   }
 
-  state = {
+  textareaRef: ?HTMLInputElement = null;
+
+  tokenRegExp: RegExp;
+
+  state: {
+    currentTrigger: ?string,
+    top: number,
+    left: number,
+    actualToken: string,
+    data: ?Array<Object | string>,
+    value: string,
+    dataLoading: boolean,
+    selectionEnd: number,
+    selectionStart: number,
+    component: ?React$Component<*, *, *>,
+  } = {
     top: 0,
     left: 0,
-    currentTrigger: false,
+    currentTrigger: null,
     actualToken: '',
     data: null,
     value: '',
     dataLoading: false,
+    selectionEnd: 0,
+    selectionStart: 0,
+    component: null,
   };
 
-  changeHandler = e => {
+  changeHandler = (e: SyntheticInputEvent) => {
     const { trigger, onChange } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
@@ -288,9 +353,14 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   getTextToReplace = () => {
-    const { output } = this.getCurrentTriggerSettings();
     const { currentTrigger } = this.state;
-    return item => {
+    const triggerSettings = this.getCurrentTriggerSettings();
+
+    if (!currentTrigger || !triggerSettings) return;
+
+    const { output } = triggerSettings;
+
+    return (item: Object | string) => {
       if (typeof item === 'object') {
         if (!output || typeof output !== 'function') {
           throw new Error('RTA: Output function is not defined!');
@@ -307,7 +377,7 @@ class ReactTextareaAutocomplete extends React.Component {
     this.setState({ data: null, currentTrigger: null });
   };
 
-  onSelect = newToken => {
+  onSelect = (newToken: string) => {
     const {
       actualToken,
       selectionEnd,
@@ -343,24 +413,32 @@ class ReactTextareaAutocomplete extends React.Component {
     this.closeAutocomplete();
   };
 
-  setTextareaCaret = (position = 0) => {
+  setTextareaCaret = (position: number = 0) => {
+    if (!this.textareaRef) return;
+
     this.textareaRef.setSelectionRange(position, position);
   };
 
-  getCurrentTriggerSettings = () =>
-    this.props.trigger[this.state.currentTrigger];
+  getCurrentTriggerSettings = () => {
+    const { currentTrigger } = this.state;
+
+    if (!currentTrigger) return null;
+
+    return this.props.trigger[currentTrigger];
+  };
 
   getValuesFromProvider = async () => {
     const { currentTrigger, actualToken } = this.state;
+    const triggerSettings = this.getCurrentTriggerSettings();
 
-    if (!currentTrigger) {
+    if (!currentTrigger || !triggerSettings) {
       return;
     }
 
-    const { dataProvider, component } = this.getCurrentTriggerSettings();
+    const { dataProvider, component } = triggerSettings;
 
     if (typeof dataProvider !== 'function') {
-      new Error('RTA: Trigger provider has to be a function!');
+      throw new Error('RTA: Trigger provider has to be a function!');
     }
 
     this.setState({
@@ -374,8 +452,12 @@ class ReactTextareaAutocomplete extends React.Component {
       providedData = await dataProvider(actualToken);
     }
 
-    if (typeof dataProvider !== 'object') {
-      new Error('RTA: Trigger provider has to provide an array!');
+    if (typeof providedData !== 'object') {
+      throw new Error('RTA: Trigger provider has to provide an array!');
+    }
+
+    if (typeof component !== 'function') {
+      throw new Error('RTA: Component should be defined!');
     }
 
     this.setState({
@@ -431,7 +513,7 @@ class ReactTextareaAutocomplete extends React.Component {
           className={'rta__textarea ' + (otherProps['className'] || '')}
           onChange={this.changeHandler}
           value={value}
-          {...this.cleanUpProps(otherProps)}
+          {...this.cleanUpProps()}
         />
         {(dataLoading || suggestionData) &&
           <div style={{ top, left }} className="rta__autocomplete">
