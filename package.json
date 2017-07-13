@@ -12,7 +12,12 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": ["react-component", "textarea", "autocomplete", "react"],
+  "keywords": [
+    "react-component",
+    "textarea",
+    "autocomplete",
+    "react"
+  ],
   "scripts": {
     "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
     "prepublish": "npm run copy & npm run build",
@@ -42,6 +47,7 @@
     "eslint": "4.1.1",
     "eslint-plugin-babel": "4.1.1",
     "eslint-plugin-react": "7.1.0",
+    "flow-bin": "0.49.1",
     "husky": "^0.14.2",
     "jest": "20.0.4",
     "lint-staged": "4.0.0",
