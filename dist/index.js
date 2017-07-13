@@ -1,91 +1,23 @@
-(function(global, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(
-      [
-        'exports',
-        'babel-runtime/helpers/objectWithoutProperties',
-        'babel-runtime/helpers/extends',
-        'babel-runtime/regenerator',
-        'babel-runtime/helpers/asyncToGenerator',
-        'babel-runtime/helpers/classCallCheck',
-        'babel-runtime/helpers/createClass',
-        'babel-runtime/helpers/possibleConstructorReturn',
-        'babel-runtime/helpers/inherits',
-        'babel-runtime/helpers/typeof',
-        'react',
-        'prop-types',
-        'textarea-caret',
-        'classnames',
-        './style.css',
-      ],
-      factory,
-    );
-  } else if (typeof exports !== 'undefined') {
-    factory(
-      exports,
-      require('babel-runtime/helpers/objectWithoutProperties'),
-      require('babel-runtime/helpers/extends'),
-      require('babel-runtime/regenerator'),
-      require('babel-runtime/helpers/asyncToGenerator'),
-      require('babel-runtime/helpers/classCallCheck'),
-      require('babel-runtime/helpers/createClass'),
-      require('babel-runtime/helpers/possibleConstructorReturn'),
-      require('babel-runtime/helpers/inherits'),
-      require('babel-runtime/helpers/typeof'),
-      require('react'),
-      require('prop-types'),
-      require('textarea-caret'),
-      require('classnames'),
-      require('./style.css'),
-    );
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'babel-runtime/helpers/objectWithoutProperties', 'babel-runtime/helpers/extends', 'babel-runtime/regenerator', 'babel-runtime/helpers/asyncToGenerator', 'babel-runtime/helpers/classCallCheck', 'babel-runtime/helpers/createClass', 'babel-runtime/helpers/possibleConstructorReturn', 'babel-runtime/helpers/inherits', 'babel-runtime/helpers/typeof', 'react', 'prop-types', 'textarea-caret', 'classnames', './style.css'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('babel-runtime/helpers/objectWithoutProperties'), require('babel-runtime/helpers/extends'), require('babel-runtime/regenerator'), require('babel-runtime/helpers/asyncToGenerator'), require('babel-runtime/helpers/classCallCheck'), require('babel-runtime/helpers/createClass'), require('babel-runtime/helpers/possibleConstructorReturn'), require('babel-runtime/helpers/inherits'), require('babel-runtime/helpers/typeof'), require('react'), require('prop-types'), require('textarea-caret'), require('classnames'), require('./style.css'));
   } else {
     var mod = {
-      exports: {},
+      exports: {}
     };
-    factory(
-      mod.exports,
-      global.objectWithoutProperties,
-      global._extends,
-      global.regenerator,
-      global.asyncToGenerator,
-      global.classCallCheck,
-      global.createClass,
-      global.possibleConstructorReturn,
-      global.inherits,
-      global._typeof,
-      global.react,
-      global.propTypes,
-      global.textareaCaret,
-      global.classnames,
-      global.style,
-    );
+    factory(mod.exports, global.objectWithoutProperties, global._extends, global.regenerator, global.asyncToGenerator, global.classCallCheck, global.createClass, global.possibleConstructorReturn, global.inherits, global._typeof, global.react, global.propTypes, global.textareaCaret, global.classnames, global.style);
     global.index = mod.exports;
   }
-})(this, function(
-  exports,
-  _objectWithoutProperties2,
-  _extends2,
-  _regenerator,
-  _asyncToGenerator2,
-  _classCallCheck2,
-  _createClass2,
-  _possibleConstructorReturn2,
-  _inherits2,
-  _typeof2,
-  _react,
-  _propTypes,
-  _textareaCaret,
-  _classnames,
-) {
+})(this, function (exports, _objectWithoutProperties2, _extends2, _regenerator, _asyncToGenerator2, _classCallCheck2, _createClass2, _possibleConstructorReturn2, _inherits2, _typeof2, _react, _propTypes, _textareaCaret, _classnames) {
   'use strict';
 
-  Object.defineProperty(exports, '__esModule', {
-    value: true,
+  Object.defineProperty(exports, "__esModule", {
+    value: true
   });
 
-  var _objectWithoutProperties3 = _interopRequireDefault(
-    _objectWithoutProperties2,
-  );
+  var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
   var _extends3 = _interopRequireDefault(_extends2);
 
@@ -97,9 +29,7 @@
 
   var _createClass3 = _interopRequireDefault(_createClass2);
 
-  var _possibleConstructorReturn3 = _interopRequireDefault(
-    _possibleConstructorReturn2,
-  );
+  var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
   var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -114,176 +44,144 @@
   var _classnames2 = _interopRequireDefault(_classnames);
 
   function _interopRequireDefault(obj) {
-    return obj && obj.__esModule
-      ? obj
-      : {
-          default: obj,
-        };
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
   }
 
   var KEY_CODES = {
     ESC: 27,
     UP: 38,
     DOWN: 40,
-    ENTER: 13,
+    ENTER: 13
   };
 
-  var Listeners = (function() {
-    var i = 0;
+  var Listeners = function () {
+    var index = 0;
     var listeners = {};
 
-    var f = function f(keyCode, fn, e) {
-      var code = e.keyCode || e.which;
-      if (
-        (typeof keyCode === 'undefined'
-          ? 'undefined'
-          : (0, _typeof3.default)(keyCode)) !== 'object'
-      )
-        keyCode = [keyCode];
-      if (
-        keyCode.includes(code) && // $FlowFixMe
-        Object.values(listeners).find(function(_ref) {
-          var triggerKeyCode = _ref.keyCode;
-          return triggerKeyCode === keyCode;
-        })
-      )
-        return fn(e);
-    };
-
     var addListener = function addListener(keyCode, fn) {
-      listeners[i] = {
+      if ((typeof keyCode === 'undefined' ? 'undefined' : (0, _typeof3.default)(keyCode)) !== 'object') keyCode = [keyCode];
+
+      listeners[index] = {
         keyCode: keyCode,
-        fn: fn,
+        fn: fn
       };
 
-      // $FlowFixMe
-      document.addEventListener('keydown', function(e) {
-        return f(keyCode, fn, e);
-      });
-
-      return i++;
+      return index++;
     };
 
     var removeListener = function removeListener(id) {
       delete listeners[id];
-      i--;
+      index--;
     };
 
-    // $FlowFixMe
     var removeAllListeners = function removeAllListeners() {
       return document.removeEventListener('keydown', f);
     };
 
+    var f = function f(e) {
+      var code = e.keyCode || e.which;
+      for (var i = 0; i < index; i++) {
+        var _listeners$i = listeners[i],
+            _keyCode = _listeners$i.keyCode,
+            _fn = _listeners$i.fn;
+
+        if (!_keyCode.includes(code)) continue;
+
+        _fn(e);
+      }
+    };
+
+    document.addEventListener('keydown', f, false);
+
     return {
       add: addListener,
       remove: removeListener,
-      removeAll: removeAllListeners,
+      removeAll: removeAllListeners
     };
-  })();
+  }();
 
-  var Item = (function(_React$Component) {
+  var Item = function (_React$Component) {
     (0, _inherits3.default)(Item, _React$Component);
 
     function Item() {
-      var _ref2;
+      var _ref;
 
       var _temp, _this, _ret;
 
       (0, _classCallCheck3.default)(this, Item);
 
-      for (
-        var _len = arguments.length, args = Array(_len), _key = 0;
-        _key < _len;
-        _key++
-      ) {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
 
-      return (_ret = (
-        (_temp = (
-          (_this = (0, _possibleConstructorReturn3.default)(
-            this,
-            (_ref2 = Item.__proto__ || Object.getPrototypeOf(Item)).call.apply(
-              _ref2,
-              [this].concat(args),
-            ),
-          )),
-          _this
-        )),
-        (_this.onMouseEnterHandler = function() {
-          var _this$props = _this.props,
+      return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Item.__proto__ || Object.getPrototypeOf(Item)).call.apply(_ref, [this].concat(args))), _this), _this.onMouseEnterHandler = function () {
+        var _this$props = _this.props,
             item = _this$props.item,
             onMouseEnterHandler = _this$props.onMouseEnterHandler;
 
-          onMouseEnterHandler(item);
-        }),
-        _temp
-      )), (0, _possibleConstructorReturn3.default)(_this, _ret);
+        onMouseEnterHandler(item);
+      }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
     }
 
-    (0, _createClass3.default)(Item, [
-      {
-        key: 'render',
-        value: function render() {
-          var _props = this.props,
+    (0, _createClass3.default)(Item, [{
+      key: 'render',
+      value: function render() {
+        var _props = this.props,
             Component = _props.component,
             onMouseEnterHandler = _props.onMouseEnterHandler,
             onClickHandler = _props.onClickHandler,
             item = _props.item,
             selected = _props.selected;
 
-          return _react2.default.createElement(
-            'li',
-            {
-              className: (0, _classnames2.default)('rta__item', {
-                'rta__item--selected': selected,
-              }),
-              onClick: onClickHandler,
-              onMouseEnter: this.onMouseEnterHandler,
-            },
-            _react2.default.createElement(Component, {
-              selected: selected,
-              entity: item,
-            }),
-          );
-        },
-      },
-    ]);
-    return Item;
-  })(_react2.default.Component);
 
-  var List = (function(_React$PureComponent) {
+        return _react2.default.createElement(
+          'li',
+          {
+            className: (0, _classnames2.default)('rta__item', { 'rta__item--selected': selected }),
+            onClick: onClickHandler,
+            onMouseEnter: this.onMouseEnterHandler
+          },
+          _react2.default.createElement(Component, { selected: selected, entity: item })
+        );
+      }
+    }]);
+    return Item;
+  }(_react2.default.Component);
+
+  var List = function (_React$PureComponent) {
     (0, _inherits3.default)(List, _React$PureComponent);
 
     function List() {
+      var _ref2;
+
+      var _temp2, _this2, _ret2;
+
       (0, _classCallCheck3.default)(this, List);
 
-      var _this2 = (0, _possibleConstructorReturn3.default)(
-        this,
-        (List.__proto__ || Object.getPrototypeOf(List)).call(this),
-      );
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
 
-      _this2.listeners = [];
-      _this2.state = {
+      return _ret2 = (_temp2 = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref2 = List.__proto__ || Object.getPrototypeOf(List)).call.apply(_ref2, [this].concat(args))), _this2), _this2.listeners = [], _this2.state = {
         selected: null,
-        selectedItem: null,
-      };
-
-      _this2.getPositionInList = function() {
+        selectedItem: null
+      }, _this2.getPositionInList = function () {
         var values = _this2.props.values;
         var selectedItem = _this2.state.selectedItem;
 
+
         if (!selectedItem) return 0;
 
-        return values.findIndex(function(a) {
+        return values.findIndex(function (a) {
           return _this2.getId(a) === _this2.getId(selectedItem);
         });
-      };
-
-      _this2.scroll = function(e) {
+      }, _this2.scroll = function (e) {
         e.preventDefault();
 
         var values = _this2.props.values;
+
 
         var code = e.keyCode || e.which;
 
@@ -301,493 +199,384 @@
             break;
         }
 
-        newPosition =
-          (newPosition % values.length + values.length) % values.length;
+        newPosition = (newPosition % values.length + values.length) % values.length;
         _this2.setState({ selectedItem: values[newPosition] });
-      };
-
-      _this2.onPressEnter = function(e) {
+      }, _this2.onPressEnter = function (e) {
         e.preventDefault();
 
         var values = _this2.props.values;
 
-        _this2.modifyText(values[_this2.getPositionInList()]);
-      };
 
-      _this2.modifyText = function(value) {
+        _this2.modifyText(values[_this2.getPositionInList()]);
+      }, _this2.modifyText = function (value) {
         var _this2$props = _this2.props,
-          onSelect = _this2$props.onSelect,
-          getTextToReplace = _this2$props.getTextToReplace;
+            onSelect = _this2$props.onSelect,
+            getTextToReplace = _this2$props.getTextToReplace;
 
         onSelect(getTextToReplace(value));
-      };
-
-      _this2.selectItem = function(item) {
+      }, _this2.selectItem = function (item) {
         _this2.setState({ selectedItem: item });
-      };
-
-      _this2.getId = function(item) {
+      }, _this2.getId = function (item) {
         return _this2.props.getTextToReplace(item);
-      };
-
-      _this2.isSelected = function(item) {
+      }, _this2.isSelected = function (item) {
         var selectedItem = _this2.state.selectedItem;
 
         if (!selectedItem) return false;
 
         return _this2.getId(selectedItem) === _this2.getId(item);
-      };
-
-      return _this2;
+      }, _temp2), (0, _possibleConstructorReturn3.default)(_this2, _ret2);
     }
 
-    (0, _createClass3.default)(List, [
-      {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-          var values = this.props.values;
+    (0, _createClass3.default)(List, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var values = this.props.values;
 
-          this.setState({
-            selectedItem: values[0],
-          });
 
-          this.listeners.push(
-            Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
-            Listeners.add([KEY_CODES.ENTER], this.onPressEnter),
-          );
-        },
-      },
-      {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-          var listener = void 0;
-          while ((listener = this.listeners.pop())) {
-            Listeners.remove(listener);
-          }
-        },
-      },
-      {
-        key: 'render',
-        value: function render() {
-          var _this3 = this;
+        this.setState({
+          selectedItem: values[0]
+        });
 
-          var _props2 = this.props,
+        this.listeners.push(Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll), Listeners.add([KEY_CODES.ENTER], this.onPressEnter));
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        var listener = void 0;
+        while (listener = this.listeners.pop()) {
+          Listeners.remove(listener);
+        }
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this3 = this;
+
+        var _props2 = this.props,
             values = _props2.values,
             component = _props2.component;
 
-          if (!component) return;
 
-          return _react2.default.createElement(
-            'ul',
-            { className: 'rta__list' },
-            values.map(function(item) {
-              return _react2.default.createElement(Item, {
-                key: _this3.getId(item),
-                selected: _this3.isSelected(item),
-                item: item,
-                onClickHandler: _this3.onPressEnter,
-                onMouseEnterHandler: _this3.selectItem,
-                component: component,
-              });
-            }),
-          );
-        },
-      },
-    ]);
+        if (!component) return;
+
+        return _react2.default.createElement(
+          'ul',
+          { className: 'rta__list' },
+          values.map(function (item) {
+            return _react2.default.createElement(Item, {
+              key: _this3.getId(item),
+              selected: _this3.isSelected(item),
+              item: item,
+              onClickHandler: _this3.onPressEnter,
+              onMouseEnterHandler: _this3.selectItem,
+              component: component
+            });
+          })
+        );
+      }
+    }]);
     return List;
-  })(_react2.default.PureComponent);
+  }(_react2.default.PureComponent);
 
-  var ReactTextareaAutocomplete = (function(_React$Component2) {
+  var ReactTextareaAutocomplete = function (_React$Component2) {
     (0, _inherits3.default)(ReactTextareaAutocomplete, _React$Component2);
 
     function ReactTextareaAutocomplete() {
       var _ref3,
-        _this5 = this;
+          _this5 = this;
 
-      var _temp2, _this4, _ret2;
+      var _temp3, _this4, _ret3;
 
       (0, _classCallCheck3.default)(this, ReactTextareaAutocomplete);
 
-      for (
-        var _len2 = arguments.length, args = Array(_len2), _key2 = 0;
-        _key2 < _len2;
-        _key2++
-      ) {
-        args[_key2] = arguments[_key2];
+      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
       }
 
-      return (_ret2 = (
-        (_temp2 = (
-          (_this4 = (0, _possibleConstructorReturn3.default)(
-            this,
-            (_ref3 =
-              ReactTextareaAutocomplete.__proto__ ||
-              Object.getPrototypeOf(ReactTextareaAutocomplete)).call.apply(
-              _ref3,
-              [this].concat(args),
-            ),
-          )),
-          _this4
-        )),
-        (_this4.update = function(prevProps) {
-          var trigger = _this4.props.trigger;
+      return _ret3 = (_temp3 = (_this4 = (0, _possibleConstructorReturn3.default)(this, (_ref3 = ReactTextareaAutocomplete.__proto__ || Object.getPrototypeOf(ReactTextareaAutocomplete)).call.apply(_ref3, [this].concat(args))), _this4), _this4.update = function (prevProps) {
+        var trigger = _this4.props.trigger;
 
-          _this4.tokenRegExp = new RegExp(
-            '[' + Object.keys(trigger).join('') + ']\\w*$',
-          );
-        }),
-        (_this4.textareaRef = null),
-        (_this4.state = {
-          top: 0,
-          left: 0,
-          currentTrigger: null,
-          actualToken: '',
-          data: null,
-          value: '',
-          dataLoading: false,
-          selectionEnd: 0,
-          selectionStart: 0,
-          component: null,
-        }),
-        (_this4.changeHandler = function(e) {
-          var _this4$props = _this4.props,
+        _this4.tokenRegExp = new RegExp('[' + Object.keys(trigger).join('') + ']\\w*$');
+      }, _this4.textareaRef = null, _this4.state = {
+        top: 0,
+        left: 0,
+        currentTrigger: null,
+        actualToken: '',
+        data: null,
+        value: '',
+        dataLoading: false,
+        selectionEnd: 0,
+        selectionStart: 0,
+        component: null
+      }, _this4.changeHandler = function (e) {
+        var _this4$props = _this4.props,
             trigger = _this4$props.trigger,
             onChange = _this4$props.onChange;
 
-          var textarea = e.target;
-          var selectionEnd = textarea.selectionEnd,
+        var textarea = e.target;
+        var selectionEnd = textarea.selectionEnd,
             selectionStart = textarea.selectionStart;
 
-          var value = textarea.value;
+        var value = textarea.value;
 
-          if (onChange) {
-            e.persist();
-            onChange(e);
-          }
+        if (onChange) {
+          e.persist();
+          onChange(e);
+        }
 
-          _this4.setState({
-            value: value,
-          });
+        _this4.setState({
+          value: value
+        });
 
-          var tokenMatch = _this4.tokenRegExp.exec(
-            value.slice(0, selectionEnd),
-          );
-          var lastToken = tokenMatch && tokenMatch[0];
+        var tokenMatch = _this4.tokenRegExp.exec(value.slice(0, selectionEnd));
+        var lastToken = tokenMatch && tokenMatch[0];
 
-          /*
+        /*
          if we lost the trigger token or there is no following character we want to close
          the autocomplete
         */
-          if (!lastToken || lastToken.length <= 1) {
-            _this4.closeAutocomplete();
-            return;
-          }
+        if (!lastToken || lastToken.length <= 1) {
+          _this4.closeAutocomplete();
+          return;
+        }
 
-          var triggerChars = Object.keys(trigger);
+        var triggerChars = Object.keys(trigger);
 
-          var currentTrigger =
-            (lastToken &&
-              triggerChars.find(function(a) {
-                return a === lastToken[0];
-              })) ||
-            null;
+        var currentTrigger = lastToken && triggerChars.find(function (a) {
+          return a === lastToken[0];
+        }) || null;
 
-          var actualToken = lastToken.slice(1);
+        var actualToken = lastToken.slice(1);
 
-          // if trigger is not configured step out from the function, otherwise proceed
-          if (!currentTrigger) {
-            return;
-          }
+        // if trigger is not configured step out from the function, otherwise proceed
+        if (!currentTrigger) {
+          return;
+        }
 
-          /* 
+        /* 
           JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
           so this try - catch is walk-around for Jest 
         */
-          try {
-            var _getCaretCoordinates = (0, _textareaCaret2.default)(
-                textarea,
-                selectionEnd,
-              ),
+        try {
+          var _getCaretCoordinates = (0, _textareaCaret2.default)(textarea, selectionEnd),
               _top = _getCaretCoordinates.top,
               _left = _getCaretCoordinates.left;
 
-            _this4.setState({ top: _top, left: _left });
-          } catch (e) {
-            console.warn(
-              'RTA: failed to get caret coordinates. This is not a browser?',
-            );
-          }
+          _this4.setState({ top: _top, left: _left });
+        } catch (e) {
+          console.warn('RTA: failed to get caret coordinates. This is not a browser?');
+        }
 
-          _this4.setState(
-            {
-              selectionEnd: selectionEnd,
-              selectionStart: selectionStart,
-              currentTrigger: currentTrigger,
-              actualToken: actualToken,
-            },
-            _this4.getValuesFromProvider,
-          );
-        }),
-        (_this4.getTextToReplace = function() {
-          var currentTrigger = _this4.state.currentTrigger;
+        _this4.setState({
+          selectionEnd: selectionEnd,
+          selectionStart: selectionStart,
+          currentTrigger: currentTrigger,
+          actualToken: actualToken
+        }, _this4.getValuesFromProvider);
+      }, _this4.getTextToReplace = function () {
+        var currentTrigger = _this4.state.currentTrigger;
 
-          var triggerSettings = _this4.getCurrentTriggerSettings();
+        var triggerSettings = _this4.getCurrentTriggerSettings();
 
-          if (!currentTrigger || !triggerSettings) return;
+        if (!currentTrigger || !triggerSettings) return;
 
-          var output = triggerSettings.output;
+        var output = triggerSettings.output;
 
-          return function(item) {
-            if (
-              (typeof item === 'undefined'
-                ? 'undefined'
-                : (0, _typeof3.default)(item)) === 'object'
-            ) {
-              if (!output || typeof output !== 'function') {
-                throw new Error('RTA: Output function is not defined!');
-              }
 
-              return output(item, currentTrigger);
+        return function (item) {
+          if ((typeof item === 'undefined' ? 'undefined' : (0, _typeof3.default)(item)) === 'object') {
+            if (!output || typeof output !== 'function') {
+              throw new Error('RTA: Output function is not defined!');
             }
 
-            return currentTrigger + item;
-          };
-        }),
-        (_this4.closeAutocomplete = function() {
-          _this4.setState({ data: null, currentTrigger: null });
-        }),
-        (_this4.onSelect = function(newToken) {
-          var _this4$state = _this4.state,
+            return output(item, currentTrigger);
+          }
+
+          return currentTrigger + item;
+        };
+      }, _this4.closeAutocomplete = function () {
+        if (!_this4.getSuggestions()) return;
+
+        _this4.setState({ data: null });
+      }, _this4.onSelect = function (newToken) {
+        var _this4$state = _this4.state,
             actualToken = _this4$state.actualToken,
             selectionEnd = _this4$state.selectionEnd,
             selectionStart = _this4$state.selectionStart,
             textareaValue = _this4$state.value;
 
-          var offsetToEndOfToken = 0;
-          while (
-            textareaValue[selectionEnd + offsetToEndOfToken] &&
-            /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
-          ) {
-            offsetToEndOfToken++;
-          }
 
-          var textToModify = textareaValue.slice(
-            0,
-            selectionEnd + offsetToEndOfToken,
-          );
+        var offsetToEndOfToken = 0;
+        while (textareaValue[selectionEnd + offsetToEndOfToken] && /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])) {
+          offsetToEndOfToken++;
+        }
 
-          var startOfTokenPosition = textToModify.search(/\S*$/);
-          var newCaretPosition = startOfTokenPosition + newToken.length;
-          var modifiedText =
-            textToModify.substring(0, startOfTokenPosition) + newToken;
+        var textToModify = textareaValue.slice(0, selectionEnd + offsetToEndOfToken);
 
-          // set the new textarea value and after that set the caret back to its position
-          _this4.setState(
-            {
-              value: textareaValue.replace(textToModify, modifiedText),
-            },
-            function() {
-              return _this4.setTextareaCaret(newCaretPosition);
-            },
-          );
-          _this4.closeAutocomplete();
-        }),
-        (_this4.setTextareaCaret = function() {
-          var position =
-            arguments.length > 0 && arguments[0] !== undefined
-              ? arguments[0]
-              : 0;
+        var startOfTokenPosition = textToModify.search(/\S*$/);
+        var newCaretPosition = startOfTokenPosition + newToken.length;
+        var modifiedText = textToModify.substring(0, startOfTokenPosition) + newToken;
 
-          if (!_this4.textareaRef) return;
+        // set the new textarea value and after that set the caret back to its position
+        _this4.setState({
+          value: textareaValue.replace(textToModify, modifiedText)
+        }, function () {
+          return _this4.setTextareaCaret(newCaretPosition);
+        });
+        _this4.closeAutocomplete();
+      }, _this4.setTextareaCaret = function () {
+        var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-          _this4.textareaRef.setSelectionRange(position, position);
-        }),
-        (_this4.getCurrentTriggerSettings = function() {
-          var currentTrigger = _this4.state.currentTrigger;
+        if (!_this4.textareaRef) return;
 
-          if (!currentTrigger) return null;
+        _this4.textareaRef.setSelectionRange(position, position);
+      }, _this4.getCurrentTriggerSettings = function () {
+        var currentTrigger = _this4.state.currentTrigger;
 
-          return _this4.props.trigger[currentTrigger];
-        }),
-        (_this4.getValuesFromProvider = (0, _asyncToGenerator3.default)(
-          _regenerator2.default.mark(function _callee() {
-            var _this4$state2,
-              currentTrigger,
-              actualToken,
-              triggerSettings,
-              dataProvider,
-              component,
-              providedData;
 
-            return _regenerator2.default.wrap(
-              function _callee$(_context) {
-                while (1) {
-                  switch ((_context.prev = _context.next)) {
-                    case 0:
-                      (_this4$state2 = _this4.state), (currentTrigger =
-                        _this4$state2.currentTrigger), (actualToken =
-                        _this4$state2.actualToken);
-                      triggerSettings = _this4.getCurrentTriggerSettings();
+        if (!currentTrigger) return null;
 
-                      if (!(!currentTrigger || !triggerSettings)) {
-                        _context.next = 4;
-                        break;
-                      }
+        return _this4.props.trigger[currentTrigger];
+      }, _this4.getValuesFromProvider = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var _this4$state2, currentTrigger, actualToken, triggerSettings, dataProvider, component, providedData;
 
-                      return _context.abrupt('return');
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this4$state2 = _this4.state, currentTrigger = _this4$state2.currentTrigger, actualToken = _this4$state2.actualToken;
+                triggerSettings = _this4.getCurrentTriggerSettings();
 
-                    case 4:
-                      (dataProvider =
-                        triggerSettings.dataProvider), (component =
-                        triggerSettings.component);
-
-                      if (!(typeof dataProvider !== 'function')) {
-                        _context.next = 7;
-                        break;
-                      }
-
-                      throw new Error(
-                        'RTA: Trigger provider has to be a function!',
-                      );
-
-                    case 7:
-                      _this4.setState({
-                        dataLoading: true,
-                        data: null,
-                      });
-
-                      providedData = dataProvider(actualToken);
-
-                      if (!(providedData instanceof Promise)) {
-                        _context.next = 13;
-                        break;
-                      }
-
-                      _context.next = 12;
-                      return dataProvider(actualToken);
-
-                    case 12:
-                      providedData = _context.sent;
-
-                    case 13:
-                      if (
-                        !(
-                          (typeof providedData === 'undefined'
-                            ? 'undefined'
-                            : (0, _typeof3.default)(providedData)) !== 'object'
-                        )
-                      ) {
-                        _context.next = 15;
-                        break;
-                      }
-
-                      throw new Error(
-                        'RTA: Trigger provider has to provide an array!',
-                      );
-
-                    case 15:
-                      if (!(typeof component !== 'function')) {
-                        _context.next = 17;
-                        break;
-                      }
-
-                      throw new Error('RTA: Component should be defined!');
-
-                    case 17:
-                      _this4.setState({
-                        dataLoading: false,
-                        data: providedData,
-                        component: component,
-                      });
-
-                    case 18:
-                    case 'end':
-                      return _context.stop();
-                  }
+                if (!(!currentTrigger || !triggerSettings)) {
+                  _context.next = 4;
+                  break;
                 }
-              },
-              _callee,
-              _this5,
-            );
-          }),
-        )),
-        (_this4.cleanUpProps = function() {
-          var props = (0, _extends3.default)({}, _this4.props);
-          var notSafe = [
-            'loadingComponent',
-            'ref',
-            'onChange',
-            'className',
-            'value',
-            'trigger',
-          ];
 
-          for (var prop in props) {
-            if (notSafe.includes(prop)) delete props[prop];
+                return _context.abrupt('return');
+
+              case 4:
+                dataProvider = triggerSettings.dataProvider, component = triggerSettings.component;
+
+                if (!(typeof dataProvider !== 'function')) {
+                  _context.next = 7;
+                  break;
+                }
+
+                throw new Error('RTA: Trigger provider has to be a function!');
+
+              case 7:
+
+                _this4.setState({
+                  dataLoading: true,
+                  data: null
+                });
+
+                providedData = dataProvider(actualToken);
+
+                if (!(providedData instanceof Promise)) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _context.next = 12;
+                return dataProvider(actualToken);
+
+              case 12:
+                providedData = _context.sent;
+
+              case 13:
+                if (!((typeof providedData === 'undefined' ? 'undefined' : (0, _typeof3.default)(providedData)) !== 'object')) {
+                  _context.next = 15;
+                  break;
+                }
+
+                throw new Error('RTA: Trigger provider has to provide an array!');
+
+              case 15:
+                if (!(typeof component !== 'function')) {
+                  _context.next = 17;
+                  break;
+                }
+
+                throw new Error('RTA: Component should be defined!');
+
+              case 17:
+
+                _this4.setState({
+                  dataLoading: false,
+                  data: providedData,
+                  component: component
+                });
+
+              case 18:
+              case 'end':
+                return _context.stop();
+            }
           }
+        }, _callee, _this5);
+      })), _this4.cleanUpProps = function () {
+        var props = (0, _extends3.default)({}, _this4.props);
+        var notSafe = ['loadingComponent', 'ref', 'onChange', 'className', 'value', 'trigger'];
 
-          return props;
-        }),
-        (_this4.getSuggestions = function() {
-          var _this4$state3 = _this4.state,
+        for (var prop in props) {
+          if (notSafe.includes(prop)) delete props[prop];
+        }
+
+        return props;
+      }, _this4.getSuggestions = function () {
+        var _this4$state3 = _this4.state,
             currentTrigger = _this4$state3.currentTrigger,
             data = _this4$state3.data;
 
-          if (!currentTrigger || !data || (data && !data.length)) return null;
 
-          return data;
-        }),
-        _temp2
-      )), (0, _possibleConstructorReturn3.default)(_this4, _ret2);
+        if (!currentTrigger || !data || data && !data.length) return null;
+
+        return data;
+      }, _temp3), (0, _possibleConstructorReturn3.default)(_this4, _ret3);
     }
 
-    (0, _createClass3.default)(ReactTextareaAutocomplete, [
-      {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-          var _this6 = this;
+    (0, _createClass3.default)(ReactTextareaAutocomplete, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _this6 = this;
 
-          this.update(this.props);
-          Listeners.add(KEY_CODES.ESC, function(e) {
-            return _this6.closeAutocomplete();
-          });
+        this.update(this.props);
+        Listeners.add(KEY_CODES.ESC, function (e) {
+          return _this6.closeAutocomplete();
+        });
 
-          var _props3 = this.props,
+        var _props3 = this.props,
             loadingComponent = _props3.loadingComponent,
             trigger = _props3.trigger;
 
-          if (!loadingComponent) {
-            throw new Error('RTA: loadingComponent is not defined');
-          }
 
-          if (!trigger) {
-            throw new Error('RTA: trigger is not defined');
-          }
-        },
-      },
-      {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-          Listeners.removeAll();
-        },
-      },
-      {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate(prevProps) {
-          this.update(prevProps);
-        },
-      },
-      {
-        key: 'render',
-        value: function render() {
-          var _this7 = this;
+        if (!loadingComponent) {
+          throw new Error('RTA: loadingComponent is not defined');
+        }
 
-          var _props4 = this.props,
+        if (!trigger) {
+          throw new Error('RTA: trigger is not defined');
+        }
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        Listeners.removeAll();
+      }
+    }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate(prevProps) {
+        this.update(prevProps);
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this7 = this;
+
+        var _props4 = this.props,
             Loader = _props4.loadingComponent,
-            otherProps = (0, _objectWithoutProperties3.default)(_props4, [
-              'loadingComponent',
-            ]);
-          var _state = this.state,
+            otherProps = (0, _objectWithoutProperties3.default)(_props4, ['loadingComponent']);
+        var _state = this.state,
             left = _state.left,
             top = _state.top,
             currentTrigger = _state.currentTrigger,
@@ -795,60 +584,44 @@
             component = _state.component,
             value = _state.value;
 
-          var suggestionData = this.getSuggestions();
 
-          return _react2.default.createElement(
-            'div',
-            {
-              className: (0, _classnames2.default)('rta', {
-                'rta--loading': dataLoading,
-              }),
+        var suggestionData = this.getSuggestions();
+
+        return _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)('rta', { 'rta--loading': dataLoading }) },
+          _react2.default.createElement('textarea', (0, _extends3.default)({
+            ref: function ref(_ref5) {
+              return _this7.textareaRef = _ref5;
             },
-            _react2.default.createElement(
-              'textarea',
-              (0, _extends3.default)(
-                {
-                  ref: function ref(_ref5) {
-                    return (_this7.textareaRef = _ref5);
-                  },
-                  className: 'rta__textarea ' + (otherProps['className'] || ''),
-                  onChange: this.changeHandler,
-                  value: value,
-                },
-                this.cleanUpProps(),
-              ),
+            className: 'rta__textarea ' + (otherProps['className'] || ''),
+            onChange: this.changeHandler,
+            value: value
+          }, this.cleanUpProps())),
+          (dataLoading || suggestionData) && _react2.default.createElement(
+            'div',
+            { style: { top: top, left: left }, className: 'rta__autocomplete' },
+            dataLoading && _react2.default.createElement(
+              'div',
+              { className: 'rta__loader' },
+              _react2.default.createElement(Loader, null)
             ),
-            (dataLoading || suggestionData) &&
-              _react2.default.createElement(
-                'div',
-                {
-                  style: { top: top, left: left },
-                  className: 'rta__autocomplete',
-                },
-                dataLoading &&
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'rta__loader' },
-                    _react2.default.createElement(Loader, null),
-                  ),
-                suggestionData &&
-                  _react2.default.createElement(List, {
-                    values: suggestionData,
-                    getTextToReplace: this.getTextToReplace(),
-                    component: component,
-                    onSelect: this.onSelect,
-                  }),
-              ),
-          );
-        },
-      },
-    ]);
+            suggestionData && _react2.default.createElement(List, {
+              values: suggestionData,
+              getTextToReplace: this.getTextToReplace(),
+              component: component,
+              onSelect: this.onSelect
+            })
+          )
+        );
+      }
+    }]);
     return ReactTextareaAutocomplete;
-  })(_react2.default.Component);
+  }(_react2.default.Component);
 
   ReactTextareaAutocomplete.propTypes = {
     trigger: _propTypes2.default.object.isRequired,
-    loadingComponent: _propTypes2.default.func.isRequired,
+    loadingComponent: _propTypes2.default.func.isRequired
   };
 
   exports.default = ReactTextareaAutocomplete;
