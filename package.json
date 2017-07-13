@@ -21,6 +21,7 @@
     "copy": "cpx \"src/*.css\" dist",
     "test": "jest --watch",
     "dev": "npm run copy -- --watch & npm run build -- --watch",
+    "ci": "flow && jest",
     "precommit": "lint-staged"
   },
   "devDependencies": {

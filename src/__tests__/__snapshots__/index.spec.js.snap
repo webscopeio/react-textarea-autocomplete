@@ -102,13 +102,17 @@ ShallowWrapper {
         "setTextareaCaret": [Function],
         "state": Object {
           "actualToken": "",
-          "currentTrigger": false,
+          "component": null,
+          "currentTrigger": null,
           "data": null,
           "dataLoading": false,
           "left": 0,
+          "selectionEnd": 0,
+          "selectionStart": 0,
           "top": 0,
           "value": "",
         },
+        "textareaRef": null,
         "update": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
