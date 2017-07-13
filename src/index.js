@@ -15,42 +15,40 @@ const KEY_CODES = {
 };
 
 const Listeners = (function() {
-  let i = 0;
+  let index = 0;
   const listeners: {
-    [number]: {| keyCode: number | Array<number>, fn: Function |},
+    [number]: {| keyCode: Array<number>, fn: Function |},
   } = {};
 
-  const f = (keyCode, fn, e) => {
-    const code = e.keyCode || e.which;
-    if (typeof keyCode !== 'object') keyCode = [keyCode];
-    if (
-      keyCode.includes(code) && // $FlowFixMe
-      Object.values(listeners).find(
-        ({ keyCode: triggerKeyCode }) => triggerKeyCode === keyCode,
-      )
-    )
-      return fn(e);
-  };
-
   const addListener = (keyCode: Array<number> | number, fn: Function) => {
-    listeners[i] = {
+    if (typeof keyCode !== 'object') keyCode = [keyCode];
+
+    listeners[index] = {
       keyCode,
       fn,
     };
 
-    // $FlowFixMe
-    document.addEventListener('keydown', e => f(keyCode, fn, e));
-
-    return i++;
+    return index++;
   };
 
   const removeListener = (id: number) => {
     delete listeners[id];
-    i--;
+    index--;
   };
 
-  // $FlowFixMe
   const removeAllListeners = () => document.removeEventListener('keydown', f);
+
+  const f = (e: KeyboardEvent) => {
+    const code = e.keyCode || e.which;
+    for (let i = 0; i < index; i++) {
+      const { keyCode, fn } = listeners[i];
+      if (!keyCode.includes(code)) continue;
+
+      fn(e);
+    }
+  };
+
+  document.addEventListener('keydown', f, false);
 
   return {
     add: addListener,
@@ -60,7 +58,7 @@ const Listeners = (function() {
 })();
 
 type ItemProps = {
-  component: React$Component<*, *, *>,
+  component: ReactClass<*>,
   onMouseEnterHandler: (Object | string) => void,
   item: Object | string,
   onClickHandler: SyntheticEvent => void,
@@ -90,7 +88,6 @@ class Item extends React.Component {
         onClick={onClickHandler}
         onMouseEnter={this.onMouseEnterHandler}
       >
-        {/*$FlowFixMe*/}
         <Component selected={selected} entity={item} />
       </li>
     );
@@ -99,10 +96,6 @@ class Item extends React.Component {
 
 class List extends React.PureComponent {
   listeners: Array<number> = [];
-
-  constructor() {
-    super();
-  }
 
   state: {
     selected: ?boolean,
@@ -275,7 +268,7 @@ class ReactTextareaAutocomplete extends React.Component {
     dataLoading: boolean,
     selectionEnd: number,
     selectionStart: number,
-    component: ?React$Component<*, *, *>,
+    component: ?ReactClass<*>,
   } = {
     top: 0,
     left: 0,
@@ -374,7 +367,9 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   closeAutocomplete = () => {
-    this.setState({ data: null, currentTrigger: null });
+    if (!this.getSuggestions()) return;
+
+    this.setState({ data: null });
   };
 
   onSelect = (newToken: string) => {
