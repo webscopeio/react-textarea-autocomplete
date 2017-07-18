@@ -11,29 +11,21 @@ type Props = {
 };
 
 export default class Item extends React.Component {
-  props: Props;
-
   onMouseEnterHandler = () => {
     const { item, onMouseEnterHandler } = this.props;
     onMouseEnterHandler(item);
   };
 
+  props: Props;
+
   render() {
-    const {
-      component: Component,
-      onMouseEnterHandler,
-      onClickHandler,
-      item,
-      selected,
-    } = this.props;
+    const { component: Component, onClickHandler, item, selected } = this.props;
 
     return (
-      <li
-        className={classNames('rta__item', { 'rta__item--selected': selected })}
-        onClick={onClickHandler}
-        onMouseEnter={this.onMouseEnterHandler}
-      >
-        <Component selected={selected} entity={item} />
+      <li className={classNames('rta__item', { 'rta__item--selected': selected })}>
+        <button onClick={onClickHandler} onMouseEnter={this.onMouseEnterHandler}>
+          <Component selected={selected} entity={item} />
+        </button>
       </li>
     );
   }

@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import classNames from 'classnames';
 
 import Listeners, { KEY_CODES } from './listener';
 import Item from './Item';
@@ -19,13 +18,32 @@ type State = {
 };
 
 export default class List extends React.PureComponent {
-  props: Props;
-
-  listeners: Array<number> = [];
-
   state: State = {
     selected: null,
     selectedItem: null,
+  };
+
+  componentDidMount() {
+    this.listeners.push(
+      Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
+      Listeners.add([KEY_CODES.ENTER], this.onPressEnter),
+    );
+  }
+
+  componentWillUnmount() {
+    let listener;
+    while (this.listeners) {
+      listener = this.listeners.pop();
+      Listeners.remove(listener);
+    }
+  }
+
+  onPressEnter = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    const { values } = this.props;
+
+    this.modifyText(values[this.getPositionInList()]);
   };
 
   getPositionInList = () => {
@@ -35,6 +53,24 @@ export default class List extends React.PureComponent {
     if (!selectedItem) return 0;
 
     return values.findIndex(a => this.getId(a) === this.getId(selectedItem));
+  };
+
+  getId = (item: Object | string): string => this.props.getTextToReplace(item);
+
+  props: Props;
+
+  listeners: Array<number> = [];
+
+  modifyText = (value: Object | string) => {
+    if (!value) return;
+
+    const { onSelect, getTextToReplace } = this.props;
+
+    onSelect(getTextToReplace(value));
+  };
+
+  selectItem = (item: Object | string) => {
+    this.setState({ selectedItem: item });
   };
 
   scroll = (e: KeyboardEvent) => {
@@ -58,50 +94,8 @@ export default class List extends React.PureComponent {
         break;
     }
 
-    newPosition = (newPosition % values.length + values.length) % values.length;
+    newPosition = (newPosition % values.length + values.length) % values.length; // eslint-disable-line
     this.setState({ selectedItem: values[newPosition] });
-  };
-
-  onPressEnter = (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    const { values } = this.props;
-
-    this.modifyText(values[this.getPositionInList()]);
-  };
-
-  modifyText = (value: Object | string) => {
-    if (!value) return;
-
-    const { onSelect, getTextToReplace } = this.props;
-
-    onSelect(getTextToReplace(value));
-  };
-
-  selectItem = (item: Object | string) => {
-    this.setState({ selectedItem: item });
-  };
-
-  componentDidMount() {
-    const { values } = this.props;
-
-    this.setState({
-      selectedItem: values[0],
-    });
-
-    this.listeners.push(
-      Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
-      Listeners.add([KEY_CODES.ENTER], this.onPressEnter),
-    );
-  }
-
-  componentWillUnmount() {
-    let listener;
-    while ((listener = this.listeners.pop())) Listeners.remove(listener);
-  }
-
-  getId = (item: Object | string): string => {
-    return this.props.getTextToReplace(item);
   };
 
   isSelected = (item: Object | string): boolean => {
@@ -114,19 +108,17 @@ export default class List extends React.PureComponent {
   render() {
     const { values, component } = this.props;
 
-    if (!component) return;
-
     return (
       <ul className="rta__list">
         {values.map(item =>
-          <Item
+          (<Item
             key={this.getId(item)}
             selected={this.isSelected(item)}
             item={item}
             onClickHandler={this.onPressEnter}
             onMouseEnterHandler={this.selectItem}
             component={component}
-          />,
+          />),
         )}
       </ul>
     );
