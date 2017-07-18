@@ -8,47 +8,49 @@ export const KEY_CODES = {
 };
 
 // This is self-made key shortcuts manager, used for caching key strokes
-const Listeners = (function() {
-  let index = 0;
-  const listeners: {
-    [number]: {| keyCode: Array<number>, fn: Function |},
-  } = {};
+class Listener {
+  index: number;
 
-  const addListener = (keyCode: Array<number> | number, fn: Function) => {
+  listeners: {
+    [number]: {| keyCode: Array<number>, fn: Function |},
+  };
+
+  f: Function;
+
+  constructor() {
+    this.index = 0;
+    this.listeners = {};
+
+    this.f = (e: KeyboardEvent) => {
+      const code = e.keyCode || e.which;
+      for (let i = 0; i < this.index; i += 1) {
+        const { keyCode, fn } = this.listeners[i];
+        if (keyCode.includes(code)) fn(e);
+      }
+    };
+
+    document.addEventListener('keydown', this.f);
+  }
+
+  add = (keyCodes: Array<number> | number, fn: Function) => {
+    let keyCode = keyCodes;
+
     if (typeof keyCode !== 'object') keyCode = [keyCode];
 
-    listeners[index] = {
+    this.listeners[this.index] = {
       keyCode,
       fn,
     };
 
-    return index++;
+    return (this.index += 1);
   };
 
-  const removeListener = (id: number) => {
-    delete listeners[id];
-    index--;
+  remove = (id: number) => {
+    delete this.listeners[id];
+    this.index -= 1;
   };
 
-  const removeAllListeners = () => document.removeEventListener('keydown', f);
+  removeAll = () => document.removeEventListener('keydown', this.f);
+}
 
-  const f = (e: KeyboardEvent) => {
-    const code = e.keyCode || e.which;
-    for (let i = 0; i < index; i++) {
-      const { keyCode, fn } = listeners[i];
-      if (!keyCode.includes(code)) continue;
-      // if there is registered callback, call it
-      fn(e);
-    }
-  };
-
-  document.addEventListener('keydown', f);
-
-  return {
-    add: addListener,
-    remove: removeListener,
-    removeAll: removeAllListeners,
-  };
-})();
-
-export default Listeners;
+export default new Listener();

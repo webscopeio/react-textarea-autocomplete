@@ -2,12 +2,11 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ReactTextareaAutocomplete from './../index';
 
-const wait = (time = 0) => new Promise(res => setTimeout(() => res(), time));
-
+//eslint-disable-next-line
 const SmileItemComponent = ({ entity: { label, text } }) =>
-  <div style={{ background: 'pink' }}>
-    {label}
-  </div>;
+  (<div>
+    {' '}{label}{' '}
+  </div>);
 
 const Loading = () => <div>Loading...</div>;
 
@@ -23,8 +22,8 @@ const rtaComponent = (
     loadingComponent={Loading}
     trigger={{
       ':': {
-        output: (item, trigger) => `___${item.text}___`,
-        dataProvider: token => [
+        output: item => `___${item.text}___`,
+        dataProvider: () => [
           { id: 1, label: ':)', text: 'happy_face' },
           { id: 2, label: ':(', text: 'sad_face' },
         ],
@@ -44,9 +43,7 @@ it('Textarea exists', () => {
 });
 
 it('After the trigger was typed, it should appear list of options', async () => {
-  rta
-    .find('textarea')
-    .simulate('change', { target: { value: 'some test :a' } });
+  rta.find('textarea').simulate('change', { target: { value: 'some test :a' } });
   expect(rta.find('.rta__autocomplete')).toHaveLength(1);
 });
 
@@ -55,12 +52,9 @@ it('should display all items', () => {
 });
 
 it('items should be rendered within the component', () => {
-  expect(
-    rta
-      .find('.rta__item')
-      .first()
-      .containsMatchingElement(<SmileItemComponent />),
-  ).toEqual(true);
+  expect(rta.find('.rta__item').first().containsMatchingElement(<SmileItemComponent />)).toEqual(
+    true,
+  );
 });
 
 it('should invoke onchange handler', () => {

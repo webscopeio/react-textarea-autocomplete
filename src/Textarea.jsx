@@ -7,9 +7,7 @@ import getCaretCoordinates from 'textarea-caret';
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
 
-type dataProviderType = string =>
-  | Promise<Array<Object | string>>
-  | Array<Object | string>;
+type dataProviderType = string => Promise<Array<Object | string>> | Array<Object | string>;
 
 type settingType = {
   component: ReactClass<*>,
@@ -45,40 +43,6 @@ type State = {
 };
 
 class ReactTextareaAutocomplete extends React.Component {
-  props: Props;
-
-  update = (prevProps: Props) => {
-    const { trigger } = this.props;
-    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
-  };
-
-  componentDidMount() {
-    this.update(this.props);
-    Listeners.add(KEY_CODES.ESC, e => this.closeAutocomplete());
-
-    const { loadingComponent, trigger } = this.props;
-
-    if (!loadingComponent) {
-      throw new Error('RTA: loadingComponent is not defined');
-    }
-
-    if (!trigger) {
-      throw new Error('RTA: trigger is not defined');
-    }
-  }
-
-  componentWillUnmount() {
-    Listeners.removeAll();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    this.update(prevProps);
-  }
-
-  textareaRef: ?HTMLInputElement = null;
-
-  tokenRegExp: RegExp;
-
   state: State = {
     top: 0,
     left: 0,
@@ -92,74 +56,61 @@ class ReactTextareaAutocomplete extends React.Component {
     component: null,
   };
 
-  changeHandler = (e: SyntheticInputEvent) => {
-    const { trigger, onChange } = this.props;
-    const textarea = e.target;
-    const { selectionEnd, selectionStart } = textarea;
-    const value = textarea.value;
+  componentDidMount() {
+    this.update();
+    Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
 
-    if (onChange) {
-      e.persist();
-      onChange(e);
+    const { loadingComponent, trigger } = this.props;
+
+    if (!loadingComponent) {
+      throw new Error('RTA: loadingComponent is not defined');
     }
 
-    this.setState({
-      value,
-    });
+    if (!trigger) {
+      throw new Error('RTA: trigger is not defined');
+    }
+  }
 
-    const tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
-    const lastToken = tokenMatch && tokenMatch[0];
+  componentDidUpdate() {
+    this.update();
+  }
 
-    /*
-     if we lost the trigger token or there is no following character we want to close
-     the autocomplete
-    */
-    if (!lastToken || lastToken.length <= 1) {
-      this.closeAutocomplete();
-      return;
+  componentWillUnmount() {
+    Listeners.removeAll();
+  }
+
+  onSelect = (newToken: string) => {
+    const { selectionEnd, value: textareaValue } = this.state;
+
+    let offsetToEndOfToken = 0;
+    while (
+      textareaValue[selectionEnd + offsetToEndOfToken] &&
+      /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
+    ) {
+      offsetToEndOfToken += 1;
     }
 
-    const triggerChars = Object.keys(trigger);
+    const textToModify = textareaValue.slice(0, selectionEnd + offsetToEndOfToken);
 
-    const currentTrigger =
-      (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
+    const startOfTokenPosition = textToModify.search(/\S*$/);
+    const newCaretPosition = startOfTokenPosition + newToken.length;
+    const modifiedText = textToModify.substring(0, startOfTokenPosition) + newToken;
 
-    const actualToken = lastToken.slice(1);
-
-    // if trigger is not configured step out from the function, otherwise proceed
-    if (!currentTrigger) {
-      return;
-    }
-
-    /* 
-      JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
-      so this try - catch is walk-around for Jest 
-    */
-    try {
-      const { top, left } = getCaretCoordinates(textarea, selectionEnd);
-      this.setState({ top, left });
-    } catch (e) {
-      console.warn(
-        'RTA: failed to get caret coordinates. This is not a browser?',
-      );
-    }
-
+    // set the new textarea value and after that set the caret back to its position
     this.setState(
       {
-        selectionEnd,
-        selectionStart,
-        currentTrigger,
-        actualToken,
+        value: textareaValue.replace(textToModify, modifiedText),
       },
-      this.getValuesFromProvider,
+      () => this.setTextareaCaret(newCaretPosition),
     );
+    this.closeAutocomplete();
   };
 
   getTextToReplace = (): ?getTextToReplaceType => {
     const { currentTrigger } = this.state;
     const triggerSettings = this.getCurrentTriggerSettings();
 
-    if (!currentTrigger || !triggerSettings) return;
+    if (!currentTrigger || !triggerSettings) return () => '';
 
     const { output } = triggerSettings;
 
@@ -174,48 +125,6 @@ class ReactTextareaAutocomplete extends React.Component {
 
       return currentTrigger + item;
     };
-  };
-
-  closeAutocomplete = () => {
-    if (!this.getSuggestions()) return;
-
-    this.setState({ data: null });
-  };
-
-  onSelect = (newToken: string) => {
-    const {
-      actualToken,
-      selectionEnd,
-      selectionStart,
-      value: textareaValue,
-    } = this.state;
-
-    let offsetToEndOfToken = 0;
-    while (
-      textareaValue[selectionEnd + offsetToEndOfToken] &&
-      /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
-    ) {
-      offsetToEndOfToken++;
-    }
-
-    const textToModify = textareaValue.slice(
-      0,
-      selectionEnd + offsetToEndOfToken,
-    );
-
-    const startOfTokenPosition = textToModify.search(/\S*$/);
-    const newCaretPosition = startOfTokenPosition + newToken.length;
-    const modifiedText =
-      textToModify.substring(0, startOfTokenPosition) + newToken;
-
-    // set the new textarea value and after that set the caret back to its position
-    this.setState(
-      {
-        value: textareaValue.replace(textToModify, modifiedText),
-      },
-      () => this.setTextareaCaret(newCaretPosition),
-    );
-    this.closeAutocomplete();
   };
 
   setTextareaCaret = (position: number = 0) => {
@@ -258,7 +167,7 @@ class ReactTextareaAutocomplete extends React.Component {
     }
 
     providedData
-      .then(data => {
+      .then((data) => {
         if (typeof providedData !== 'object') {
           throw new Error('RTA: Trigger provider has to provide an array!');
         }
@@ -273,27 +182,9 @@ class ReactTextareaAutocomplete extends React.Component {
           component,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         throw new Error(`RTA: dataProvider fails: ${e.message}`);
       });
-  };
-
-  cleanUpProps = (): Object => {
-    const props = { ...this.props };
-    const notSafe = [
-      'loadingComponent',
-      'ref',
-      'onChange',
-      'className',
-      'value',
-      'trigger',
-    ];
-
-    for (let prop in props) {
-      if (notSafe.includes(prop)) delete props[prop];
-    }
-
-    return props;
   };
 
   getSuggestions = (): ?Array<Object | string> => {
@@ -304,16 +195,98 @@ class ReactTextareaAutocomplete extends React.Component {
     return data;
   };
 
+  closeAutocomplete = () => {
+    if (!this.getSuggestions()) return;
+
+    this.setState({ data: null });
+  };
+
+  cleanUpProps = (): Object => {
+    const props = { ...this.props };
+    const notSafe = ['loadingComponent', 'ref', 'onChange', 'className', 'value', 'trigger'];
+
+    for (const prop in props) { //eslint-disable-line
+      if (notSafe.includes(prop)) delete props[prop];
+    }
+
+    return props;
+  };
+
+  changeHandler = (e: SyntheticInputEvent) => {
+    const { trigger, onChange } = this.props;
+    const textarea = e.target;
+    const { selectionEnd, selectionStart } = textarea;
+    const value = textarea.value;
+
+    if (onChange) {
+      e.persist();
+      onChange(e);
+    }
+
+    this.setState({
+      value,
+    });
+
+    const tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
+    const lastToken = tokenMatch && tokenMatch[0];
+
+    /*
+     if we lost the trigger token or there is no following character we want to close
+     the autocomplete
+    */
+    if (!lastToken || lastToken.length <= 1) {
+      this.closeAutocomplete();
+      return;
+    }
+
+    const triggerChars = Object.keys(trigger);
+
+    const currentTrigger = (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
+
+    const actualToken = lastToken.slice(1);
+
+    // if trigger is not configured step out from the function, otherwise proceed
+    if (!currentTrigger) {
+      return;
+    }
+
+    /*
+      JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
+      so this try - catch is walk-around for Jest
+    */
+    try {
+      const { top, left } = getCaretCoordinates(textarea, selectionEnd);
+      this.setState({ top, left });
+    } catch (err) {
+      //eslint-disable-next-line
+      console.warn('RTA: failed to get caret coordinates. This is not a browser?');
+    }
+
+    this.setState(
+      {
+        selectionEnd,
+        selectionStart,
+        currentTrigger,
+        actualToken,
+      },
+      this.getValuesFromProvider,
+    );
+  };
+
+  update = () => {
+    const { trigger } = this.props;
+    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
+  };
+
+  props: Props;
+
+  textareaRef: ?HTMLInputElement = null;
+
+  tokenRegExp: RegExp;
+
   render() {
     const { loadingComponent: Loader, ...otherProps } = this.props;
-    const {
-      left,
-      top,
-      currentTrigger,
-      dataLoading,
-      component,
-      value,
-    } = this.state;
+    const { left, top, dataLoading, component, value } = this.state;
 
     const suggestionData = this.getSuggestions();
     const textToReplace = this.getTextToReplace();
@@ -322,7 +295,7 @@ class ReactTextareaAutocomplete extends React.Component {
       <div className={classNames('rta', { 'rta--loading': dataLoading })}>
         <textarea
           ref={ref => (this.textareaRef = ref)}
-          className={'rta__textarea ' + (otherProps['className'] || '')}
+          className={`rta__textarea ${otherProps.className || ''}`}
           onChange={this.changeHandler}
           value={value}
           {...this.cleanUpProps()}
@@ -349,7 +322,11 @@ class ReactTextareaAutocomplete extends React.Component {
 }
 
 ReactTextareaAutocomplete.propTypes = {
-  trigger: PropTypes.object.isRequired,
+  trigger: PropTypes.shape({
+    component: PropTypes.func.isRequired,
+    dataProvider: PropTypes.func.isRequired,
+    output: PropTypes.func,
+  }).isRequired,
   loadingComponent: PropTypes.func.isRequired,
 };
 
