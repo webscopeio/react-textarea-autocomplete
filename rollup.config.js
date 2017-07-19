@@ -4,7 +4,6 @@ import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import hypothetical from 'rollup-plugin-hypothetical';
 import license from 'rollup-plugin-license';
-import uglify from 'rollup-plugin-uglify';
 import path from 'path';
 
 export default {
@@ -17,8 +16,7 @@ export default {
       //https://github.com/rollup/rollup-plugin-commonjs/issues/194
       allowRealFiles: true,
       files: {
-        './node_modules/core-js/library/modules/es6.object.to-string.js':
-          'export default null',
+        './node_modules/core-js/library/modules/es6.object.to-string.js': 'export default null',
       },
     }),
     commonjs({ extensions: ['.js', '.jsx'] }),
@@ -30,7 +28,6 @@ export default {
       babelrc: false,
       exclude: 'node_modules/**',
     }),
-    uglify(),
     license({
       banner: {
         file: path.join(__dirname, 'LICENSE'),

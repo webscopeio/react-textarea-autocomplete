@@ -17,15 +17,17 @@ type settingType = {
 
 type getTextToReplaceType = (Object | string) => string;
 
+type triggerType = {
+  [string]: {|
+    output?: (Object | string, ?string) => string,
+    dataProvider: dataProviderType,
+    component: ReactClass<*>,
+  |},
+};
+
 type Props = {
-  trigger: {
-    [string]: {
-      output?: (Object | string, ?string) => string,
-      dataProvider: dataProviderType,
-      component: ReactClass<*>,
-    },
-  },
-  loadingComponent: Function,
+  trigger: triggerType,
+  loadingComponent: ReactClass<*>,
   onChange: SyntheticEvent => void,
 };
 
@@ -205,7 +207,8 @@ class ReactTextareaAutocomplete extends React.Component {
     const props = { ...this.props };
     const notSafe = ['loadingComponent', 'ref', 'onChange', 'className', 'value', 'trigger'];
 
-    for (const prop in props) { //eslint-disable-line
+    //eslint-disable-next-line
+    for (const prop in props) {
       if (notSafe.includes(prop)) delete props[prop];
     }
 
@@ -321,12 +324,35 @@ class ReactTextareaAutocomplete extends React.Component {
   }
 }
 
+const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
+  if (!trigger) return Error('Invalid prop trigger. Prop missing.');
+
+  const triggers = Object.entries(trigger);
+
+  for (let i = 0; i < triggers.length; i += 1) {
+    const [triggerChar, settings] = triggers[i];
+
+    if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
+      return Error('Invalid prop trigger. Keys of the object has to be string.');
+    }
+
+    //$FlowFixMe
+    const { component, dataProvider } = settings;
+
+    if (!component || typeof component !== 'function') {
+      return Error('Invalid prop trigger: component should be defined.');
+    }
+
+    if (!dataProvider || typeof dataProvider !== 'function') {
+      return Error('Invalid prop trigger: dataProvider should be defined.');
+    }
+  }
+
+  return null;
+};
+
 ReactTextareaAutocomplete.propTypes = {
-  trigger: PropTypes.shape({
-    component: PropTypes.func.isRequired,
-    dataProvider: PropTypes.func.isRequired,
-    output: PropTypes.func,
-  }).isRequired,
+  trigger: triggerPropsCheck, //eslint-disable-line
   loadingComponent: PropTypes.func.isRequired,
 };
 

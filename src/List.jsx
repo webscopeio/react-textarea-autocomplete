@@ -32,7 +32,7 @@ export default class List extends React.PureComponent {
 
   componentWillUnmount() {
     let listener;
-    while (this.listeners) {
+    while (this.listeners.length) {
       listener = this.listeners.pop();
       Listeners.remove(listener);
     }
