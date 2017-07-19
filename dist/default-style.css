@@ -14,12 +14,19 @@
   display: block;
 }
 .rta__list {
-  margin: 0;
+  margin: -4px 0;
   padding: 0;
+  background: white;
+  border: 1px black solid;
 }
 .rta__item {
   list-style: none;
 }
-.rta__item--selected {
+.rta__item > button {
+  display: block;
+  border: 0;
+  background: transparent;
+}
+.rta__item--selected > button {
   font-weight: bold;
 }
