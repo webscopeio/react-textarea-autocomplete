@@ -1,5 +1,5 @@
 {
-  "name": "@webscopeio/react-textarea-autocomplete",
+  "name": "react-textarea-autocomplete",
   "version": "1.0.0",
   "description": "Offers autocomplete over textarea in style of GitHub.",
   "repository": {
@@ -71,7 +71,7 @@
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
-    "src/*.js": [
+    "src/*.{js,jsx}": [
       "eslint --fix",
       "prettier --single-quote --trailing-comma all --write",
       "git add"

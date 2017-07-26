@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
@@ -6,7 +7,9 @@ import getCaretCoordinates from 'textarea-caret';
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
 
-type dataProviderType = string => Promise<Array<Object | string>> | Array<Object | string>;
+type dataProviderType = string =>
+  | Promise<Array<Object | string>>
+  | Array<Object | string>;
 
 type settingType = {
   component: ReactClass<*>,
@@ -28,6 +31,7 @@ type Props = {
   trigger: triggerType,
   loadingComponent: ReactClass<*>,
   onChange: SyntheticEvent => void,
+  value?: string,
 };
 
 type State = {
@@ -44,21 +48,15 @@ type State = {
 };
 
 class ReactTextareaAutocomplete extends React.Component {
-  state: State = {
-    top: 0,
-    left: 0,
-    currentTrigger: null,
-    actualToken: '',
-    data: null,
+  static defaultProps = {
     value: '',
-    dataLoading: false,
-    selectionEnd: 0,
-    selectionStart: 0,
-    component: null,
   };
 
-  componentDidMount() {
-    this.update();
+  constructor(props: Props) {
+    super(props);
+
+    this.update(props);
+
     Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
 
     const { loadingComponent, trigger } = this.props;
@@ -72,8 +70,21 @@ class ReactTextareaAutocomplete extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    this.update();
+  state: State = {
+    top: 0,
+    left: 0,
+    currentTrigger: null,
+    actualToken: '',
+    data: null,
+    value: '',
+    dataLoading: false,
+    selectionEnd: 0,
+    selectionStart: 0,
+    component: null,
+  };
+
+  componentWillReceiveProps(nextProps: Props) {
+    this.update(nextProps);
   }
 
   componentWillUnmount() {
@@ -91,11 +102,15 @@ class ReactTextareaAutocomplete extends React.Component {
       offsetToEndOfToken += 1;
     }
 
-    const textToModify = textareaValue.slice(0, selectionEnd + offsetToEndOfToken);
+    const textToModify = textareaValue.slice(
+      0,
+      selectionEnd + offsetToEndOfToken,
+    );
 
     const startOfTokenPosition = textToModify.search(/\S*$/);
     const newCaretPosition = startOfTokenPosition + newToken.length;
-    const modifiedText = textToModify.substring(0, startOfTokenPosition) + newToken;
+    const modifiedText =
+      textToModify.substring(0, startOfTokenPosition) + newToken;
 
     // set the new textarea value and after that set the caret back to its position
     this.setState(
@@ -145,7 +160,7 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   getValuesFromProvider = () => {
-    const { currentTrigger, dataLoading, actualToken } = this.state;
+    const { currentTrigger, actualToken } = this.state;
     const triggerSettings = this.getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) {
@@ -169,7 +184,7 @@ class ReactTextareaAutocomplete extends React.Component {
     }
 
     providedData
-      .then((data) => {
+      .then(data => {
         if (typeof providedData !== 'object') {
           throw new Error('RTA: Trigger provider has to provide an array!');
         }
@@ -184,7 +199,7 @@ class ReactTextareaAutocomplete extends React.Component {
           component,
         });
       })
-      .catch((e) => {
+      .catch(e => {
         throw new Error(`RTA: dataProvider fails: ${e.message}`);
       });
   };
@@ -197,6 +212,16 @@ class ReactTextareaAutocomplete extends React.Component {
     return data;
   };
 
+  update({ value, trigger }: Props) {
+    const { value: oldValue } = this.state;
+    const { trigger: oldTrigger } = this.props;
+
+    if (value !== oldValue) this.setState({ value });
+    if (trigger !== oldTrigger || !this.tokenRegExp) {
+      this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
+    }
+  }
+
   closeAutocomplete = () => {
     if (!this.getSuggestions()) return;
 
@@ -205,7 +230,14 @@ class ReactTextareaAutocomplete extends React.Component {
 
   cleanUpProps = (): Object => {
     const props = { ...this.props };
-    const notSafe = ['loadingComponent', 'ref', 'onChange', 'className', 'value', 'trigger'];
+    const notSafe = [
+      'loadingComponent',
+      'ref',
+      'onChange',
+      'className',
+      'value',
+      'trigger',
+    ];
 
     //eslint-disable-next-line
     for (const prop in props) {
@@ -244,7 +276,8 @@ class ReactTextareaAutocomplete extends React.Component {
 
     const triggerChars = Object.keys(trigger);
 
-    const currentTrigger = (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
+    const currentTrigger =
+      (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
 
     const actualToken = lastToken.slice(1);
 
@@ -262,7 +295,9 @@ class ReactTextareaAutocomplete extends React.Component {
       this.setState({ top, left });
     } catch (err) {
       //eslint-disable-next-line
-      console.warn('RTA: failed to get caret coordinates. This is not a browser?');
+      console.warn(
+        'RTA: failed to get caret coordinates. This is not a browser?',
+      );
     }
 
     this.setState(
@@ -274,11 +309,6 @@ class ReactTextareaAutocomplete extends React.Component {
       },
       this.getValuesFromProvider,
     );
-  };
-
-  update = () => {
-    const { trigger } = this.props;
-    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
   };
 
   props: Props;
@@ -337,7 +367,9 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
     const [triggerChar, settings] = triggers[i];
 
     if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
-      return Error('Invalid prop trigger. Keys of the object has to be string.');
+      return Error(
+        'Invalid prop trigger. Keys of the object has to be string.',
+      );
     }
 
     // $FlowFixMe
@@ -358,6 +390,7 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 ReactTextareaAutocomplete.propTypes = {
   trigger: triggerPropsCheck, //eslint-disable-line
   loadingComponent: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
 export default ReactTextareaAutocomplete;
