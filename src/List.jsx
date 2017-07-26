@@ -13,21 +13,26 @@ type Props = {
 };
 
 type State = {
-  selected: ?boolean,
   selectedItem: ?Object | ?string,
 };
 
-export default class List extends React.PureComponent {
+export default class List extends React.Component {
   state: State = {
-    selected: null,
     selectedItem: null,
   };
 
   componentDidMount() {
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
-      Listeners.add([KEY_CODES.ENTER], this.onPressEnter),
+      Listeners.add([KEY_CODES.ENTER, KEY_CODES.TAB], this.onPressEnter),
     );
+
+    const { values } = this.props;
+    if (values && values[0]) this.selectItem(values[0]);
+  }
+
+  componentWillReceiveProps({ values }: Props) {
+    if (values && values[0]) this.selectItem(values[0]);
   }
 
   componentWillUnmount() {
@@ -116,7 +121,7 @@ export default class List extends React.PureComponent {
             selected={this.isSelected(item)}
             item={item}
             onClickHandler={this.onPressEnter}
-            onMouseEnterHandler={this.selectItem}
+            onSelectHandler={this.selectItem}
             component={component}
           />),
         )}

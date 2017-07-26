@@ -5,6 +5,7 @@ export const KEY_CODES = {
   UP: 38,
   DOWN: 40,
   ENTER: 13,
+  TAB: 9,
 };
 
 // This is self-made key shortcuts manager, used for caching key strokes

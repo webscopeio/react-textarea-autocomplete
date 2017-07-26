@@ -9,7 +9,7 @@ ShallowWrapper {
   },
   "length": 1,
   "node": <div
-    className="rta"
+    className="rta "
 >
     <textarea
         className="rta__textarea ownClassName"
@@ -25,7 +25,7 @@ ShallowWrapper {
 </div>,
   "nodes": Array [
     <div
-      className="rta"
+      className="rta "
 >
       <textarea
             className="rta__textarea ownClassName"
@@ -112,7 +112,6 @@ ShallowWrapper {
           "top": 0,
           "value": "",
         },
-        "textareaRef": null,
         "update": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
@@ -133,7 +132,7 @@ ShallowWrapper {
       "_pendingStateQueue": null,
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
-          className="rta"
+          className="rta "
 >
           <textarea
                     className="rta__textarea ownClassName"
@@ -149,7 +148,7 @@ ShallowWrapper {
 </div>,
         "_debugID": 6,
         "_renderedOutput": <div
-          className="rta"
+          className="rta "
 >
           <textarea
                     className="rta__textarea ownClassName"

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import getCaretCoordinates from 'textarea-caret';
 
 import Listeners, { KEY_CODES } from './listener';
@@ -102,6 +101,7 @@ class ReactTextareaAutocomplete extends React.Component {
     this.setState(
       {
         value: textareaValue.replace(textToModify, modifiedText),
+        dataLoading: false,
       },
       () => this.setTextareaCaret(newCaretPosition),
     );
@@ -132,6 +132,7 @@ class ReactTextareaAutocomplete extends React.Component {
   setTextareaCaret = (position: number = 0) => {
     if (!this.textareaRef) return;
 
+    this.textareaRef.focus();
     this.textareaRef.setSelectionRange(position, position);
   };
 
@@ -144,7 +145,7 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   getValuesFromProvider = () => {
-    const { currentTrigger, actualToken } = this.state;
+    const { currentTrigger, dataLoading, actualToken } = this.state;
     const triggerSettings = this.getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) {
@@ -159,7 +160,6 @@ class ReactTextareaAutocomplete extends React.Component {
 
     this.setState({
       dataLoading: true,
-      data: null,
     });
 
     let providedData = dataProvider(actualToken);
@@ -283,7 +283,7 @@ class ReactTextareaAutocomplete extends React.Component {
 
   props: Props;
 
-  textareaRef: ?HTMLInputElement = null;
+  textareaRef: HTMLInputElement;
 
   tokenRegExp: RegExp;
 
@@ -295,7 +295,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const textToReplace = this.getTextToReplace();
 
     return (
-      <div className={classNames('rta', { 'rta--loading': dataLoading })}>
+      <div className={`rta ${dataLoading === true ? 'rta--loading' : ''}`}>
         <textarea
           ref={ref => (this.textareaRef = ref)}
           className={`rta__textarea ${otherProps.className || ''}`}
@@ -305,10 +305,6 @@ class ReactTextareaAutocomplete extends React.Component {
         />
         {(dataLoading || suggestionData) &&
           <div style={{ top, left }} className="rta__autocomplete">
-            {dataLoading &&
-              <div className="rta__loader">
-                <Loader />
-              </div>}
             {suggestionData &&
               component &&
               textToReplace &&
@@ -318,6 +314,14 @@ class ReactTextareaAutocomplete extends React.Component {
                 getTextToReplace={textToReplace}
                 onSelect={this.onSelect}
               />}
+            {dataLoading &&
+              <div
+                className={`rta__loader ${suggestionData !== null
+                  ? 'rta__loader--suggestion-data'
+                  : 'rta__loader--empty-suggestion-data'}`}
+              >
+                <Loader data={suggestionData} />
+              </div>}
           </div>}
       </div>
     );
@@ -336,7 +340,7 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
       return Error('Invalid prop trigger. Keys of the object has to be string.');
     }
 
-    //$FlowFixMe
+    // $FlowFixMe
     const { component, dataProvider } = settings;
 
     if (!component || typeof component !== 'function') {

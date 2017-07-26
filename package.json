@@ -13,12 +13,7 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": [
-    "react-component",
-    "textarea",
-    "autocomplete",
-    "react"
-  ],
+  "keywords": ["react-component", "textarea", "autocomplete", "react"],
   "scripts": {
     "build": "rollup -c",
     "prepublish": "npm run build",
@@ -65,7 +60,6 @@
     "rollup-plugin-hypothetical": "1.2.1",
     "rollup-plugin-license": "0.4.0",
     "rollup-plugin-node-resolve": "3.0.0",
-    "rollup-plugin-uglify": "2.0.1",
     "rollup-watch": "4.3.1"
   },
   "peerDependencies": {

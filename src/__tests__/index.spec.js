@@ -62,9 +62,9 @@ it('should invoke onchange handler', () => {
 });
 
 it('should close the autocomplete after mouse click', () => {
-  const item = rta.find('.rta__item').find('button').first();
+  const item = rta.find('.rta__entity').first();
   item.simulate('click');
-  expect(rta.find('.rta__item')).toHaveLength(0);
+  expect(rta.find('.rta__entity')).toHaveLength(0);
 });
 
 it('text in textarea should be changed', () => {
