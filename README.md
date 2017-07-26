@@ -1,50 +1,87 @@
 # React Textarea Autocomplete
 
-## Development
+## Options
 
-Run `yarn install` to fetch dependencies.
+These two props are different than with normal `<textarea/>`, the rest is pretty same: `className, value, onChange,...`
 
-Run `yarn dev` for real time transpiling of source-code.
+| Option         | Default              |  Type           |  Description 
+| :------------- | :-------------       | :-------------  |  ---------
+| loadingComponent | *required*         | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
+| trigger | *required*         | Object | Define triggers and their corresponding behavior
 
-In the folder run `yarn link` in your project then `yarn link react-textarea-autocomplete`
+### Trigger type
+
+```javascript 
+{
+    ':': {
+        ?output: (item: Object | string, trigger: ?string) => string,
+        dataProvider: (token: string) => Promise<Array<Object | string>> | Array<Object | string>,
+        component: ReactClass<*>,
+    },
+}
+```
+
+- **dataProvider** is called after each keystroke to get what the suggestion list should display
+- **component** is the component for render the item in suggestion list
+- **output** optional is data provider provide array of string. This function define what text will be replaced after user select. (default behavior for string type of item is string: `current trigger char + item`)
 
 ## Example of use
 ```javascript
-import ReactTextareaAutocomplete from 'react-textarea-autocomplete'
+import React, { Component } from 'react';
 
-const TestComponent = ({ entity }) => <div>swag: {entity}</div>;
-const SmileItemComponent = ({ entity: { label, text } }) => <div style={{ background: 'pink' }}>{label}</div>;
-const Loading = () => <div>Loading...</div>;
+// import React Textarea Autocomplete
+import ReactTextareaAutocomplete from 'react-textarea-autocomplete';
+import 'react-textarea-autocomplete/dist/default-style.css';
 
+import es from 'emoji-search';
+import R from 'ramda';
 
-<ReactTextareaAutocomplete
-    placeholder={'Write a message.'}
-    value={'Controlled text'}
-    onChange={e => console.log('On change event: ', e)}
-    style={{ background: 'red' }}
-    loadingComponent={Loading}
-    trigger={
-        {
-            '@': {
-                dataProvider: token => new Promise(res => setTimeout(() => res(['kuba', 'erik', 'adolf']), 1000)),
-                component: TestComponent,
-            },
-            ':': {
-                output: (item, trigger) => `___${item.text}___`,
-                dataProvider: token =>
-                    new Promise(res =>
-                        setTimeout(() => 
-                            res([
-                                { id: 1, label: ':D', text: 'lol' },
-                                { id: 2, label: ':)', text: 'very_lol' }
-                            ]),
-                        1000)
-                    ),
+const SmileItemComponent = props =>
+  (<div>
+    {props.entity.char} {props.entity.name}
+  </div>);
+const Loading = ({ data }) => <div>Loading</div>;
+
+class App extends Component {
+  render() {
+    const { a } = this.state;
+    return (
+      <div className="App">
+        <div style={{ height: 200, width: 500 }}>
+          <ReactTextareaAutocomplete
+            placeholder={'aa'}
+            loadingComponent={Loading}
+            trigger={{
+              ':': {
+                output: (item, trigger) => `:${item.name}:`,
+                dataProvider: (token) => {
+                  if (!token) {
+                    return [];
+                  }
+                  return R.take(10, es(token));
+                },
                 component: SmileItemComponent,
-            }
-        }
-    } />
+              },
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;
 ````
+
+## Development
+
+Run `yarn` to fetch dependencies.
+
+Run `yarn dev` for bundling. 
+
+In the folder run `yarn link` and then in your project folder `yarn link react-textarea-autocomplete` to link together.
+
+Your PR's are welcomed! ❤️
 
 ## License
 
