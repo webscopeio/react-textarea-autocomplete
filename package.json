@@ -1,6 +1,6 @@
 {
-  "name": "react-textarea-autocomplete",
-  "version": "1.0.0",
+  "name": "@webscopeio/react-textarea-autocomplete",
+  "version": "1.1.0",
   "description": "Offers autocomplete over textarea in style of GitHub.",
   "repository": {
     "type": "git",
@@ -13,7 +13,12 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": ["react-component", "textarea", "autocomplete", "react"],
+  "keywords": [
+    "react-component",
+    "textarea",
+    "autocomplete",
+    "react"
+  ],
   "scripts": {
     "build": "rollup -c",
     "prepublish": "npm run build",
