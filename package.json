@@ -68,7 +68,6 @@
     "react-dom": "15.0.0"
   },
   "dependencies": {
-    "classnames": "2.2.5",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
