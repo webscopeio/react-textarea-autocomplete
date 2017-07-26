@@ -29,7 +29,7 @@ These two props are different than with normal `<textarea />`, the rest is prett
 - **component** is the component for render the item in suggestion list
 - **output** optional is data provider provide array of string. This function define what text will be replaced after user select. (default behavior for string type of item is string: `current trigger char + item`)
 
-## Example of use
+## Example of usage
 ```javascript
 import React, { Component } from 'react';
 
