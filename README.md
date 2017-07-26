@@ -1,13 +1,17 @@
 # React Textarea Autocomplete
 
+<img src="https://gifyu.com/images/rta.gif" align="center" width="500">
+
+This package provides React Component for achieve GitHub's like functionality in comments regarding the textarea autocomplete. It can be used for example for emoji autocomplete or for @mentions. The render function (for displaying text enhanced by this textarea) is beyond the scope of this package and it should be solved separately.
+
 ## Options
 
-These two props are different than with normal `<textarea/>`, the rest is pretty same: `className, value, onChange,...`
+These two props are different than with normal `<textarea />`, the rest is pretty same: `className, value, onChange,...`
 
 | Option         | Default              |  Type           |  Description 
 | :------------- | :-------------       | :-------------  |  ---------
 | loadingComponent | *required*         | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
-| trigger | *required*         | Object | Define triggers and their corresponding behavior
+| trigger | *required*         | Object (Trigger type) | Define triggers and their corresponding behavior
 
 ### Trigger type
 
