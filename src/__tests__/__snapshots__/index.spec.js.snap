@@ -20,7 +20,7 @@ ShallowWrapper {
                 "background": "red",
               }
         }
-        value=""
+        value="Controlled text"
     />
 </div>,
   "nodes": Array [
@@ -36,7 +36,7 @@ ShallowWrapper {
                         "background": "red",
                       }
             }
-            value=""
+            value="Controlled text"
       />
 </div>,
   ],
@@ -110,9 +110,9 @@ ShallowWrapper {
           "selectionEnd": 0,
           "selectionStart": 0,
           "top": 0,
-          "value": "",
+          "value": "Controlled text",
         },
-        "update": [Function],
+        "tokenRegExp": /\\[:\\]\\\\w\\*\\$/,
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -143,7 +143,7 @@ ShallowWrapper {
                                         "background": "red",
                                       }
                     }
-                    value=""
+                    value="Controlled text"
           />
 </div>,
         "_debugID": 6,
@@ -159,7 +159,7 @@ ShallowWrapper {
                                         "background": "red",
                                       }
                     }
-                    value=""
+                    value="Controlled text"
           />
 </div>,
       },

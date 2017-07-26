@@ -55,11 +55,12 @@ class ReactTextareaAutocomplete extends React.Component {
   constructor(props: Props) {
     super(props);
 
-    this.update(props);
-
     Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
 
-    const { loadingComponent, trigger } = this.props;
+    const { loadingComponent, trigger, value } = this.props;
+
+    if (value) this.state.value = value;
+    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
 
     if (!loadingComponent) {
       throw new Error('RTA: loadingComponent is not defined');
@@ -216,7 +217,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
-    if (value !== oldValue) this.setState({ value });
+    if (value !== oldValue || !oldValue) this.setState({ value });
     if (trigger !== oldTrigger || !this.tokenRegExp) {
       this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
     }
