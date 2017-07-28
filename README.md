@@ -28,7 +28,7 @@ yarn add @webscopeio/react-textarea-autocomplete
 
 
 
-> This package also depends on `react`, `react-dom`, and `prop-types`. Please make sure you have
+> This package also depends on `react` and `prop-types`. Please make sure you have
 > those installed as well.
 
 ## Options

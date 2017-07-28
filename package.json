@@ -13,18 +13,14 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": [
-    "react-component",
-    "textarea",
-    "autocomplete",
-    "react"
-  ],
+  "keywords": ["react-component", "textarea", "autocomplete", "react"],
   "scripts": {
     "build": "rollup -c",
     "prepublish": "npm run build",
     "lint": "eslint --ext=js --ext=jsx ./src",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "dev": "npm run build -- --watch",
     "ci": "flow && jest",
     "precommit": "lint-staged"
@@ -41,15 +37,15 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "enzyme": "2.9.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.0.2",
+    "eslint": "3.19.0",
+    "eslint-config-airbnb": "15.0.2",
     "eslint-plugin-babel": "4.1.1",
-    "eslint-plugin-flowtype": "^2.35.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-flowtype": "2.35.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-react": "7.1.0",
     "flow-bin": "0.49.1",
-    "husky": "^0.14.2",
+    "husky": "0.14.2",
     "jest": "20.0.4",
     "lint-staged": "4.0.0",
     "prettier": "1.5.2",
@@ -65,12 +61,12 @@
     "rollup-plugin-hypothetical": "1.2.1",
     "rollup-plugin-license": "0.4.0",
     "rollup-plugin-node-resolve": "3.0.0",
+    "rollup-plugin-uglify": "2.0.1",
     "rollup-watch": "4.3.1"
   },
   "peerDependencies": {
-    "prop-types": "15.5.10",
-    "react": "15.0.0",
-    "react-dom": "15.0.0"
+    "prop-types": ">=15",
+    "react": ">=15"
   },
   "dependencies": {
     "textarea-caret": "3.0.2"
