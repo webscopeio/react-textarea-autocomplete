@@ -67,6 +67,10 @@ it('should close the autocomplete after mouse click', () => {
   expect(rta.find('.rta__entity')).toHaveLength(0);
 });
 
+it('should invoke onchange handler after selection', () => {
+  expect(mockedFn).toHaveBeenCalledTimes(2);
+});
+
 it('text in textarea should be changed', () => {
   expect(rta.find('textarea').node.value).toBe('___happy_face___some test :a');
 });
