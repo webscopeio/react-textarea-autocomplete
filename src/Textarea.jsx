@@ -294,19 +294,8 @@ class ReactTextareaAutocomplete extends React.Component {
       return;
     }
 
-    /*
-      JSDOM has some issue with getComputedStyles which is called by getCaretCoordinates
-      so this try - catch is walk-around for Jest
-    */
-    try {
-      const { top, left } = getCaretCoordinates(textarea, selectionEnd);
-      this.setState({ top, left });
-    } catch (err) {
-      //eslint-disable-next-line
-      console.warn(
-        'RTA: failed to get caret coordinates. This is not a browser?',
-      );
-    }
+    const { top, left } = getCaretCoordinates(textarea, selectionEnd);
+    this.setState({ top, left });
 
     this.setState(
       {
