@@ -10,7 +10,7 @@ import path from 'path';
 export default {
   entry: 'src/index.js',
   format: 'cjs',
-  external: ['react', 'prop-types'],
+  external: ['react', 'prop-types', 'textarea-caret'],
   plugins: [
     resolve(),
     hypothetical({
