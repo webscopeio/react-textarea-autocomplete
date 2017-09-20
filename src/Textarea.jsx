@@ -85,12 +85,16 @@ class ReactTextareaAutocomplete extends React.Component {
     component: null,
   };
 
+  componentDidMount() {
+    Listeners.startListen();
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     this.update(nextProps);
   }
 
   componentWillUnmount() {
-    Listeners.removeAll();
+    Listeners.stopListen();
   }
 
   onSelect = (newToken: string) => {
@@ -194,7 +198,7 @@ class ReactTextareaAutocomplete extends React.Component {
     }
 
     providedData
-      .then(data => {
+      .then((data) => {
         if (typeof providedData !== 'object') {
           throw new Error('RTA: Trigger provider has to provide an array!');
         }
@@ -209,7 +213,7 @@ class ReactTextareaAutocomplete extends React.Component {
           component,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         throw new Error(`RTA: dataProvider fails: ${e.message}`);
       });
   };
