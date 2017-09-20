@@ -30,7 +30,7 @@ type triggerType = {
 type Props = {
   trigger: triggerType,
   loadingComponent: ReactClass<*>,
-  onChange: (SyntheticEvent | Event) => void,
+  onChange?: (SyntheticEvent | Event) => void,
   value?: string,
 };
 
@@ -50,6 +50,7 @@ type State = {
 class ReactTextareaAutocomplete extends React.Component {
   static defaultProps = {
     value: '',
+    onChange: () => true,
   };
 
   constructor(props: Props) {
@@ -94,6 +95,7 @@ class ReactTextareaAutocomplete extends React.Component {
 
   onSelect = (newToken: string) => {
     const { selectionEnd, value: textareaValue } = this.state;
+    const { onChange } = this.props;
 
     let offsetToEndOfToken = 0;
     while (
@@ -123,7 +125,7 @@ class ReactTextareaAutocomplete extends React.Component {
         // fire onChange event after successful selection
         const e = new Event('change', { bubbles: true });
         this.textareaRef.dispatchEvent(e);
-        this.props.onChange(e);
+        if (onChange) onChange(e);
 
         this.setTextareaCaret(newCaretPosition);
       },
