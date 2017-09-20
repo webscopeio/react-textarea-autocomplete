@@ -40,12 +40,12 @@ class Listener {
       document.addEventListener('keydown', this.f);
       this.isListening = true;
     }
-  }
+  };
 
   stopListen = () => {
     document.removeEventListener('keydown', this.f);
     this.isListening = false;
-  }
+  };
 
   add = (keyCodes: Array<number> | number, fn: Function) => {
     let keyCode = keyCodes;
@@ -66,9 +66,9 @@ class Listener {
   };
 
   removeAll = () => {
-    this.listeners = [];
+    this.listeners = {};
     this.index = 0;
-  }
+  };
 }
 
 export default new Listener();
