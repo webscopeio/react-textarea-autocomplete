@@ -1,0 +1,30 @@
+{
+  "projectName": "react-textarea-autocomplete",
+  "projectOwner": "webscopeio",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jukben",
+      "name": "Jakub Beneš",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8135252?v=4",
+      "profile": "https://jukben.cz",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "JokerNN",
+      "name": "Andrey Taktaev",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3114719?v=4",
+      "profile": "https://github.com/JokerNN",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
