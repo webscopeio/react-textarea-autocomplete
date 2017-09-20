@@ -61,8 +61,8 @@ These two props are different than with normal `<textarea />`, the rest is prett
 import React, { Component } from 'react';
 
 // import React Textarea Autocomplete
-import ReactTextareaAutocomplete from 'react-textarea-autocomplete';
-import 'react-textarea-autocomplete/dist/default-style.css';
+import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
+import '@webscopeio/react-textarea-autocomplete/dist/default-style.css';
 
 import es from 'emoji-search';
 import R from 'ramda';
