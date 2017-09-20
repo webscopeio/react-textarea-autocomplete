@@ -25,6 +25,7 @@
     "lint": "eslint --ext=js --ext=jsx ./src",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
+    "flow": "flow",
     "test:watch": "jest --watch",
     "dev": "npm run build -- --watch",
     "ci": "flow && jest",
@@ -79,6 +80,7 @@
   "lint-staged": {
     "src/*.{js,jsx}": [
       "eslint --fix",
+      "flow",
       "prettier --single-quote --trailing-comma all --write",
       "git add"
     ]
