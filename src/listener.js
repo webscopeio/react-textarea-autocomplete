@@ -51,7 +51,10 @@ class Listener {
     this.index -= 1;
   };
 
-  removeAll = () => document.removeEventListener('keydown', this.f);
+  removeAll = () => {
+    this.listeners = [];
+    this.index = 0;
+  }
 }
 
 export default new Listener();
