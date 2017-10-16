@@ -57,7 +57,7 @@ These two props are different than with normal `<textarea />`, the rest is prett
 - **component** is the component for render the item in suggestion list. It has `selected` and `entity` props provided by React Textarea Autocomplete
 - **output** (Optional for string based item. If the item is an object this method is *required*) This function defines text which will be placed into textarea after the user makes a selection.
 
-    Default behavior for string based item is string: `<current-trigger-char>item`). This method should **always** return a unique string.
+    Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 ```javascript
