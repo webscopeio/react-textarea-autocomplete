@@ -79,9 +79,9 @@
   },
   "lint-staged": {
     "src/*.{js,jsx}": [
-      "eslint --fix",
-      "flow",
       "prettier --single-quote --trailing-comma all --write",
+      "eslint src --fix",
+      "flow",
       "git add"
     ]
   },

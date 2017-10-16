@@ -31,6 +31,7 @@ type Props = {
   trigger: triggerType,
   loadingComponent: ReactClass<*>,
   onChange?: (SyntheticEvent | Event) => void,
+  minChar?: number,
   value?: string,
 };
 
@@ -50,7 +51,8 @@ type State = {
 class ReactTextareaAutocomplete extends React.Component {
   static defaultProps = {
     value: '',
-    onChange: () => true,
+    minChar: 1,
+    onChange: undefined,
   };
 
   constructor(props: Props) {
@@ -198,7 +200,7 @@ class ReactTextareaAutocomplete extends React.Component {
     }
 
     providedData
-      .then(data => {
+      .then((data) => {
         if (typeof providedData !== 'object') {
           throw new Error('RTA: Trigger provider has to provide an array!');
         }
@@ -213,7 +215,7 @@ class ReactTextareaAutocomplete extends React.Component {
           component,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         throw new Error(`RTA: dataProvider fails: ${e.message}`);
       });
   };
@@ -262,7 +264,7 @@ class ReactTextareaAutocomplete extends React.Component {
   };
 
   changeHandler = (e: SyntheticInputEvent) => {
-    const { trigger, onChange } = this.props;
+    const { trigger, onChange, minChar } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
@@ -283,7 +285,7 @@ class ReactTextareaAutocomplete extends React.Component {
      if we lost the trigger token or there is no following character we want to close
      the autocomplete
     */
-    if (!lastToken || lastToken.length <= 1) {
+    if (!lastToken || lastToken.length <= minChar) {
       this.closeAutocomplete();
       return;
     }
@@ -336,26 +338,29 @@ class ReactTextareaAutocomplete extends React.Component {
           value={value}
           {...this.cleanUpProps()}
         />
-        {(dataLoading || suggestionData) &&
+        {(dataLoading || suggestionData) && (
           <div style={{ top, left }} className="rta__autocomplete">
             {suggestionData &&
               component &&
-              textToReplace &&
-              <List
-                values={suggestionData}
-                component={component}
-                getTextToReplace={textToReplace}
-                onSelect={this.onSelect}
-              />}
-            {dataLoading &&
+              textToReplace && (
+                <List
+                  values={suggestionData}
+                  component={component}
+                  getTextToReplace={textToReplace}
+                  onSelect={this.onSelect}
+                />
+              )}
+            {dataLoading && (
               <div
                 className={`rta__loader ${suggestionData !== null
                   ? 'rta__loader--suggestion-data'
                   : 'rta__loader--empty-suggestion-data'}`}
               >
                 <Loader data={suggestionData} />
-              </div>}
-          </div>}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
