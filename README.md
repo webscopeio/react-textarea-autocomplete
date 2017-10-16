@@ -39,6 +39,7 @@ These two props are different than with normal `<textarea />`, the rest is prett
 | :------------- | :-------------       | :-------------  |  ---------
 | loadingComponent | *required*         | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
 | trigger | *required*         | Object (Trigger type) | Define triggers and their corresponding behavior
+| minChar | *optional*       | Number (= 1) | Number of characters that user should type for trigger a suggestion
 
 ### Trigger type
 
