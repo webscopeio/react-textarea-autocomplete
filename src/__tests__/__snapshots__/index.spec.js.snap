@@ -178,6 +178,7 @@ ShallowWrapper {
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
     loadingComponent={[Function]}
+    minChar={1}
     onChange={[Function]}
     placeholder="Write a message."
     style={
@@ -248,6 +249,7 @@ ShallowWrapper {
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
         loadingComponent={[Function]}
+        minChar={1}
         onChange={[Function]}
         placeholder="Write a message."
         style={
@@ -282,6 +284,7 @@ ShallowWrapper {
         "props": Object {
           "className": "ownClassName",
           "loadingComponent": [Function],
+          "minChar": 1,
           "onChange": [Function],
           "placeholder": "Write a message.",
           "style": Object {
@@ -373,6 +376,7 @@ ShallowWrapper {
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
     loadingComponent={[Function]}
+    minChar={1}
     onChange={[Function]}
     placeholder="Write a message."
     style={
@@ -442,6 +446,7 @@ ShallowWrapper {
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
         loadingComponent={[Function]}
+        minChar={1}
         onChange={[Function]}
         placeholder="Write a message."
         style={
@@ -477,6 +482,7 @@ ShallowWrapper {
         "props": Object {
           "className": "ownClassName",
           "loadingComponent": [Function],
+          "minChar": 1,
           "onChange": [Function],
           "placeholder": "Write a message.",
           "style": Object {
