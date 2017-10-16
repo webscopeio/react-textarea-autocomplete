@@ -146,15 +146,19 @@ class ReactTextareaAutocomplete extends React.Component {
     const { output } = triggerSettings;
 
     return (item: Object | string) => {
-      if (typeof item === 'object') {
-        if (!output || typeof output !== 'function') {
-          throw new Error('RTA: Output function is not defined!');
-        }
+      if (
+        typeof item === 'object' &&
+        (!output || typeof output !== 'function')
+      ) {
+        throw new Error('RTA: Output function is not defined!');
+      }
 
+      if (output) {
         return output(item, currentTrigger);
       }
 
-      return currentTrigger + item;
+      // $FlowFixMe
+      return `${currentTrigger}${item}${currentTrigger}`;
     };
   };
 
@@ -336,26 +340,29 @@ class ReactTextareaAutocomplete extends React.Component {
           value={value}
           {...this.cleanUpProps()}
         />
-        {(dataLoading || suggestionData) &&
+        {(dataLoading || suggestionData) && (
           <div style={{ top, left }} className="rta__autocomplete">
             {suggestionData &&
               component &&
-              textToReplace &&
-              <List
-                values={suggestionData}
-                component={component}
-                getTextToReplace={textToReplace}
-                onSelect={this.onSelect}
-              />}
-            {dataLoading &&
+              textToReplace && (
+                <List
+                  values={suggestionData}
+                  component={component}
+                  getTextToReplace={textToReplace}
+                  onSelect={this.onSelect}
+                />
+              )}
+            {dataLoading && (
               <div
                 className={`rta__loader ${suggestionData !== null
                   ? 'rta__loader--suggestion-data'
                   : 'rta__loader--empty-suggestion-data'}`}
               >
                 <Loader data={suggestionData} />
-              </div>}
-          </div>}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
