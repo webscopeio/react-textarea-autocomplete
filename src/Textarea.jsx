@@ -146,15 +146,19 @@ class ReactTextareaAutocomplete extends React.Component {
     const { output } = triggerSettings;
 
     return (item: Object | string) => {
-      if (typeof item === 'object') {
-        if (!output || typeof output !== 'function') {
-          throw new Error('RTA: Output function is not defined!');
-        }
+      if (
+        typeof item === 'object' &&
+        (!output || typeof output !== 'function')
+      ) {
+        throw new Error('RTA: Output function is not defined!');
+      }
 
+      if (output) {
         return output(item, currentTrigger);
       }
 
-      return currentTrigger + item;
+      // $FlowFixMe
+      return `${currentTrigger}${item}${currentTrigger}`;
     };
   };
 
