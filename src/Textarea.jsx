@@ -340,26 +340,29 @@ class ReactTextareaAutocomplete extends React.Component {
           value={value}
           {...this.cleanUpProps()}
         />
-        {(dataLoading || suggestionData) &&
+        {(dataLoading || suggestionData) && (
           <div style={{ top, left }} className="rta__autocomplete">
             {suggestionData &&
               component &&
-              textToReplace &&
-              <List
-                values={suggestionData}
-                component={component}
-                getTextToReplace={textToReplace}
-                onSelect={this.onSelect}
-              />}
-            {dataLoading &&
+              textToReplace && (
+                <List
+                  values={suggestionData}
+                  component={component}
+                  getTextToReplace={textToReplace}
+                  onSelect={this.onSelect}
+                />
+              )}
+            {dataLoading && (
               <div
                 className={`rta__loader ${suggestionData !== null
                   ? 'rta__loader--suggestion-data'
                   : 'rta__loader--empty-suggestion-data'}`}
               >
                 <Loader data={suggestionData} />
-              </div>}
-          </div>}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
