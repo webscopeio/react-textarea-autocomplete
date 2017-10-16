@@ -248,6 +248,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const props = { ...this.props };
     const notSafe = [
       'loadingComponent',
+      'minChar',
       'ref',
       'onChange',
       'className',
