@@ -10,7 +10,7 @@ Enhanced textarea to achieve autocomplete functionality.
 
 </div>
 <div align="center">
-<img src="https://gifyu.com/images/rta.gif" align="center" width="500">
+<img src="https://i.imgur.com/sE0n6es.gif" align="center" width="500">
 <br>
 </div>
 <br>
@@ -31,15 +31,17 @@ yarn add @webscopeio/react-textarea-autocomplete
 > This package also depends on `react` and `prop-types`. Please make sure you have
 > those installed as well.
 
-## Options
+## Props
 
-These two props are different than with normal `<textarea />`, the rest is pretty same: `className, value, onChange,...`
+*Note: Every other props than the mentioned below will be propagated to textarea itself*
 
-| Option         | Default              |  Type           |  Description 
+| Props         | Default              |  Type           |  Description 
 | :------------- | :-------------       | :-------------  |  ---------
 | loadingComponent | *required*         | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
 | trigger | *required*         | Object (Trigger type) | Define triggers and their corresponding behavior
 | minChar | *optional*       | Number (= 1) | Number of characters that user should type for trigger a suggestion
+| style | *optional* | Style Object | Style's of textarea
+| containerStyle | *optional* | Style Object | Style's of textarea's container
 
 ### Trigger type
 
@@ -61,43 +63,54 @@ These two props are different than with normal `<textarea />`, the rest is prett
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 ```javascript
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import "@webscopeio/react-textarea-autocomplete/dist/default-style.css";
+import emoji from "@jukben/emoji-search";
 
-// import React Textarea Autocomplete
-import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import '@webscopeio/react-textarea-autocomplete/dist/default-style.css';
+import logo from "./logo.svg";
+import "./App.css";
+import "@webscopeio/react-textarea-autocomplete/dist/default-style.css";
 
-import es from 'emoji-search';
-import R from 'ramda';
-
-const SmileItemComponent = props =>
-  (<div>
-    {props.entity.char} {props.entity.name}
-  </div>);
-  
+const Item = ({ entity: { name, char } }) => <div>{`${name}: ${char}`}</div>;
 const Loading = ({ data }) => <div>Loading</div>;
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <div style={{ height: 200, width: 500 }}>
-          <ReactTextareaAutocomplete
-            loadingComponent={Loading}
-            trigger={{
-              ':': {
-                output: (item, trigger) => `:${item.name}:`,
-                dataProvider: (token) => {
-                  if (!token) {
-                    return [];
-                  }
-                  return R.take(10, es(token));
-                },
-                component: SmileItemComponent,
-              },
-            }}
-          />
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
         </div>
+
+        <ReactTextareaAutocomplete
+          className="ant-select-auto-complete.ant-select ant-input"
+          loadingComponent={Loading}
+          style={{
+            fontSize: "18px",
+            lineHeight: "20px",
+            padding: 5
+          }}
+          containerStyle={{
+            marginTop: 20,
+            width: 400,
+            height: 100,
+            margin: "20px auto"
+          }}
+          minChar={0}
+          trigger={{
+            ":": {
+              dataProvider: token => {
+                return emoji(token)
+                  .slice(0, 10)
+                  .map(({ name, char }) => ({ name, char }));
+              },
+              component: Item,
+              output: (item, trigger) => item.char
+            }
+          }}
+        />
       </div>
     );
   }
