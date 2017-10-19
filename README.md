@@ -65,7 +65,6 @@ yarn add @webscopeio/react-textarea-autocomplete
 ```javascript
 import React, { Component } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import "@webscopeio/react-textarea-autocomplete/dist/default-style.css";
 import emoji from "@jukben/emoji-search";
 
 import logo from "./logo.svg";
@@ -85,7 +84,7 @@ class App extends Component {
         </div>
 
         <ReactTextareaAutocomplete
-          className="ant-select-auto-complete.ant-select ant-input"
+          className="my-textarea"
           loadingComponent={Loading}
           style={{
             fontSize: "18px",
