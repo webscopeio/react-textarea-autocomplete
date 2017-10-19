@@ -33,6 +33,8 @@ type Props = {
   onChange?: (SyntheticEvent | Event) => void,
   minChar?: number,
   value?: string,
+  style?: Object,
+  containerStyle?: Object,
 };
 
 type State = {
@@ -51,6 +53,8 @@ type State = {
 class ReactTextareaAutocomplete extends React.Component {
   static defaultProps = {
     value: '',
+    style: {},
+    containerStyle: {},
     minChar: 1,
     onChange: undefined,
   };
@@ -252,6 +256,7 @@ class ReactTextareaAutocomplete extends React.Component {
     const props = { ...this.props };
     const notSafe = [
       'loadingComponent',
+      'containerStyle',
       'minChar',
       'ref',
       'onChange',
@@ -328,44 +333,50 @@ class ReactTextareaAutocomplete extends React.Component {
   tokenRegExp: RegExp;
 
   render() {
-    const { loadingComponent: Loader, ...otherProps } = this.props;
+    const {
+      loadingComponent: Loader,
+      style,
+      containerStyle,
+      ...otherProps
+    } = this.props;
     const { left, top, dataLoading, component, value } = this.state;
 
     const suggestionData = this.getSuggestions();
     const textToReplace = this.getTextToReplace();
 
     return (
-      <div className={`rta ${dataLoading === true ? 'rta--loading' : ''}`}>
+      <div
+        className={`rta ${dataLoading === true ? 'rta--loading' : ''}`}
+        style={containerStyle}
+      >
         <textarea
+          {...this.cleanUpProps()}
           ref={ref => (this.textareaRef = ref)}
           className={`rta__textarea ${otherProps.className || ''}`}
           onChange={this.changeHandler}
           value={value}
-          {...this.cleanUpProps()}
+          style={style}
         />
-        {(dataLoading || suggestionData) && (
+        {(dataLoading || suggestionData) &&
           <div style={{ top, left }} className="rta__autocomplete">
             {suggestionData &&
               component &&
-              textToReplace && (
-                <List
-                  values={suggestionData}
-                  component={component}
-                  getTextToReplace={textToReplace}
-                  onSelect={this.onSelect}
-                />
-              )}
-            {dataLoading && (
+              textToReplace &&
+              <List
+                values={suggestionData}
+                component={component}
+                getTextToReplace={textToReplace}
+                onSelect={this.onSelect}
+              />}
+            {dataLoading &&
               <div
                 className={`rta__loader ${suggestionData !== null
                   ? 'rta__loader--suggestion-data'
                   : 'rta__loader--empty-suggestion-data'}`}
               >
                 <Loader data={suggestionData} />
-              </div>
-            )}
-          </div>
-        )}
+              </div>}
+          </div>}
       </div>
     );
   }
