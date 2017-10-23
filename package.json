@@ -75,6 +75,7 @@
     "react": ">=15"
   },
   "dependencies": {
+    "rollup-plugin-copy": "^0.2.3",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
