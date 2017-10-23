@@ -25,7 +25,7 @@
     "lint": "eslint --ext=js --ext=jsx ./src",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
-    "flow": "flow",
+    "flow": "flow check",
     "test:watch": "jest --watch",
     "dev": "npm run build -- --watch",
     "ci": "flow && jest",

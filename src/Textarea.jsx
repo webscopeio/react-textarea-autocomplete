@@ -1,54 +1,17 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
+
+import type {
+  settingType,
+  getTextToReplaceType,
+  PropsTextarea,
+  StateTextarea,
+} from './types';
 
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
-
-type dataProviderType = string =>
-  | Promise<Array<Object | string>>
-  | Array<Object | string>;
-
-type settingType = {
-  component: ReactClass<*>,
-  dataProvider: dataProviderType,
-  output?: (Object | string, ?string) => string,
-};
-
-type getTextToReplaceType = (Object | string) => string;
-
-type triggerType = {
-  [string]: {|
-    output?: (Object | string, ?string) => string,
-    dataProvider: dataProviderType,
-    component: ReactClass<*>,
-  |},
-};
-
-type Props = {
-  trigger: triggerType,
-  loadingComponent: ReactClass<*>,
-  onChange?: (SyntheticEvent | Event) => void,
-  minChar?: number,
-  value?: string,
-  style?: Object,
-  containerStyle?: Object,
-};
-
-type State = {
-  currentTrigger: ?string,
-  top: number,
-  left: number,
-  actualToken: string,
-  data: ?Array<Object | string>,
-  value: string,
-  dataLoading: boolean,
-  selectionEnd: number,
-  selectionStart: number,
-  component: ?ReactClass<*>,
-};
 
 class ReactTextareaAutocomplete extends React.Component {
   static defaultProps = {
@@ -59,7 +22,7 @@ class ReactTextareaAutocomplete extends React.Component {
     onChange: undefined,
   };
 
-  constructor(props: Props) {
+  constructor(props: PropsTextarea) {
     super(props);
 
     Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
@@ -78,7 +41,7 @@ class ReactTextareaAutocomplete extends React.Component {
     }
   }
 
-  state: State = {
+  state: StateTextarea = {
     top: 0,
     left: 0,
     currentTrigger: null,
@@ -95,7 +58,7 @@ class ReactTextareaAutocomplete extends React.Component {
     Listeners.startListen();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: PropsTextarea) {
     this.update(nextProps);
   }
 
@@ -236,7 +199,7 @@ class ReactTextareaAutocomplete extends React.Component {
     return data;
   };
 
-  update({ value, trigger }: Props) {
+  update({ value, trigger }: PropsTextarea) {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
@@ -326,7 +289,7 @@ class ReactTextareaAutocomplete extends React.Component {
     );
   };
 
-  props: Props;
+  props: PropsTextarea;
 
   textareaRef: HTMLInputElement;
 
@@ -338,7 +301,7 @@ class ReactTextareaAutocomplete extends React.Component {
       style,
       containerStyle,
       ...otherProps
-    } = this.props;
+    }: PropsTextarea = this.props;
     const { left, top, dataLoading, component, value } = this.state;
 
     const suggestionData = this.getSuggestions();
@@ -381,40 +344,5 @@ class ReactTextareaAutocomplete extends React.Component {
     );
   }
 }
-
-const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
-  if (!trigger) return Error('Invalid prop trigger. Prop missing.');
-
-  const triggers = Object.entries(trigger);
-
-  for (let i = 0; i < triggers.length; i += 1) {
-    const [triggerChar, settings] = triggers[i];
-
-    if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
-      return Error(
-        'Invalid prop trigger. Keys of the object has to be string.',
-      );
-    }
-
-    // $FlowFixMe
-    const { component, dataProvider } = settings;
-
-    if (!component || typeof component !== 'function') {
-      return Error('Invalid prop trigger: component should be defined.');
-    }
-
-    if (!dataProvider || typeof dataProvider !== 'function') {
-      return Error('Invalid prop trigger: dataProvider should be defined.');
-    }
-  }
-
-  return null;
-};
-
-ReactTextareaAutocomplete.propTypes = {
-  trigger: triggerPropsCheck, //eslint-disable-line
-  loadingComponent: PropTypes.func.isRequired,
-  value: PropTypes.string,
-};
 
 export default ReactTextareaAutocomplete;

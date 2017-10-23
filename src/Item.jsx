@@ -2,13 +2,7 @@
 
 import React from 'react';
 
-type Props = {
-  component: ReactClass<*>,
-  onSelectHandler: (Object | string) => void,
-  item: Object | string,
-  onClickHandler: SyntheticEvent => void,
-  selected: boolean,
-};
+import type { PropsItem } from './types';
 
 export default class Item extends React.Component {
   selectItem = () => {
@@ -16,7 +10,7 @@ export default class Item extends React.Component {
     onSelectHandler(item);
   };
 
-  props: Props;
+  props: PropsItem;
 
   render() {
     const { component: Component, onClickHandler, item, selected } = this.props;
@@ -24,7 +18,9 @@ export default class Item extends React.Component {
     return (
       <li className="rta__item">
         <div
-          className={`rta__entity ${selected === true ? 'rta__entity--selected' : ''}`}
+          className={`rta__entity ${selected === true
+            ? 'rta__entity--selected'
+            : ''}`}
           role="button"
           tabIndex={0}
           onClick={onClickHandler}
