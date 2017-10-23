@@ -48,7 +48,7 @@ yarn add @webscopeio/react-textarea-autocomplete
 ```javascript 
 {
     [triggerChar: string]: {
-        ?output: (item: Object | string, trigger: ?string) => string,
+        ?output: (item: Object | string, trigger?: string) => string,
         dataProvider: (token: string) => Promise<Array<Object | string>> | Array<Object | string>,
         component: ReactClass<*>,
     },
