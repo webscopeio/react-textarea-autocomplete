@@ -10,37 +10,37 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
-  >
+    style={Object {}}
+>
     <textarea
-      className="rta__textarea ownClassName"
-      onChange={[Function]}
-      placeholder="Write a message."
-      style={
-        Object {
-          "background": "red",
-        }
-      }
-      value="Controlled text"
-    />
-  </div>,
-  "nodes": Array [
-    <div
-      className="rta "
-      style={undefined}
-    >
-      <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+            Object {
+                "background": "red",
+              }
         }
         value="Controlled text"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="rta "
+      style={Object {}}
+>
+      <textarea
+            className="rta__textarea ownClassName"
+            onChange={[Function]}
+            placeholder="Write a message."
+            style={
+                  Object {
+                        "background": "red",
+                      }
+            }
+            value="Controlled text"
       />
-    </div>,
+</div>,
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
@@ -50,27 +50,28 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={Object {}}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+                Object {
+                        "background": "red",
+                      }
         }
         trigger={
-          Object {
-            ":": Object {
-              "component": [Function],
-              "dataProvider": [Function],
-              "output": [Function],
-            },
-          }
+                Object {
+                        ":": Object {
+                          "component": [Function],
+                          "dataProvider": [Function],
+                          "output": [Function],
+                        },
+                      }
         }
         value="Controlled text"
-      />,
-      "_debugID": 13,
+/>,
+      "_debugID": 18,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -79,6 +80,7 @@ ShallowWrapper {
         "cleanUpProps": [Function],
         "closeAutocomplete": [Function],
         "context": Object {},
+        "getCaretPosition": [Function],
         "getCurrentTriggerSettings": [Function],
         "getSuggestions": [Function],
         "getTextToReplace": [Function],
@@ -86,6 +88,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": Object {},
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -103,6 +106,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
+        "setCaretPosition": [Function],
         "setTextareaCaret": [Function],
         "state": Object {
           "actualToken": "",
@@ -137,37 +141,37 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
-        "_debugID": 14,
+</div>,
+        "_debugID": 19,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
+</div>,
       },
       "_renderedNodeType": 0,
       "_rootNodeID": 0,
@@ -181,26 +185,27 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={Object {}}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
     placeholder="Write a message."
     style={
-      Object {
-        "background": "red",
-      }
+        Object {
+            "background": "red",
+          }
     }
     trigger={
-      Object {
-        ":": Object {
-          "component": [Function],
-          "dataProvider": [Function],
-          "output": [Function],
-        },
-      }
+        Object {
+            ":": Object {
+              "component": [Function],
+              "dataProvider": [Function],
+              "output": [Function],
+            },
+          }
     }
     value="Controlled text"
-  />,
+/>,
 }
 `;
 
@@ -214,37 +219,37 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
-  >
+    style={Object {}}
+>
     <textarea
-      className="rta__textarea ownClassName"
-      onChange={[Function]}
-      placeholder="Write a message."
-      style={
-        Object {
-          "background": "red",
-        }
-      }
-      value="Controlled text"
-    />
-  </div>,
-  "nodes": Array [
-    <div
-      className="rta "
-      style={undefined}
-    >
-      <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+            Object {
+                "background": "red",
+              }
         }
         value="Controlled text"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="rta "
+      style={Object {}}
+>
+      <textarea
+            className="rta__textarea ownClassName"
+            onChange={[Function]}
+            placeholder="Write a message."
+            style={
+                  Object {
+                        "background": "red",
+                      }
+            }
+            value="Controlled text"
       />
-    </div>,
+</div>,
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
@@ -254,26 +259,27 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={Object {}}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+                Object {
+                        "background": "red",
+                      }
         }
         trigger={
-          Object {
-            ":": Object {
-              "component": [Function],
-              "dataProvider": [Function],
-            },
-          }
+                Object {
+                        ":": Object {
+                          "component": [Function],
+                          "dataProvider": [Function],
+                        },
+                      }
         }
         value="Controlled text"
-      />,
-      "_debugID": 37,
+/>,
+      "_debugID": 42,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -282,6 +288,7 @@ ShallowWrapper {
         "cleanUpProps": [Function],
         "closeAutocomplete": [Function],
         "context": Object {},
+        "getCaretPosition": [Function],
         "getCurrentTriggerSettings": [Function],
         "getSuggestions": [Function],
         "getTextToReplace": [Function],
@@ -289,6 +296,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": Object {},
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -305,6 +313,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
+        "setCaretPosition": [Function],
         "setTextareaCaret": [Function],
         "state": Object {
           "actualToken": "",
@@ -339,37 +348,37 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
-        "_debugID": 38,
+</div>,
+        "_debugID": 43,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
+</div>,
       },
       "_renderedNodeType": 0,
       "_rootNodeID": 0,
@@ -383,25 +392,26 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={Object {}}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
     placeholder="Write a message."
     style={
-      Object {
-        "background": "red",
-      }
+        Object {
+            "background": "red",
+          }
     }
     trigger={
-      Object {
-        ":": Object {
-          "component": [Function],
-          "dataProvider": [Function],
-        },
-      }
+        Object {
+            ":": Object {
+              "component": [Function],
+              "dataProvider": [Function],
+            },
+          }
     }
     value="Controlled text"
-  />,
+/>,
 }
 `;
 
@@ -415,37 +425,37 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
-  >
+    style={Object {}}
+>
     <textarea
-      className="rta__textarea ownClassName"
-      onChange={[Function]}
-      placeholder="Write a message."
-      style={
-        Object {
-          "background": "red",
-        }
-      }
-      value="Controlled text"
-    />
-  </div>,
-  "nodes": Array [
-    <div
-      className="rta "
-      style={undefined}
-    >
-      <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+            Object {
+                "background": "red",
+              }
         }
         value="Controlled text"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="rta "
+      style={Object {}}
+>
+      <textarea
+            className="rta__textarea ownClassName"
+            onChange={[Function]}
+            placeholder="Write a message."
+            style={
+                  Object {
+                        "background": "red",
+                      }
+            }
+            value="Controlled text"
       />
-    </div>,
+</div>,
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
@@ -455,27 +465,28 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={Object {}}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
         placeholder="Write a message."
         style={
-          Object {
-            "background": "red",
-          }
+                Object {
+                        "background": "red",
+                      }
         }
         trigger={
-          Object {
-            ":": Object {
-              "component": [Function],
-              "dataProvider": [Function],
-              "output": [Function],
-            },
-          }
+                Object {
+                        ":": Object {
+                          "component": [Function],
+                          "dataProvider": [Function],
+                          "output": [Function],
+                        },
+                      }
         }
         value="Controlled text"
-      />,
-      "_debugID": 59,
+/>,
+      "_debugID": 64,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -484,6 +495,7 @@ ShallowWrapper {
         "cleanUpProps": [Function],
         "closeAutocomplete": [Function],
         "context": Object {},
+        "getCaretPosition": [Function],
         "getCurrentTriggerSettings": [Function],
         "getSuggestions": [Function],
         "getTextToReplace": [Function],
@@ -491,6 +503,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": Object {},
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -508,6 +521,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
+        "setCaretPosition": [Function],
         "setTextareaCaret": [Function],
         "state": Object {
           "actualToken": "",
@@ -542,37 +556,37 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
-        "_debugID": 60,
+</div>,
+        "_debugID": 65,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
-        >
+          style={Object {}}
+>
           <textarea
-            className="rta__textarea ownClassName"
-            onChange={[Function]}
-            placeholder="Write a message."
-            style={
-              Object {
-                "background": "red",
-              }
-            }
-            value="Controlled text"
+                    className="rta__textarea ownClassName"
+                    onChange={[Function]}
+                    placeholder="Write a message."
+                    style={
+                              Object {
+                                        "background": "red",
+                                      }
+                    }
+                    value="Controlled text"
           />
-        </div>,
+</div>,
       },
       "_renderedNodeType": 0,
       "_rootNodeID": 0,
@@ -586,25 +600,26 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={Object {}}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
     placeholder="Write a message."
     style={
-      Object {
-        "background": "red",
-      }
+        Object {
+            "background": "red",
+          }
     }
     trigger={
-      Object {
-        ":": Object {
-          "component": [Function],
-          "dataProvider": [Function],
-          "output": [Function],
-        },
-      }
+        Object {
+            ":": Object {
+              "component": [Function],
+              "dataProvider": [Function],
+              "output": [Function],
+            },
+          }
     }
     value="Controlled text"
-  />,
+/>,
 }
 `;

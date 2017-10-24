@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { shallow, mount } from 'enzyme';
 import ReactTextareaAutocomplete from '../src';
 
@@ -220,5 +220,78 @@ describe('string-based items with output fn', () => {
 
   it('text in textarea should be changed', () => {
     expect(rta.find('textarea').node.value).toBe('__happy_face__some test :a');
+  });
+});
+
+describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
+  const mockedFn = jest.fn();
+
+  class ReactTextareaAutocompleteWrapper extends Component {
+
+    getCaretPosition() {
+      return this.textareaRef.getCaretPosition();
+    }
+
+    setCaretPosition(position) {
+      this.textareaRef.setCaretPosition(position);
+    }
+
+    render() {
+      return (
+        <ReactTextareaAutocomplete
+          placeholder={'Write a message.'}
+          value={'Controlled text'}
+          onChange={mockedFn}
+          className={'ownClassName'}
+          style={{ background: 'red' }}
+          loadingComponent={Loading}
+          trigger={{
+            ':': {
+              dataProvider: () => Promise.resolve(['happy_face', 'sad_face']),
+              component: SmileItemComponent,
+            },
+          }}
+          ref={(ref) => { this.textareaRef = ref; }}
+        />
+      );
+    }
+  }
+
+  const rtaWrapper = mount(<ReactTextareaAutocompleteWrapper />);
+  const rtaWrapperRef = rtaWrapper.instance();
+
+  it('should get the correct caret position initially', () => {
+    const actual = rtaWrapperRef.getCaretPosition();
+    const expected = 0;
+
+    expect(actual).toBe(expected);
+  });
+
+  it('should get the correct caret position after typing in some data', () => {
+    const someData = 'some data is entered';
+    const position = someData.length;
+
+    rtaWrapper.find('textarea')
+        .simulate('change', { target: { value: someData } });
+
+    rtaWrapper
+        .find('textarea')
+        .node.focus();
+
+    const actual = rtaWrapperRef.getCaretPosition();
+    const expected = position;
+
+    expect(actual).toBe(expected);
+  });
+
+  it('should set the caret position correctly', () => {
+    const CARET_POSITION_TO_SET = 5;
+
+    rtaWrapperRef.setCaretPosition(CARET_POSITION_TO_SET);
+
+    const actual = rtaWrapperRef.getCaretPosition();
+    const expected = CARET_POSITION_TO_SET;
+
+    expect(actual).toBe(expected);
   });
 });

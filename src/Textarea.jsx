@@ -173,6 +173,19 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     this.textareaRef.setSelectionRange(position, position);
   };
 
+  setCaretPosition = (position: number) => {
+    this.setTextareaCaret(position);
+  };
+
+  getCaretPosition = (): number => {
+    if (!this.textareaRef) {
+      return 0;
+    }
+
+    const position = this.textareaRef.selectionEnd;
+    return position;
+  };
+
   getCurrentTriggerSettings = (): ?settingType => {
     const { currentTrigger } = this.state;
 
