@@ -75,6 +75,7 @@
     "react": ">=15"
   },
   "dependencies": {
+    "babel-plugin-flow-react-proptypes": "^6.1.0",
     "rollup-plugin-copy": "^0.2.3",
     "textarea-caret": "3.0.2"
   },
