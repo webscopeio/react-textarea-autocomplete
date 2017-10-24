@@ -5,8 +5,8 @@ import commonjs from 'rollup-plugin-commonjs';
 import hypothetical from 'rollup-plugin-hypothetical';
 import license from 'rollup-plugin-license';
 import uglify from 'rollup-plugin-uglify';
-import path from 'path';
 import copy from 'rollup-plugin-copy';
+import path from 'path';
 
 export default {
   entry: 'src/index.js',
