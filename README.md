@@ -124,7 +124,7 @@ Run `yarn` to fetch dependencies.
 
 Run `yarn dev` for bundling. 
 
-In the folder run `yarn link` and then in your project folder `yarn link react-textarea-autocomplete` to link together.
+In the folder run `yarn link` and then in your project folder (*you have to use the same version of React e.g 15.6.1*) `yarn link react-textarea-autocomplete` to link together.
 
 Your PR's are welcomed! ❤️
 
