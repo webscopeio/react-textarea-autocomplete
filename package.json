@@ -25,7 +25,7 @@
     "lint": "eslint --ext=js --ext=jsx ./src",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
-    "flow": "flow",
+    "flow": "flow check",
     "test:watch": "jest --watch",
     "dev": "npm run build -- --watch",
     "ci": "flow && jest",
@@ -75,6 +75,8 @@
     "react": ">=15"
   },
   "dependencies": {
+    "babel-plugin-flow-react-proptypes": "^6.1.0",
+    "rollup-plugin-copy": "^0.2.3",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {

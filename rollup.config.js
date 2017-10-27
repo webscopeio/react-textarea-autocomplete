@@ -5,6 +5,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import hypothetical from 'rollup-plugin-hypothetical';
 import license from 'rollup-plugin-license';
 import uglify from 'rollup-plugin-uglify';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 export default {
@@ -12,6 +13,9 @@ export default {
   format: 'cjs',
   external: ['react', 'prop-types', 'textarea-caret'],
   plugins: [
+    copy({
+      'src/types.js': 'dist/types.js'
+    }),
     resolve(),
     hypothetical({
       // https://github.com/rollup/rollup-plugin-commonjs/issues/194
