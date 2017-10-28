@@ -2,33 +2,26 @@ import resolve from 'rollup-plugin-node-resolve';
 import css from 'rollup-plugin-css-only';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import hypothetical from 'rollup-plugin-hypothetical';
 import license from 'rollup-plugin-license';
 import uglify from 'rollup-plugin-uglify';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 export default {
-  entry: 'src/index.js',
-  format: 'cjs',
+  input: 'src/index.js',
   external: ['react', 'prop-types', 'textarea-caret'],
+  /**
+   * suppress false warnings https://github.com/rollup/rollup-plugin-babel/issues/84
+   */
+  onwarn: () => null,
   plugins: [
+    copy({
+      'src/': 'dist/es6',
+    }),
+    css({ output: 'dist/style.css' }),
+    babel(),
     resolve(),
-    hypothetical({
-      // https://github.com/rollup/rollup-plugin-commonjs/issues/194
-      allowRealFiles: true,
-      files: {
-        './node_modules/core-js/library/modules/es6.object.to-string.js': 'export default null',
-      },
-    }),
     commonjs({ extensions: ['.js', '.jsx'] }),
-    css({ output: 'dist/default-style.css' }),
-    babel({
-      presets: ['es2015-rollup', 'stage-2', 'react', 'flow'],
-      plugins: ['external-helpers'],
-      // Jest can't work properly with es2015-rollup inside the .babelrc, so this is walk-around
-      babelrc: false,
-      exclude: 'node_modules/**',
-    }),
     uglify(),
     license({
       banner: {
@@ -36,5 +29,8 @@ export default {
       },
     }),
   ],
-  dest: 'dist/index.js',
+  output: {
+    file: 'dist/index.js',
+    format: 'cjs',
+  },
 };
