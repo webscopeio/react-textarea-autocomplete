@@ -62,6 +62,9 @@ yarn add @webscopeio/react-textarea-autocomplete
     Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
+`create-react-app example && cd example && yarn add @jukben/emoji-search`
+
+### App.js
 ```javascript
 import React, { Component } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
