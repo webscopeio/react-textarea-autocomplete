@@ -125,11 +125,17 @@ export default App;
 
 Run `yarn` to fetch dependencies.
 
-### Dev playground 
+Run `yarn lint` check [ESlint][eslint] check (`yarn lint:fix` for quick fix)
+
+Run `yarn flow` for flow check
+
+Run `yarn test` to run unit-tests powered by [Jest][jest]
+
+### Dev playground (recommended) 
 
 Run `yarn dev` and open http://localhost:8080 for the playground
 
-Run `yarn cypress:open` for open Cypress for E2E testing
+Run `yarn cypress:open` for open [Cypress][cypress] for E2E testing
  
 ### Build and link 
  
@@ -156,6 +162,8 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 MIT
 
 [npm]: https://www.npmjs.com/
+[eslint]: https://eslint.org/
+[jest]: https://facebook.github.io/jest/
 [cypress]: https://www.cypress.io/
 [license-badge]: https://img.shields.io/npm/l/react-autocompletely.svg?style=flat-square
 [license]: https://github.com/paypal/react-autocompletely/blob/master/LICENSE
