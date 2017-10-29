@@ -62,7 +62,7 @@ yarn add @webscopeio/react-textarea-autocomplete
     Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
-`create-react-app example && cd example && yarn add @jukben/emoji-search`
+`create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
 
 ### App.js
 ```javascript
@@ -72,7 +72,7 @@ import emoji from "@jukben/emoji-search";
 
 import logo from "./logo.svg";
 import "./App.css";
-import "@webscopeio/react-textarea-autocomplete/dist/default-style.css";
+import "@webscopeio/react-textarea-autocomplete/style.css";
 
 const Item = ({ entity: { name, char } }) => <div>{`${name}: ${char}`}</div>;
 const Loading = ({ data }) => <div>Loading</div>;
@@ -125,9 +125,15 @@ export default App;
 
 Run `yarn` to fetch dependencies.
 
-Run `yarn dev` for bundling. 
+### Dev playground 
 
-In the folder run `yarn link` and then in your project folder (*you have to use the same version of React e.g 15.6.1*) `yarn link react-textarea-autocomplete` to link together.
+Run `yarn dev` and open http://localhost:8080 for the playground
+
+Run `yarn cypress:open` for open Cypress for E2E testing
+ 
+### Build and link 
+ 
+Run `yarn build` and `yarn link` then in your project folder (*you have to use the same version of React e.g 15.6.1*) `yarn link react-textarea-autocomplete` to link together.
 
 Your PR's are welcomed! ❤️
 

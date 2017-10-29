@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import ReactTextareaAutocomplete from './../index';
+import ReactTextareaAutocomplete from '../src';
 
 //eslint-disable-next-line
 const SmileItemComponent = ({ entity: { label, text } }) => (

@@ -4,7 +4,12 @@
 .*.haste_cache.*
 .DS_Store
 .idea
-dist/*
-coverage/
+.vscode
 npm-debug.log
 node_modules
+coverage/
+
+# build
+
+es6/*
+index.js
