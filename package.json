@@ -33,13 +33,15 @@
     "test:watch": "jest --watch",
     "flow": "flow",
     "flow:check": "flow check",
-    "ci": "yarn flow && yarn jest",
+    "cypress": "yarn run dev & cypress run",
+    "cypress:open": "cypress open",
     "precommit": "lint-staged"
   },
   "devDependencies": {
     "@jukben/emoji-search": "^1.1.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^3.0.3",
     "babel-runtime": "^6.26.0",
     "css-loader": "^0.28.7",
@@ -71,6 +73,7 @@
     "react": ">=15"
   },
   "dependencies": {
+    "cypress": "^1.0.2",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {

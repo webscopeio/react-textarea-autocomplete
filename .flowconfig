@@ -1,5 +1,6 @@
 [ignore]
 .*/es6/*
+.*/Cypress/*
 index.js
 
 [include]
