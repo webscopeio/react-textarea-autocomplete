@@ -126,9 +126,11 @@ export default App;
 Run `yarn` to fetch dependencies.
 
 ### Dev playground 
-Run `yarn dev` and open http://localhost:8080 for playground
-
-In the folder run `yarn link` and then in your project folder (*you have to use the same version of React e.g 15.6.1*) `yarn link react-textarea-autocomplete` to link together.
+Run `yarn dev` and open http://localhost:8080 for the playground
+ 
+### Build and link 
+ 
+Run `yarn build` and `yarn link` then in your project folder (*you have to use the same version of React e.g 15.6.1*) `yarn link react-textarea-autocomplete` to link together.
 
 Your PR's are welcomed! ❤️
 
