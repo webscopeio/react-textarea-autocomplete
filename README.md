@@ -156,6 +156,7 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 MIT
 
 [npm]: https://www.npmjs.com/
+[cypress]: https://www.cypress.io/
 [license-badge]: https://img.shields.io/npm/l/react-autocompletely.svg?style=flat-square
 [license]: https://github.com/paypal/react-autocompletely/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square

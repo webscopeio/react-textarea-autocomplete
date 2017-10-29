@@ -67,14 +67,14 @@
     "rollup-plugin-uglify": "^2.0.1",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3"
+    "webpack-dev-server": "^2.9.3",
+    "cypress": "^1.0.2"
   },
   "peerDependencies": {
     "prop-types": ">=15",
     "react": ">=15"
   },
   "dependencies": {
-    "cypress": "^1.0.2",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
