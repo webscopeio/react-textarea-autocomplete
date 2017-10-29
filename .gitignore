@@ -5,7 +5,11 @@
 .DS_Store
 .idea
 .vscode
-dist/*
-coverage/
 npm-debug.log
 node_modules
+coverage/
+
+# build
+
+es6/*
+index.js

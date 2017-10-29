@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 import emoji from '@jukben/emoji-search';
 
-/**
- * This code is bundled by Webpack from source so there is no need to import css
- * but in real-life application you may need to include it like this:
- *
- * import "@webscopeio/react-textarea-autocomplete/dist/default-style.css";
- */
+import '@webscopeio/react-textarea-autocomplete/style.css'
 
 const Item = ({ entity: { name, char } }) => <div>{`${name}: ${char}`}</div>;
 const Loading = ({ data }) => <div>Loading</div>;

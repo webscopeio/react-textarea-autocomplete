@@ -1,5 +1,4 @@
 import resolve from 'rollup-plugin-node-resolve';
-import css from 'rollup-plugin-css-only';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import license from 'rollup-plugin-license';
@@ -16,9 +15,8 @@ export default {
   onwarn: () => null,
   plugins: [
     copy({
-      'src/': 'dist/es6',
+      src: 'es6',
     }),
-    css({ output: 'dist/style.css' }),
     babel(),
     resolve(),
     commonjs({ extensions: ['.js', '.jsx'] }),
@@ -30,7 +28,7 @@ export default {
     }),
   ],
   output: {
-    file: 'dist/index.js',
+    file: 'index.js',
     format: 'cjs',
   },
 };

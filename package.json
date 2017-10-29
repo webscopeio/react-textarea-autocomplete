@@ -7,10 +7,11 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "style.css"
   ],
-  "main": "dist/es5.js",
-  "author": "Jakub Benes <benes@webscope.io>",
+  "main": "dist/index.js",
+  "author": "Jakub Benes <jukben@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
@@ -58,7 +59,6 @@
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.5",
     "rollup-plugin-copy": "^0.2.3",
-    "rollup-plugin-css-only": "^0.2.0",
     "rollup-plugin-license": "^0.5.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
@@ -76,7 +76,6 @@
   "lint-staged": {
     "src/*.{js,jsx}": [
       "eslint src --fix",
-      "flow",
       "git add"
     ]
   },

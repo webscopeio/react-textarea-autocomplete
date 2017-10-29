@@ -5531,10 +5531,11 @@ rollup-plugin-copy@^0.2.3:
     colors "^1.1.2"
     fs-extra "^3.0.0"
 
-rollup-plugin-css-only@^0.2.0:
+"rollup-plugin-css-only@https://github.com/thgh/rollup-plugin-css-only#master":
   version "0.2.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-css-only/-/rollup-plugin-css-only-0.2.0.tgz#e7c583b2726ff15c88e701ead5c9ad80e1cf4324"
+  resolved "https://github.com/thgh/rollup-plugin-css-only#a501ae67d37ffda1f4b658ae42f9f6ac0007e58d"
   dependencies:
+    mkdirp "^0.5.1"
     rollup-pluginutils "^1.5.2"
 
 rollup-plugin-license@^0.5.0:
