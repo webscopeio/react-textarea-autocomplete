@@ -1,5 +1,6 @@
 [ignore]
-.*/dist/*
+.*/es6/*
+index.js
 
 [include]
 

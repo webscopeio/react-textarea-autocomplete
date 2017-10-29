@@ -32,7 +32,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "flow": "flow",
-    "flow:check": "flow check example/",
+    "flow:check": "flow check",
     "ci": "yarn flow && yarn jest",
     "precommit": "lint-staged"
   },
