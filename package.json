@@ -7,10 +7,11 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete"
   },
   "files": [
-    "dist/",
+    "es6/",
+    "index.js",
     "style.css"
   ],
-  "main": "dist/index.js",
+  "main": "index.js",
   "author": "Jakub Benes <jukben@gmail.com>",
   "license": "MIT",
   "bugs": {
