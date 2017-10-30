@@ -1,6 +1,6 @@
 {
   "name": "@webscopeio/react-textarea-autocomplete",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Offers autocomplete over textarea in style of GitHub.",
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "babel-preset-react-app": "^3.0.3",
     "babel-runtime": "^6.26.0",
     "css-loader": "^0.28.7",
+    "cypress": "^1.0.2",
     "enzyme": "^2.9.1",
     "eslint": "^4.10.0",
     "eslint-config-callstack-io": "^1.0.1",
@@ -67,8 +68,7 @@
     "rollup-plugin-uglify": "^2.0.1",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3",
-    "cypress": "^1.0.2"
+    "webpack-dev-server": "^2.9.3"
   },
   "peerDependencies": {
     "prop-types": ">=15",
