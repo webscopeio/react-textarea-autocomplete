@@ -31,7 +31,7 @@ type Props = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
   onChange: ?(SyntheticEvent<*> | Event) => void,
-  onCaretPositionChange?: number => void,
+  onCaretPositionChange: ?(number) => void,
   minChar: ?number,
   value?: string,
   style: ?Object,
@@ -370,7 +370,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
       >
         <textarea
           {...this._cleanUpProps()}
-          ref={ref => (this.textareaRef = ref;)}
+          ref={(ref) => { this.textareaRef = ref; }}
           className={`rta__textarea ${otherProps.className || ''}`}
           onChange={this._changeHandler}
           value={value}
@@ -434,7 +434,6 @@ ReactTextareaAutocomplete.propTypes = {
   trigger: triggerPropsCheck, //eslint-disable-line
   loadingComponent: PropTypes.func.isRequired,
   value: PropTypes.string,
-  onCaretPositionChange: PropTypes.func,
 };
 
 export default ReactTextareaAutocomplete;
