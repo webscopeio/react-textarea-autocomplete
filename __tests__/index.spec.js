@@ -10,12 +10,15 @@ const SmileItemComponent = ({ entity: { label, text } }) => (
 const Loading = () => <div>Loading...</div>;
 
 describe('object-based items', () => {
-  const mockedFn = jest.fn();
+  const mockedChangeFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
+
   const rtaComponent = (
     <ReactTextareaAutocomplete
       placeholder={'Write a message.'}
       value={'Controlled text'}
-      onChange={mockedFn}
+      onChange={mockedChangeFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
       className={'ownClassName'}
       style={{ background: 'red' }}
       loadingComponent={Loading}
@@ -63,8 +66,12 @@ describe('object-based items', () => {
     ).toEqual(true);
   });
 
-  it('should invoke onchange handler', () => {
-    expect(mockedFn).toHaveBeenCalled();
+  it('should invoke onChange handler', () => {
+    expect(mockedChangeFn).toHaveBeenCalled();
+  });
+
+  it('should invoke onCaretPositionChange handler', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalled();
   });
 
   it('should close the autocomplete after mouse click', () => {
@@ -73,8 +80,12 @@ describe('object-based items', () => {
     expect(rta.find('.rta__entity')).toHaveLength(0);
   });
 
-  it('should invoke onchange handler after selection', () => {
-    expect(mockedFn).toHaveBeenCalledTimes(2);
+  it('should invoke onChange handler after selection', () => {
+    expect(mockedChangeFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should invoke onCaretPositionChange handler after selection', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalledTimes(2);
   });
 
   it('text in textarea should be changed', () => {
@@ -85,12 +96,14 @@ describe('object-based items', () => {
 });
 
 describe('string-based items w/o output fn', () => {
-  const mockedFn = jest.fn();
+  const mockedChangeFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
   const rtaComponent = (
     <ReactTextareaAutocomplete
       placeholder={'Write a message.'}
       value={'Controlled text'}
-      onChange={mockedFn}
+      onChange={mockedChangeFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
       className={'ownClassName'}
       style={{ background: 'red' }}
       loadingComponent={Loading}
@@ -134,8 +147,12 @@ describe('string-based items w/o output fn', () => {
     ).toEqual(true);
   });
 
-  it('should invoke onchange handler', () => {
-    expect(mockedFn).toHaveBeenCalled();
+  it('should invoke onChange handler', () => {
+    expect(mockedChangeFn).toHaveBeenCalled();
+  });
+
+  it('should invoke onCaretPositionChange handler', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalled();
   });
 
   it('should close the autocomplete after mouse click', () => {
@@ -144,8 +161,12 @@ describe('string-based items w/o output fn', () => {
     expect(rta.find('.rta__entity')).toHaveLength(0);
   });
 
-  it('should invoke onchange handler after selection', () => {
-    expect(mockedFn).toHaveBeenCalledTimes(2);
+  it('should invoke onChange handler after selection', () => {
+    expect(mockedChangeFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should invoke onCaretPositionChange handler after selection', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalledTimes(2);
   });
 
   it('text in textarea should be changed', () => {
@@ -154,12 +175,14 @@ describe('string-based items w/o output fn', () => {
 });
 
 describe('string-based items with output fn', () => {
-  const mockedFn = jest.fn();
+  const mockedChangeFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
   const rtaComponent = (
     <ReactTextareaAutocomplete
       placeholder={'Write a message.'}
       value={'Controlled text'}
-      onChange={mockedFn}
+      onChange={mockedChangeFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
       className={'ownClassName'}
       style={{ background: 'red' }}
       loadingComponent={Loading}
@@ -204,8 +227,12 @@ describe('string-based items with output fn', () => {
     ).toEqual(true);
   });
 
-  it('should invoke onchange handler', () => {
-    expect(mockedFn).toHaveBeenCalled();
+  it('should invoke onChange handler', () => {
+    expect(mockedChangeFn).toHaveBeenCalled();
+  });
+
+  it('should invoke onCaretPositionChange handler', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalled();
   });
 
   it('should close the autocomplete after mouse click', () => {
@@ -214,8 +241,12 @@ describe('string-based items with output fn', () => {
     expect(rta.find('.rta__entity')).toHaveLength(0);
   });
 
-  it('should invoke onchange handler after selection', () => {
-    expect(mockedFn).toHaveBeenCalledTimes(2);
+  it('should invoke onChange handler after selection', () => {
+    expect(mockedChangeFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should invoke onCaretPositionChange handler after selection', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalledTimes(2);
   });
 
   it('text in textarea should be changed', () => {
@@ -224,7 +255,7 @@ describe('string-based items with output fn', () => {
 });
 
 describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
-  const mockedFn = jest.fn();
+  const mockedChangeFn = jest.fn();
 
   class ReactTextareaAutocompleteWrapper extends Component {
 
@@ -241,7 +272,7 @@ describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
         <ReactTextareaAutocomplete
           placeholder={'Write a message.'}
           value={'Controlled text'}
-          onChange={mockedFn}
+          onChange={mockedChangeFn}
           className={'ownClassName'}
           style={{ background: 'red' }}
           loadingComponent={Loading}

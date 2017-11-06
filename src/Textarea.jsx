@@ -31,6 +31,7 @@ type Props = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
   onChange: ?(SyntheticEvent<*> | Event) => void,
+  onCaretPositionChange?: number => void,
   minChar: ?number,
   value?: string,
   style: ?Object,
@@ -119,7 +120,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
 
   _onSelect = (newToken: string) => {
     const { selectionEnd, value: textareaValue } = this.state;
-    const { onChange } = this.props;
+    const { onChange, onCaretPositionChange } = this.props;
 
     let offsetToEndOfToken = 0;
     while (
@@ -152,6 +153,11 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
         if (onChange) onChange(e);
 
         this.setCaretPosition(newCaretPosition);
+
+        if (onCaretPositionChange) {
+          const caretPosition = this.getCaretPosition();
+          onCaretPositionChange(caretPosition);
+        }
       },
     );
     this._closeAutocomplete();
@@ -267,6 +273,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
       'minChar',
       'ref',
       'onChange',
+      'onCaretPositionChange',
       'className',
       'value',
       'trigger',
@@ -281,7 +288,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
   };
 
   _changeHandler = (e: SyntheticInputEvent<*>) => {
-    const { trigger, onChange, minChar } = this.props;
+    const { trigger, onChange, onCaretPositionChange, minChar } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
@@ -289,6 +296,11 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     if (onChange) {
       e.persist();
       onChange(e);
+    }
+
+    if (onCaretPositionChange) {
+      const caretPosition = this.getCaretPosition();
+      onCaretPositionChange(caretPosition);
     }
 
     this.setState({
@@ -422,6 +434,7 @@ ReactTextareaAutocomplete.propTypes = {
   trigger: triggerPropsCheck, //eslint-disable-line
   loadingComponent: PropTypes.func.isRequired,
   value: PropTypes.string,
+  onCaretPositionChange: PropTypes.func,
 };
 
 export default ReactTextareaAutocomplete;
