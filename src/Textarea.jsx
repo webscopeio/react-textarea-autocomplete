@@ -60,7 +60,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
+    Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
 
     const { loadingComponent, trigger, value } = this.props;
 
@@ -94,14 +94,30 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    this.update(nextProps);
+    this._update(nextProps);
   }
 
   componentWillUnmount() {
     Listeners.stopListen();
   }
 
-  onSelect = (newToken: string) => {
+  setCaretPosition = (position: number = 0) => {
+    if (!this.textareaRef) return;
+
+    this.textareaRef.focus();
+    this.textareaRef.setSelectionRange(position, position);
+  };
+
+  getCaretPosition = (): number => {
+    if (!this.textareaRef) {
+      return 0;
+    }
+
+    const position = this.textareaRef.selectionEnd;
+    return position;
+  };
+
+  _onSelect = (newToken: string) => {
     const { selectionEnd, value: textareaValue } = this.state;
     const { onChange } = this.props;
 
@@ -135,15 +151,15 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
 
-        this.setTextareaCaret(newCaretPosition);
+        this.setCaretPosition(newCaretPosition);
       },
     );
-    this.closeAutocomplete();
+    this._closeAutocomplete();
   };
 
-  getTextToReplace = (): ?getTextToReplaceType => {
+  _getTextToReplace = (): ?getTextToReplaceType => {
     const { currentTrigger } = this.state;
-    const triggerSettings = this.getCurrentTriggerSettings();
+    const triggerSettings = this._getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) return () => '';
 
@@ -166,27 +182,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     };
   };
 
-  setTextareaCaret = (position: number = 0) => {
-    if (!this.textareaRef) return;
-
-    this.textareaRef.focus();
-    this.textareaRef.setSelectionRange(position, position);
-  };
-
-  setCaretPosition = (position: number) => {
-    this.setTextareaCaret(position);
-  };
-
-  getCaretPosition = (): number => {
-    if (!this.textareaRef) {
-      return 0;
-    }
-
-    const position = this.textareaRef.selectionEnd;
-    return position;
-  };
-
-  getCurrentTriggerSettings = (): ?settingType => {
+  _getCurrentTriggerSettings = (): ?settingType => {
     const { currentTrigger } = this.state;
 
     if (!currentTrigger) return null;
@@ -194,9 +190,9 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     return this.props.trigger[currentTrigger];
   };
 
-  getValuesFromProvider = () => {
+  _getValuesFromProvider = () => {
     const { currentTrigger, actualToken } = this.state;
-    const triggerSettings = this.getCurrentTriggerSettings();
+    const triggerSettings = this._getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) {
       return;
@@ -239,7 +235,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
       });
   };
 
-  getSuggestions = (): ?Array<Object | string> => {
+  _getSuggestions = (): ?Array<Object | string> => {
     const { currentTrigger, data } = this.state;
 
     if (!currentTrigger || !data || (data && !data.length)) return null;
@@ -247,7 +243,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     return data;
   };
 
-  update({ value, trigger }: Props) {
+  _update({ value, trigger }: Props) {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
@@ -257,13 +253,13 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     }
   }
 
-  closeAutocomplete = () => {
-    if (!this.getSuggestions()) return;
+  _closeAutocomplete = () => {
+    if (!this._getSuggestions()) return;
 
     this.setState({ data: null });
   };
 
-  cleanUpProps = (): Object => {
+  _cleanUpProps = (): Object => {
     const props = { ...this.props };
     const notSafe = [
       'loadingComponent',
@@ -284,7 +280,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     return props;
   };
 
-  changeHandler = (e: SyntheticInputEvent<*>) => {
+  _changeHandler = (e: SyntheticInputEvent<*>) => {
     const { trigger, onChange, minChar } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
@@ -307,7 +303,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
      the autocomplete
     */
     if (!lastToken || lastToken.length <= minChar) {
-      this.closeAutocomplete();
+      this._closeAutocomplete();
       return;
     }
 
@@ -333,7 +329,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
         currentTrigger,
         actualToken,
       },
-      this.getValuesFromProvider,
+      this._getValuesFromProvider,
     );
   };
 
@@ -352,8 +348,8 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     } = this.props;
     const { left, top, dataLoading, component, value } = this.state;
 
-    const suggestionData = this.getSuggestions();
-    const textToReplace = this.getTextToReplace();
+    const suggestionData = this._getSuggestions();
+    const textToReplace = this._getTextToReplace();
 
     return (
       <div
@@ -361,10 +357,10 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
         style={containerStyle}
       >
         <textarea
-          {...this.cleanUpProps()}
-          ref={(ref) => { this.textareaRef = ref; }}
+          {...this._cleanUpProps()}
+          ref={ref => (this.textareaRef = ref;)}
           className={`rta__textarea ${otherProps.className || ''}`}
-          onChange={this.changeHandler}
+          onChange={this._changeHandler}
           value={value}
           style={style}
         />
@@ -377,7 +373,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
                 values={suggestionData}
                 component={component}
                 getTextToReplace={textToReplace}
-                onSelect={this.onSelect}
+                onSelect={this._onSelect}
               />}
             {dataLoading &&
               <div

@@ -267,7 +267,7 @@ describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
     expect(actual).toBe(expected);
   });
 
-  it('should get the correct caret position after typing in some data', () => {
+  xit('should get the correct caret position after typing in some data', () => {
     const someData = 'some data is entered';
     const position = someData.length;
 
