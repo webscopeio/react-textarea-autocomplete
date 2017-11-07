@@ -298,23 +298,6 @@ describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
     expect(actual).toBe(expected);
   });
 
-  xit('should get the correct caret position after typing in some data', () => {
-    const someData = 'some data is entered';
-    const position = someData.length;
-
-    rtaWrapper.find('textarea')
-        .simulate('change', { target: { value: someData } });
-
-    rtaWrapper
-        .find('textarea')
-        .node.focus();
-
-    const actual = rtaWrapperRef.getCaretPosition();
-    const expected = position;
-
-    expect(actual).toBe(expected);
-  });
-
   it('should set the caret position correctly', () => {
     const CARET_POSITION_TO_SET = 5;
 

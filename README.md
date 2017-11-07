@@ -5,7 +5,7 @@ Enhanced textarea to achieve autocomplete functionality.
 
 [![MIT License][license-badge]][License]
 [![PRs Welcome][prs-badge]][prs]
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 <hr>
 
 </div>
@@ -42,6 +42,7 @@ yarn add @webscopeio/react-textarea-autocomplete
 | minChar | *optional*       | Number (= 1) | Number of characters that user should type for trigger a suggestion
 | style | *optional* | Style Object | Style's of textarea
 | containerStyle | *optional* | Style Object | Style's of textarea's container
+| onCaretPositionChange | *optional* | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 
 ### Trigger type
 
@@ -149,8 +150,8 @@ Your PR's are welcomed! ❤️
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub>Jakub Beneš</sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub>Andrey Taktaev</sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") |
-| :---: | :---: |
+| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub><b>Andrey Taktaev</b></sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") | [<img src="https://avatars0.githubusercontent.com/u/10706203?v=4" width="100px;"/><br /><sub><b>Marcin Lichwała</b></sub>](https://github.com/marcinlichwala)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Documentation") |
+| :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
