@@ -44,6 +44,69 @@ yarn add @webscopeio/react-textarea-autocomplete
 | containerStyle | *optional* | Style Object | Style's of textarea's container
 | onCaretPositionChange | *optional* | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 
+## Methods
+
+The methods below can be called on the React component's ref (see: [React Docs](https://reactjs.org/docs/refs-and-the-dom.html))
+
+| Methods        |  Description
+| :------------- | :-------------
+| getCaretPosition() : number | Gets the current caret position in the textarea
+| setCaretPosition(position : number) : void | Sets the caret position to the integer value passed as the argument
+
+#Example:
+```javascript
+import React, { Component } from "react";
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.textarea = undefined;
+    this.onCaretPositionChange = this.onCaretPositionChange.bind(this);
+    this.resetCaretPosition = this.resetCaretPosition.bind(this);
+    this.printCurrentCaretPosition = this.printCurrentCaretPosition.bind(this);
+  }
+
+  onCaretPositionChange(position) {
+    console.log(`Caret position is equal to ${position}`);
+  }
+
+  resetCaretPosition() {
+    this.textarea.setCaretPosition(0);
+  }
+
+  printCurrentCaretPosition() {
+    const caretPosition = this.textarea.getCaretPosition();
+    console.log(`Caret position is equal to ${position}`);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="App-controls">
+            <button onClick={this.resetCaretPosition}>Reset caret position</button>
+            <button onClick={this.printCurrentCaretPosition}>Print current caret position to the console</button>
+        </div>
+        <ReactTextareaAutocomplete
+          className="my-textarea"
+          loadingComponent={() => <span>Loading</span>}
+          trigger={{ ... }}
+          ref={(textarea) => { this.textarea = textarea; } }
+          onCaretPositionChange={this.onCaretPositionChange}
+        />
+      </div>
+    );
+  }
+}
+
+export default App;
+
+
+```
+
+
+
 ### Trigger type
 
 ```javascript 
