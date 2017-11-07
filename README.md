@@ -53,7 +53,7 @@ The methods below can be called on the React component's ref (see: [React Docs](
 | getCaretPosition() : number | Gets the current caret position in the textarea
 | setCaretPosition(position : number) : void | Sets the caret position to the integer value passed as the argument
 
-#Example:
+Example:
 ```javascript
 import React, { Component } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
@@ -78,7 +78,7 @@ class App extends Component {
 
   printCurrentCaretPosition() {
     const caretPosition = this.textarea.getCaretPosition();
-    console.log(`Caret position is equal to ${position}`);
+    console.log(`Caret position is equal to ${caretPosition}`);
   }
 
   render() {
