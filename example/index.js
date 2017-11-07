@@ -1,3 +1,6 @@
+/**
+ * Polyfill for CI
+ */
 import 'babel-polyfill';
 
 import React from 'react';
