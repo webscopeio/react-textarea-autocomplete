@@ -257,38 +257,24 @@ describe('string-based items with output fn', () => {
 describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
   const mockedChangeFn = jest.fn();
 
-  class ReactTextareaAutocompleteWrapper extends Component {
+  const rtaComponent = (
+    <ReactTextareaAutocomplete
+      placeholder={'Write a message.'}
+      value={'Controlled text'}
+      onChange={mockedChangeFn}
+      className={'ownClassName'}
+      style={{ background: 'red' }}
+      loadingComponent={Loading}
+      trigger={{
+        ':': {
+          dataProvider: () => Promise.resolve(['happy_face', 'sad_face']),
+          component: SmileItemComponent,
+        },
+      }}
+    />
+  );
 
-    getCaretPosition() {
-      return this.textareaRef.getCaretPosition();
-    }
-
-    setCaretPosition(position) {
-      this.textareaRef.setCaretPosition(position);
-    }
-
-    render() {
-      return (
-        <ReactTextareaAutocomplete
-          placeholder={'Write a message.'}
-          value={'Controlled text'}
-          onChange={mockedChangeFn}
-          className={'ownClassName'}
-          style={{ background: 'red' }}
-          loadingComponent={Loading}
-          trigger={{
-            ':': {
-              dataProvider: () => Promise.resolve(['happy_face', 'sad_face']),
-              component: SmileItemComponent,
-            },
-          }}
-          ref={(ref) => { this.textareaRef = ref; }}
-        />
-      );
-    }
-  }
-
-  const rtaWrapper = mount(<ReactTextareaAutocompleteWrapper />);
+  const rtaWrapper = mount(rtaComponent);
   const rtaWrapperRef = rtaWrapper.instance();
 
   it('should get the correct caret position initially', () => {

@@ -71,7 +71,7 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 18,
+      "_debugID": 17,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -154,7 +154,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 19,
+        "_debugID": 18,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
@@ -278,7 +278,7 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 42,
+      "_debugID": 41,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -360,7 +360,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 43,
+        "_debugID": 42,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
@@ -484,7 +484,7 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 64,
+      "_debugID": 63,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
@@ -567,7 +567,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 65,
+        "_debugID": 64,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
