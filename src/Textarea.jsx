@@ -25,7 +25,6 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
 
   constructor(props: TextareaProps) {
     super(props);
-
     Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
 
     const { loadingComponent, trigger, value } = this.props;

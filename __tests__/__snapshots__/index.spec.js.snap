@@ -10,7 +10,7 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
+    style={null}
   >
     <textarea
       className="rta__textarea ownClassName"
@@ -27,7 +27,7 @@ ShallowWrapper {
   "nodes": Array [
     <div
       className="rta "
-      style={undefined}
+      style={null}
     >
       <textarea
         className="rta__textarea ownClassName"
@@ -50,6 +50,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={null}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
@@ -86,6 +87,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": null,
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -137,7 +139,7 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -154,7 +156,7 @@ ShallowWrapper {
         "_debugID": 14,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -181,6 +183,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={null}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
@@ -214,7 +217,7 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
+    style={null}
   >
     <textarea
       className="rta__textarea ownClassName"
@@ -231,7 +234,7 @@ ShallowWrapper {
   "nodes": Array [
     <div
       className="rta "
-      style={undefined}
+      style={null}
     >
       <textarea
         className="rta__textarea ownClassName"
@@ -254,6 +257,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={null}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
@@ -289,6 +293,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": null,
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -339,7 +344,7 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -356,7 +361,7 @@ ShallowWrapper {
         "_debugID": 38,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -383,6 +388,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={null}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
@@ -415,7 +421,7 @@ ShallowWrapper {
   "length": 1,
   "node": <div
     className="rta "
-    style={undefined}
+    style={null}
   >
     <textarea
       className="rta__textarea ownClassName"
@@ -432,7 +438,7 @@ ShallowWrapper {
   "nodes": Array [
     <div
       className="rta "
-      style={undefined}
+      style={null}
     >
       <textarea
         className="rta__textarea ownClassName"
@@ -455,6 +461,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={null}
         loadingComponent={[Function]}
         minChar={1}
         onChange={[Function]}
@@ -491,6 +498,7 @@ ShallowWrapper {
         "onSelect": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": null,
           "loadingComponent": [Function],
           "minChar": 1,
           "onChange": [Function],
@@ -542,7 +550,7 @@ ShallowWrapper {
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -559,7 +567,7 @@ ShallowWrapper {
         "_debugID": 60,
         "_renderedOutput": <div
           className="rta "
-          style={undefined}
+          style={null}
         >
           <textarea
             className="rta__textarea ownClassName"
@@ -586,6 +594,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={null}
     loadingComponent={[Function]}
     minChar={1}
     onChange={[Function]}
