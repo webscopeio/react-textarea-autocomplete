@@ -4,20 +4,10 @@ import React from 'react';
 
 import Listeners, { KEY_CODES } from './listener';
 import Item from './Item';
+import type { ListProps, ListState } from './types';
 
-type Props = {
-  values: Array<Object | string>,
-  component: React$StatelessFunctionalComponent<*>,
-  getTextToReplace: (Object | string) => string,
-  onSelect: string => void,
-};
-
-type State = {
-  selectedItem: ?Object | ?string,
-};
-
-export default class List extends React.Component<Props, State> {
-  state: State = {
+export default class List extends React.Component<ListProps, ListState> {
+  state: ListState = {
     selectedItem: null,
   };
 
@@ -31,7 +21,7 @@ export default class List extends React.Component<Props, State> {
     if (values && values[0]) this.selectItem(values[0]);
   }
 
-  componentWillReceiveProps({ values }: Props) {
+  componentWillReceiveProps({ values }: ListProps) {
     if (values && values[0]) this.selectItem(values[0]);
   }
 
@@ -62,7 +52,7 @@ export default class List extends React.Component<Props, State> {
 
   getId = (item: Object | string): string => this.props.getTextToReplace(item);
 
-  props: Props;
+  props: ListProps;
 
   listeners: Array<number> = [];
 
