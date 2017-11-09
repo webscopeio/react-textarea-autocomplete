@@ -16,10 +16,10 @@ import type {
 
 class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaState> {
   static defaultProps = {
-    containerStyle: undefined,
+    containerStyle: null,
     minChar: 1,
     onChange: null,
-    style: undefined,
+    style: null,
     value: '',
   };
 
