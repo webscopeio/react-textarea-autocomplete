@@ -7,58 +7,24 @@ import getCaretCoordinates from 'textarea-caret';
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
 
-type dataProviderType = string =>
-  | Promise<Array<Object | string>>
-  | Array<Object | string>;
+import type {
+  TextareaProps,
+  TextareaState,
+  getTextToReplaceType,
+  triggerType,
+  settingType,
+} from './types';
 
-type settingType = {
-  component: React$StatelessFunctionalComponent<*>,
-  dataProvider: dataProviderType,
-  output?: (Object | string, ?string) => string,
-};
-
-type getTextToReplaceType = (Object | string) => string;
-
-type triggerType = {
-  [string]: {|
-    output?: (Object | string, ?string) => string,
-    dataProvider: dataProviderType,
-    component: React$StatelessFunctionalComponent<*>,
-  |},
-};
-
-type Props = {
-  trigger: triggerType,
-  loadingComponent: React$StatelessFunctionalComponent<*>,
-  onChange: ?(SyntheticEvent<*> | Event) => void,
-  onCaretPositionChange: ?(number) => void,
-  minChar: ?number,
-  value?: string,
-  style: ?Object,
-  containerStyle: ?Object,
-  className: ?string,
-};
-
-type State = {
-  currentTrigger: ?string,
-  top: number,
-  left: number,
-  actualToken: string,
-  data: ?Array<Object | string>,
-  value: string,
-  dataLoading: boolean,
-  selectionEnd: number,
-  selectionStart: number,
-  component: ?React$StatelessFunctionalComponent<*>,
-};
-
-class ReactTextareaAutocomplete extends React.Component<Props, State> {
+class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaState> {
   static defaultProps = {
-    value: '',
+    containerStyle: undefined,
     minChar: 1,
+    onChange: undefined,
+    style: undefined,
+    value: '',
   };
 
-  constructor(props: Props) {
+  constructor(props: TextareaProps) {
     super(props);
 
     Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
@@ -77,7 +43,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     }
   }
 
-  state: State = {
+  state: TextareaState = {
     top: 0,
     left: 0,
     currentTrigger: null,
@@ -94,7 +60,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     Listeners.startListen();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: TextareaProps) {
     this._update(nextProps);
   }
 
@@ -249,7 +215,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     return data;
   };
 
-  _update({ value, trigger }: Props) {
+  _update({ value, trigger }: TextareaProps) {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
@@ -345,7 +311,7 @@ class ReactTextareaAutocomplete extends React.Component<Props, State> {
     );
   };
 
-  props: Props;
+  props: TextareaProps;
 
   textareaRef: HTMLInputElement;
 
@@ -431,8 +397,12 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 };
 
 ReactTextareaAutocomplete.propTypes = {
-  trigger: triggerPropsCheck, //eslint-disable-line
+  containerStyle: PropTypes.object,
   loadingComponent: PropTypes.func.isRequired,
+  minChar: PropTypes.number,
+  onChange: PropTypes.func,
+  style: PropTypes.object,
+  trigger: triggerPropsCheck, //eslint-disable-line
   value: PropTypes.string,
 };
 

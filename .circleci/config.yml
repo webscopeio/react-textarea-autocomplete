@@ -33,7 +33,11 @@ jobs:
       - run: 
           name: Run Tests
           command: yarn test
-
+      
+      - run: 
+          name: Run ESLint
+          command: yarn lint
+      
       - run: 
           name: Run Flow
           command: yarn flow:check

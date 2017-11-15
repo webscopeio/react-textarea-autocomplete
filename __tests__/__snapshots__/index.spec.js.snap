@@ -50,6 +50,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
         onCaretPositionChange={[Function]}
@@ -88,6 +89,7 @@ ShallowWrapper {
         "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
           "onCaretPositionChange": [Function],
@@ -184,6 +186,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
     onCaretPositionChange={[Function]}
@@ -258,6 +261,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
         onCaretPositionChange={[Function]}
@@ -295,6 +299,7 @@ ShallowWrapper {
         "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
           "onCaretPositionChange": [Function],
@@ -390,6 +395,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
     onCaretPositionChange={[Function]}
@@ -463,6 +469,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <ReactTextareaAutocomplete
         className="ownClassName"
+        containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
         onCaretPositionChange={[Function]}
@@ -501,6 +508,7 @@ ShallowWrapper {
         "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
+          "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
           "onCaretPositionChange": [Function],
@@ -597,6 +605,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <ReactTextareaAutocomplete
     className="ownClassName"
+    containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
     onCaretPositionChange={[Function]}
