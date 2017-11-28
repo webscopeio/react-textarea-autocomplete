@@ -20,6 +20,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     containerStyle: undefined,
     minChar: 1,
     onChange: undefined,
+    onCaretPositionChange: undefined,
     style: undefined,
     value: '',
   };
@@ -86,7 +87,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
 
   _onSelect = (newToken: string) => {
     const { selectionEnd, value: textareaValue } = this.state;
-    const { onChange, onCaretPositionChange } = this.props;
+    const { onChange } = this.props;
 
     let offsetToEndOfToken = 0;
     while (
@@ -119,11 +120,6 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
         if (onChange) onChange(e);
 
         this.setCaretPosition(newCaretPosition);
-
-        if (onCaretPositionChange) {
-          const caretPosition = this.getCaretPosition();
-          onCaretPositionChange(caretPosition);
-        }
       },
     );
     this._closeAutocomplete();
@@ -254,7 +250,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
   };
 
   _changeHandler = (e: SyntheticInputEvent<*>) => {
-    const { trigger, onChange, onCaretPositionChange, minChar } = this.props;
+    const { trigger, onChange, minChar, onCaretPositionChange } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
@@ -311,7 +307,16 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     );
   };
 
-  props: TextareaProps;
+  _selectHandler = () => {
+    const { onCaretPositionChange } = this.props;
+
+    if (onCaretPositionChange) {
+      const caretPosition = this.getCaretPosition();
+      onCaretPositionChange(caretPosition);
+    }
+  };
+
+  props: Props;
 
   textareaRef: HTMLInputElement;
 
@@ -339,6 +344,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
           ref={(ref) => { this.textareaRef = ref; }}
           className={`rta__textarea ${otherProps.className || ''}`}
           onChange={this._changeHandler}
+          onSelect={this._selectHandler}
           value={value}
           style={style}
         />
@@ -401,6 +407,7 @@ ReactTextareaAutocomplete.propTypes = {
   loadingComponent: PropTypes.func.isRequired,
   minChar: PropTypes.number,
   onChange: PropTypes.func,
+  onCaretPositionChange: PropTypes.func,
   style: PropTypes.object,
   trigger: triggerPropsCheck, //eslint-disable-line
   value: PropTypes.string,

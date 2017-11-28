@@ -7,21 +7,21 @@ export type ItemProps = {
   component: React$StatelessFunctionalComponent<*>,
   onSelectHandler: (Object | string) => void,
   item: Object | string,
-  onClickHandler: SyntheticEvent<*> => void,
-  selected: boolean,
+  onClickHandler: (SyntheticEvent<*>) => void,
+  selected: boolean
 };
 export type ListProps = {
   values: Array<Object | string>,
   component: React$StatelessFunctionalComponent<*>,
   getTextToReplace: (Object | string) => string,
-  onSelect: string => void,
+  onSelect: string => void
 };
 
 /**
  * List Types
  */
 export type ListState = {
-  selectedItem: ?Object | ?string,
+  selectedItem: ?Object | ?string
 };
 
 /**
@@ -34,7 +34,7 @@ type dataProviderType = string =>
 export type settingType = {
   component: React$StatelessFunctionalComponent<*>,
   dataProvider: dataProviderType,
-  output?: (Object | string, ?string) => string,
+  output?: (Object | string, ?string) => string
 };
 
 export type getTextToReplaceType = (Object | string) => string;
@@ -43,19 +43,20 @@ export type triggerType = {
   [string]: {|
     output?: (Object | string, ?string) => string,
     dataProvider: dataProviderType,
-    component: React$StatelessFunctionalComponent<*>,
-  |},
+    component: React$StatelessFunctionalComponent<*>
+  |}
 };
 
 export type TextareaProps = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
   onChange: ?(SyntheticEvent<*> | Event) => void,
+  onCaretPositionChange: ?(SyntheticEvent<*> | Event) => void,
   minChar: ?number,
   value?: string,
   style: ?Object,
   containerStyle: ?Object,
-  className: ?string,
+  className: ?string
 };
 
 export type TextareaState = {
@@ -68,5 +69,5 @@ export type TextareaState = {
   dataLoading: boolean,
   selectionEnd: number,
   selectionStart: number,
-  component: ?React$StatelessFunctionalComponent<*>,
+  component: ?React$StatelessFunctionalComponent<*>
 };
