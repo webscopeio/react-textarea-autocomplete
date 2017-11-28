@@ -316,7 +316,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     }
   };
 
-  props: Props;
+  props: TextareaProps;
 
   textareaRef: HTMLInputElement;
 

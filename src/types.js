@@ -51,7 +51,7 @@ export type TextareaProps = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
   onChange: ?(SyntheticEvent<*> | Event) => void,
-  onCaretPositionChange: ?(SyntheticEvent<*> | Event) => void,
+  onCaretPositionChange: ?(number) => void,
   minChar: ?number,
   value?: string,
   style: ?Object,
