@@ -42,6 +42,70 @@ yarn add @webscopeio/react-textarea-autocomplete
 | minChar | *optional*       | Number (= 1) | Number of characters that user should type for trigger a suggestion
 | style | *optional* | Style Object | Style's of textarea
 | containerStyle | *optional* | Style Object | Style's of textarea's container
+| onCaretPositionChange | *optional* | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
+
+## Methods
+
+The methods below can be called on the React component's ref (see: [React Docs](https://reactjs.org/docs/refs-and-the-dom.html))
+
+| Methods        |  Description
+| :------------- | :-------------
+| getCaretPosition() : number | Gets the current caret position in the textarea
+| setCaretPosition(position : number) : void | Sets the caret position to the integer value passed as the argument
+
+Example:
+```javascript
+import React, { Component } from "react";
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.textarea = undefined;
+    this.onCaretPositionChange = this.onCaretPositionChange.bind(this);
+    this.resetCaretPosition = this.resetCaretPosition.bind(this);
+    this.printCurrentCaretPosition = this.printCurrentCaretPosition.bind(this);
+  }
+
+  onCaretPositionChange(position) {
+    console.log(`Caret position is equal to ${position}`);
+  }
+
+  resetCaretPosition() {
+    this.textarea.setCaretPosition(0);
+  }
+
+  printCurrentCaretPosition() {
+    const caretPosition = this.textarea.getCaretPosition();
+    console.log(`Caret position is equal to ${caretPosition}`);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="App-controls">
+            <button onClick={this.resetCaretPosition}>Reset caret position</button>
+            <button onClick={this.printCurrentCaretPosition}>Print current caret position to the console</button>
+        </div>
+        <ReactTextareaAutocomplete
+          className="my-textarea"
+          loadingComponent={() => <span>Loading</span>}
+          trigger={{ ... }}
+          ref={(textarea) => { this.textarea = textarea; } }
+          onCaretPositionChange={this.onCaretPositionChange}
+        />
+      </div>
+    );
+  }
+}
+
+export default App;
+
+
+```
+
+
 
 ### Trigger type
 
@@ -149,7 +213,7 @@ Your PR's are welcomed! ❤️
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub><b>Andrey Taktaev</b></sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") | [<img src="https://avatars3.githubusercontent.com/u/9276511?v=4" width="100px;"/><br /><sub><b>Davidson Nascimento</b></sub>](https://github.com/davidsonsns)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=davidsonsns "Code") |
+| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub><b>Andrey Taktaev</b></sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") | [<img src="https://avatars3.githubusercontent.com/u/9276511?v=4" width="100px;"/><br /><sub><b>Davidson Nascimento</b></sub>](https://github.com/davidsonsns)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=davidsonsns "Code") | | [<img src="https://avatars0.githubusercontent.com/u/10706203?v=4" width="100px;"/><br /><sub><b>Marcin Lichwała</b></sub>](https://github.com/marcinlichwala)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Documentation") |
 | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

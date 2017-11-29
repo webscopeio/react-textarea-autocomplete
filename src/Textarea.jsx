@@ -6,6 +6,7 @@ import getCaretCoordinates from 'textarea-caret';
 
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
+
 import type {
   TextareaProps,
   TextareaState,
@@ -19,13 +20,15 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     containerStyle: undefined,
     minChar: 1,
     onChange: undefined,
+    onCaretPositionChange: undefined,
     style: undefined,
     value: '',
   };
 
   constructor(props: TextareaProps) {
     super(props);
-    Listeners.add(KEY_CODES.ESC, () => this.closeAutocomplete());
+
+    Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
 
     const { loadingComponent, trigger, value } = this.props;
 
@@ -59,14 +62,30 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
   }
 
   componentWillReceiveProps(nextProps: TextareaProps) {
-    this.update(nextProps);
+    this._update(nextProps);
   }
 
   componentWillUnmount() {
     Listeners.stopListen();
   }
 
-  onSelect = (newToken: string) => {
+  setCaretPosition = (position: number = 0) => {
+    if (!this.textareaRef) return;
+
+    this.textareaRef.focus();
+    this.textareaRef.setSelectionRange(position, position);
+  };
+
+  getCaretPosition = (): number => {
+    if (!this.textareaRef) {
+      return 0;
+    }
+
+    const position = this.textareaRef.selectionEnd;
+    return position;
+  };
+
+  _onSelect = (newToken: string) => {
     const { selectionEnd, value: textareaValue } = this.state;
     const { onChange } = this.props;
 
@@ -100,15 +119,15 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
 
-        this.setTextareaCaret(newCaretPosition);
+        this.setCaretPosition(newCaretPosition);
       },
     );
-    this.closeAutocomplete();
+    this._closeAutocomplete();
   };
 
-  getTextToReplace = (): ?getTextToReplaceType => {
+  _getTextToReplace = (): ?getTextToReplaceType => {
     const { currentTrigger } = this.state;
-    const triggerSettings = this.getCurrentTriggerSettings();
+    const triggerSettings = this._getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) return () => '';
 
@@ -131,14 +150,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     };
   };
 
-  setTextareaCaret = (position: number = 0) => {
-    if (!this.textareaRef) return;
-
-    this.textareaRef.focus();
-    this.textareaRef.setSelectionRange(position, position);
-  };
-
-  getCurrentTriggerSettings = (): ?settingType => {
+  _getCurrentTriggerSettings = (): ?settingType => {
     const { currentTrigger } = this.state;
 
     if (!currentTrigger) return null;
@@ -146,9 +158,9 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     return this.props.trigger[currentTrigger];
   };
 
-  getValuesFromProvider = () => {
+  _getValuesFromProvider = () => {
     const { currentTrigger, actualToken } = this.state;
-    const triggerSettings = this.getCurrentTriggerSettings();
+    const triggerSettings = this._getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) {
       return;
@@ -191,7 +203,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
       });
   };
 
-  getSuggestions = (): ?Array<Object | string> => {
+  _getSuggestions = (): ?Array<Object | string> => {
     const { currentTrigger, data } = this.state;
 
     if (!currentTrigger || !data || (data && !data.length)) return null;
@@ -199,7 +211,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     return data;
   };
 
-  update({ value, trigger }: TextareaProps) {
+  _update({ value, trigger }: TextareaProps) {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
@@ -209,13 +221,13 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     }
   }
 
-  closeAutocomplete = () => {
-    if (!this.getSuggestions()) return;
+  _closeAutocomplete = () => {
+    if (!this._getSuggestions()) return;
 
     this.setState({ data: null });
   };
 
-  cleanUpProps = (): Object => {
+  _cleanUpProps = (): Object => {
     const props = { ...this.props };
     const notSafe = [
       'loadingComponent',
@@ -223,6 +235,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
       'minChar',
       'ref',
       'onChange',
+      'onCaretPositionChange',
       'className',
       'value',
       'trigger',
@@ -236,8 +249,8 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     return props;
   };
 
-  changeHandler = (e: SyntheticInputEvent<*>) => {
-    const { trigger, onChange, minChar } = this.props;
+  _changeHandler = (e: SyntheticInputEvent<*>) => {
+    const { trigger, onChange, minChar, onCaretPositionChange } = this.props;
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
@@ -245,6 +258,11 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     if (onChange) {
       e.persist();
       onChange(e);
+    }
+
+    if (onCaretPositionChange) {
+      const caretPosition = this.getCaretPosition();
+      onCaretPositionChange(caretPosition);
     }
 
     this.setState({
@@ -259,7 +277,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
      the autocomplete
     */
     if (!lastToken || lastToken.length <= minChar) {
-      this.closeAutocomplete();
+      this._closeAutocomplete();
       return;
     }
 
@@ -285,8 +303,17 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
         currentTrigger,
         actualToken,
       },
-      this.getValuesFromProvider,
+      this._getValuesFromProvider,
     );
+  };
+
+  _selectHandler = () => {
+    const { onCaretPositionChange } = this.props;
+
+    if (onCaretPositionChange) {
+      const caretPosition = this.getCaretPosition();
+      onCaretPositionChange(caretPosition);
+    }
   };
 
   props: TextareaProps;
@@ -304,8 +331,8 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     } = this.props;
     const { left, top, dataLoading, component, value } = this.state;
 
-    const suggestionData = this.getSuggestions();
-    const textToReplace = this.getTextToReplace();
+    const suggestionData = this._getSuggestions();
+    const textToReplace = this._getTextToReplace();
 
     return (
       <div
@@ -313,10 +340,11 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
         style={containerStyle}
       >
         <textarea
-          {...this.cleanUpProps()}
+          {...this._cleanUpProps()}
           ref={(ref) => { this.textareaRef = ref; }}
           className={`rta__textarea ${otherProps.className || ''}`}
-          onChange={this.changeHandler}
+          onChange={this._changeHandler}
+          onSelect={this._selectHandler}
           value={value}
           style={style}
         />
@@ -329,7 +357,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
                 values={suggestionData}
                 component={component}
                 getTextToReplace={textToReplace}
-                onSelect={this.onSelect}
+                onSelect={this._onSelect}
               />}
             {dataLoading &&
               <div
@@ -379,6 +407,7 @@ ReactTextareaAutocomplete.propTypes = {
   loadingComponent: PropTypes.func.isRequired,
   minChar: PropTypes.number,
   onChange: PropTypes.func,
+  onCaretPositionChange: PropTypes.func,
   style: PropTypes.object,
   trigger: triggerPropsCheck, //eslint-disable-line
   value: PropTypes.string,

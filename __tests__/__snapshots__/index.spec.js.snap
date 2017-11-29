@@ -15,6 +15,7 @@ ShallowWrapper {
     <textarea
       className="rta__textarea ownClassName"
       onChange={[Function]}
+      onSelect={[Function]}
       placeholder="Write a message."
       style={
         Object {
@@ -32,6 +33,7 @@ ShallowWrapper {
       <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
+        onSelect={[Function]}
         placeholder="Write a message."
         style={
           Object {
@@ -53,7 +55,9 @@ ShallowWrapper {
         containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
+        onCaretPositionChange={[Function]}
         onChange={[Function]}
+        onSelect={[Function]}
         placeholder="Write a message."
         style={
           Object {
@@ -71,26 +75,30 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 13,
+      "_debugID": 17,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
+        "_changeHandler": [Function],
+        "_cleanUpProps": [Function],
+        "_closeAutocomplete": [Function],
+        "_getCurrentTriggerSettings": [Function],
+        "_getSuggestions": [Function],
+        "_getTextToReplace": [Function],
+        "_getValuesFromProvider": [Function],
+        "_onSelect": [Function],
         "_reactInternalInstance": [Circular],
-        "changeHandler": [Function],
-        "cleanUpProps": [Function],
-        "closeAutocomplete": [Function],
+        "_selectHandler": [Function],
         "context": Object {},
-        "getCurrentTriggerSettings": [Function],
-        "getSuggestions": [Function],
-        "getTextToReplace": [Function],
-        "getValuesFromProvider": [Function],
-        "onSelect": [Function],
+        "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
           "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
+          "onCaretPositionChange": [Function],
           "onChange": [Function],
+          "onSelect": [Function],
           "placeholder": "Write a message.",
           "style": Object {
             "background": "red",
@@ -105,7 +113,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
-        "setTextareaCaret": [Function],
+        "setCaretPosition": [Function],
         "state": Object {
           "actualToken": "",
           "component": null,
@@ -144,6 +152,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -153,7 +162,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 14,
+        "_debugID": 18,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
@@ -161,6 +170,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -186,7 +196,9 @@ ShallowWrapper {
     containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
+    onCaretPositionChange={[Function]}
     onChange={[Function]}
+    onSelect={[Function]}
     placeholder="Write a message."
     style={
       Object {
@@ -222,6 +234,7 @@ ShallowWrapper {
     <textarea
       className="rta__textarea ownClassName"
       onChange={[Function]}
+      onSelect={[Function]}
       placeholder="Write a message."
       style={
         Object {
@@ -239,6 +252,7 @@ ShallowWrapper {
       <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
+        onSelect={[Function]}
         placeholder="Write a message."
         style={
           Object {
@@ -260,6 +274,7 @@ ShallowWrapper {
         containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
+        onCaretPositionChange={[Function]}
         onChange={[Function]}
         placeholder="Write a message."
         style={
@@ -277,25 +292,28 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 37,
+      "_debugID": 41,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
+        "_changeHandler": [Function],
+        "_cleanUpProps": [Function],
+        "_closeAutocomplete": [Function],
+        "_getCurrentTriggerSettings": [Function],
+        "_getSuggestions": [Function],
+        "_getTextToReplace": [Function],
+        "_getValuesFromProvider": [Function],
+        "_onSelect": [Function],
         "_reactInternalInstance": [Circular],
-        "changeHandler": [Function],
-        "cleanUpProps": [Function],
-        "closeAutocomplete": [Function],
+        "_selectHandler": [Function],
         "context": Object {},
-        "getCurrentTriggerSettings": [Function],
-        "getSuggestions": [Function],
-        "getTextToReplace": [Function],
-        "getValuesFromProvider": [Function],
-        "onSelect": [Function],
+        "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
           "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
+          "onCaretPositionChange": [Function],
           "onChange": [Function],
           "placeholder": "Write a message.",
           "style": Object {
@@ -310,7 +328,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
-        "setTextareaCaret": [Function],
+        "setCaretPosition": [Function],
         "state": Object {
           "actualToken": "",
           "component": null,
@@ -349,6 +367,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -358,7 +377,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 38,
+        "_debugID": 42,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
@@ -366,6 +385,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -391,6 +411,7 @@ ShallowWrapper {
     containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
+    onCaretPositionChange={[Function]}
     onChange={[Function]}
     placeholder="Write a message."
     style={
@@ -426,6 +447,7 @@ ShallowWrapper {
     <textarea
       className="rta__textarea ownClassName"
       onChange={[Function]}
+      onSelect={[Function]}
       placeholder="Write a message."
       style={
         Object {
@@ -443,6 +465,7 @@ ShallowWrapper {
       <textarea
         className="rta__textarea ownClassName"
         onChange={[Function]}
+        onSelect={[Function]}
         placeholder="Write a message."
         style={
           Object {
@@ -464,6 +487,7 @@ ShallowWrapper {
         containerStyle={undefined}
         loadingComponent={[Function]}
         minChar={1}
+        onCaretPositionChange={[Function]}
         onChange={[Function]}
         placeholder="Write a message."
         style={
@@ -482,25 +506,28 @@ ShallowWrapper {
         }
         value="Controlled text"
       />,
-      "_debugID": 59,
+      "_debugID": 63,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": ReactTextareaAutocomplete {
+        "_changeHandler": [Function],
+        "_cleanUpProps": [Function],
+        "_closeAutocomplete": [Function],
+        "_getCurrentTriggerSettings": [Function],
+        "_getSuggestions": [Function],
+        "_getTextToReplace": [Function],
+        "_getValuesFromProvider": [Function],
+        "_onSelect": [Function],
         "_reactInternalInstance": [Circular],
-        "changeHandler": [Function],
-        "cleanUpProps": [Function],
-        "closeAutocomplete": [Function],
+        "_selectHandler": [Function],
         "context": Object {},
-        "getCurrentTriggerSettings": [Function],
-        "getSuggestions": [Function],
-        "getTextToReplace": [Function],
-        "getValuesFromProvider": [Function],
-        "onSelect": [Function],
+        "getCaretPosition": [Function],
         "props": Object {
           "className": "ownClassName",
           "containerStyle": undefined,
           "loadingComponent": [Function],
           "minChar": 1,
+          "onCaretPositionChange": [Function],
           "onChange": [Function],
           "placeholder": "Write a message.",
           "style": Object {
@@ -516,7 +543,7 @@ ShallowWrapper {
           "value": "Controlled text",
         },
         "refs": Object {},
-        "setTextareaCaret": [Function],
+        "setCaretPosition": [Function],
         "state": Object {
           "actualToken": "",
           "component": null,
@@ -555,6 +582,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -564,7 +592,7 @@ ShallowWrapper {
             value="Controlled text"
           />
         </div>,
-        "_debugID": 60,
+        "_debugID": 64,
         "_renderedOutput": <div
           className="rta "
           style={undefined}
@@ -572,6 +600,7 @@ ShallowWrapper {
           <textarea
             className="rta__textarea ownClassName"
             onChange={[Function]}
+            onSelect={[Function]}
             placeholder="Write a message."
             style={
               Object {
@@ -597,6 +626,7 @@ ShallowWrapper {
     containerStyle={undefined}
     loadingComponent={[Function]}
     minChar={1}
+    onCaretPositionChange={[Function]}
     onChange={[Function]}
     placeholder="Write a message."
     style={
