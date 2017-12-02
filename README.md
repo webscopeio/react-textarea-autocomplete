@@ -35,14 +35,14 @@ yarn add @webscopeio/react-textarea-autocomplete
 
 *Note: Every other props than the mentioned below will be propagated to textarea itself*
 
-| Props         | Default              |  Type           |  Description 
-| :------------- | :-------------       | :-------------  |  ---------
-| loadingComponent | *required*         | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
-| trigger | *required*         | Object (Trigger type) | Define triggers and their corresponding behavior
-| minChar | *optional*       | Number (= 1) | Number of characters that user should type for trigger a suggestion
-| style | *optional* | Style Object | Style's of textarea
-| containerStyle | *optional* | Style Object | Style's of textarea's container
-| onCaretPositionChange | *optional* | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
+| Props         | Type           |  Description 
+| :------------- | :-------------  |  ---------
+| **trigger** | Object: Trigger type | Define triggers and their corresponding behavior
+| **loadingComponent** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
+| minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
+| style | Style Object | Style's of textarea
+| containerStyle | Style Object | Style's of textarea's container
+| onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 
 ## Methods
 
@@ -59,32 +59,23 @@ import React, { Component } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.textarea = undefined;
-    this.onCaretPositionChange = this.onCaretPositionChange.bind(this);
-    this.resetCaretPosition = this.resetCaretPosition.bind(this);
-    this.printCurrentCaretPosition = this.printCurrentCaretPosition.bind(this);
-  }
-
-  onCaretPositionChange(position) {
+  onCaretPositionChange = (position) => {
     console.log(`Caret position is equal to ${position}`);
   }
 
-  resetCaretPosition() {
+  resetCaretPosition = () => {
     this.textarea.setCaretPosition(0);
   }
 
-  printCurrentCaretPosition() {
+  printCurrentCaretPosition = () => {
     const caretPosition = this.textarea.getCaretPosition();
     console.log(`Caret position is equal to ${caretPosition}`);
   }
 
   render() {
     return (
-      <div className="App">
-        <div className="App-controls">
+      <div className="app">
+        <div className="controls">
             <button onClick={this.resetCaretPosition}>Reset caret position</button>
             <button onClick={this.printCurrentCaretPosition}>Print current caret position to the console</button>
         </div>
@@ -101,8 +92,6 @@ class App extends Component {
 }
 
 export default App;
-
-
 ```
 
 
@@ -111,11 +100,11 @@ export default App;
 
 ```javascript 
 {
-    [triggerChar: string]: {
+    [triggerChar: string]: {}
         ?output: (item: Object | string, trigger?: string) => string,
         dataProvider: (token: string) => Promise<Array<Object | string>> | Array<Object | string>,
         component: ReactClass<*>,
-    },
+    |},
 }
 ```
 
@@ -128,6 +117,7 @@ export default App;
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
 
+> There is also UMD build available - index.umd.js - check this CodePen.
 ### App.js
 ```javascript
 import React, { Component } from "react";
