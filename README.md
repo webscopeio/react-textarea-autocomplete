@@ -117,7 +117,7 @@ export default App;
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
 
-> There is also UMD build available - index.umd.js - check this CodePen.
+> There is also UMD build available, [check this CodePen for a proof](https://codepen.io/jukben/pen/dZaNma).💪
 ### App.js
 ```javascript
 import React, { Component } from "react";

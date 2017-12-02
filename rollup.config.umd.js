@@ -9,7 +9,7 @@ export default {
   onwarn: () => null,
   plugins,
   output: {
-    file: 'index.umd.js',
+    file: 'umd/rta.min.js',
     format: 'umd',
     name: 'ReactTextareaAutocomplete',
   },

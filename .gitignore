@@ -12,5 +12,5 @@ coverage/
 # build
 
 index.js
-index.umd.js
+umd/
 types.js
