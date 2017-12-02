@@ -6,12 +6,7 @@
     "type": "git",
     "url": "https://github.com/webscopeio/react-textarea-autocomplete"
   },
-  "files": [
-    "index.js",
-    "umd",
-    "types.js",
-    "style.css"
-  ],
+  "files": ["index.js", "umd/", "types.js", "style.css"],
   "main": "index.js",
   "author": "Jakub Benes <jukben@gmail.com>",
   "license": "MIT",
@@ -19,12 +14,7 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": [
-    "react-component",
-    "textarea",
-    "autocomplete",
-    "react"
-  ],
+  "keywords": ["react-component", "textarea", "autocomplete", "react"],
   "scripts": {
     "build": "cp src/types.js types.js && yarn build:umd && yarn build:cjs",
     "build:umd": "rollup -c rollup.config.umd.js",
@@ -80,22 +70,15 @@
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
-    "src/*.{js,jsx}": [
-      "eslint src --fix",
-      "git add"
-    ]
+    "src/*.{js,jsx}": ["eslint src --fix", "git add"]
   },
   "jest": {
-    "setupFiles": [
-      "<rootDir>/setupJest.js"
-    ],
+    "setupFiles": ["<rootDir>/setupJest.js"],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   }
 }
