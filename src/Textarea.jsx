@@ -19,7 +19,9 @@ import type {
 
 const errorMessage = (message: string) =>
   console.error(
-    `RTA: dataProvider fails: ${message} Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
+    `RTA: dataProvider fails: ${
+      message
+    } Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -175,7 +177,7 @@ class ReactTextareaAutocomplete extends React.Component<
         typeof item === 'object' &&
         (!output || typeof output !== 'function')
       ) {
-        throw new Error('RTA: Output function is not defined!');
+        throw new Error('Output function is not defined!');
       }
 
       if (output) {
@@ -203,8 +205,14 @@ class ReactTextareaAutocomplete extends React.Component<
         return textToReplace;
       }
 
-      // $FlowFixMe
-      return `${currentTrigger}${item}${currentTrigger}`;
+      if (typeof item !== 'string') {
+        throw new Error('Output item should be string.');
+      }
+
+      return {
+        text: `${currentTrigger}${item}${currentTrigger}`,
+        caretPosition: 'end',
+      };
     };
   };
 
@@ -227,7 +235,7 @@ class ReactTextareaAutocomplete extends React.Component<
     const { dataProvider, component } = triggerSettings;
 
     if (typeof dataProvider !== 'function') {
-      throw new Error('RTA: Trigger provider has to be a function!');
+      throw new Error('Trigger provider has to be a function!');
     }
 
     this.setState({
@@ -431,9 +439,11 @@ class ReactTextareaAutocomplete extends React.Component<
               )}
             {dataLoading && (
               <div
-                className={`rta__loader ${suggestionData !== null
-                  ? 'rta__loader--suggestion-data'
-                  : 'rta__loader--empty-suggestion-data'}`}
+                className={`rta__loader ${
+                  suggestionData !== null
+                    ? 'rta__loader--suggestion-data'
+                    : 'rta__loader--empty-suggestion-data'
+                }`}
               >
                 <Loader data={suggestionData} />
               </div>

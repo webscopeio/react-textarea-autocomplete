@@ -6,7 +6,12 @@
     "type": "git",
     "url": "https://github.com/webscopeio/react-textarea-autocomplete"
   },
-  "files": ["index.js", "umd/", "types.js", "style.css"],
+  "files": [
+    "index.js",
+    "umd/",
+    "types.js",
+    "style.css"
+  ],
   "main": "index.js",
   "author": "Jakub Benes <jukben@gmail.com>",
   "license": "MIT",
@@ -14,7 +19,12 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": ["react-component", "textarea", "autocomplete", "react"],
+  "keywords": [
+    "react-component",
+    "textarea",
+    "autocomplete",
+    "react"
+  ],
   "scripts": {
     "build": "cp src/types.js types.js && yarn build:umd && yarn build:cjs",
     "build:umd": "rollup -c rollup.config.umd.js",
@@ -36,49 +46,57 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-react-app": "^3.0.3",
-    "babel-runtime": "^6.26.0",
+    "babel-preset-react-app": "^3.1.0",
+    "babel-runtime": "^6.23.0",
     "css-loader": "^0.28.7",
-    "cypress": "^1.0.2",
+    "cypress": "^1.1.2",
     "enzyme": "^2.9.1",
-    "eslint": "^4.10.0",
+    "eslint": "^4.12.1",
     "eslint-config-callstack-io": "^1.0.1",
-    "flow-bin": "^0.57.3",
+    "flow-bin": "^0.60.1",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
-    "lint-staged": "^4.3.0",
-    "prettier": "^1.7.4",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.8.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
-    "rollup": "^0.50.0",
+    "rollup": "^0.52.0",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-commonjs": "^8.2.5",
+    "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-license": "^0.5.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "style-loader": "^0.19.0",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3"
+    "webpack": "^3.9.1",
+    "webpack-dev-server": "^2.9.5"
   },
   "peerDependencies": {
     "prop-types": "^15.0.0 || ^16.0.0",
     "react": "^15.0.0 || ^16.0.0"
   },
   "dependencies": {
+    "eslint-plugin-prettier": "^2.3.1",
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
-    "src/*.{js,jsx}": ["eslint src --fix", "git add"]
+    "src/*.{js,jsx}": [
+      "eslint src --fix",
+      "git add"
+    ]
   },
   "jest": {
-    "setupFiles": ["<rootDir>/setupJest.js"],
+    "setupFiles": [
+      "<rootDir>/setupJest.js"
+    ],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   }
 }
