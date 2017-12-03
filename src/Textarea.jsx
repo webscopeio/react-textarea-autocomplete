@@ -281,10 +281,11 @@ class ReactTextareaAutocomplete extends React.Component<
     }
   }
 
+  /**
+   * Close autocomplete, also clean up trigger (to aviod slow promises)
+   */
   _closeAutocomplete = () => {
-    if (!this._getSuggestions()) return;
-
-    this.setState({ data: null });
+    this.setState({ data: null, dataLoading: false, currentTrigger: null });
   };
 
   _cleanUpProps = (): Object => {
@@ -432,7 +433,14 @@ class ReactTextareaAutocomplete extends React.Component<
       loaderStyle,
       loaderClassName,
     } = this.props;
-    const { left, top, dataLoading, component, value } = this.state;
+    const {
+      left,
+      top,
+      dataLoading,
+      currentTrigger,
+      component,
+      value,
+    } = this.state;
 
     const suggestionData = this._getSuggestions();
     const textToReplace = this._getTextToReplace();
@@ -456,39 +464,40 @@ class ReactTextareaAutocomplete extends React.Component<
           value={value}
           style={style}
         />
-        {(dataLoading || suggestionData) && (
-          <div
-            style={{ top, left, ...dropdownStyle }}
-            className={`rta__autocomplete ${dropdownClassName || ''}`}
-          >
-            {suggestionData &&
-              component &&
-              textToReplace && (
-                <List
-                  values={suggestionData}
-                  component={component}
-                  style={listStyle}
-                  className={listClassName}
-                  itemClassName={itemClassName}
-                  itemStyle={itemStyle}
-                  getTextToReplace={textToReplace}
-                  onSelect={this._onSelect}
-                />
+        {(dataLoading || suggestionData) &&
+          currentTrigger && (
+            <div
+              style={{ top, left, ...dropdownStyle }}
+              className={`rta__autocomplete ${dropdownClassName || ''}`}
+            >
+              {suggestionData &&
+                component &&
+                textToReplace && (
+                  <List
+                    values={suggestionData}
+                    component={component}
+                    style={listStyle}
+                    className={listClassName}
+                    itemClassName={itemClassName}
+                    itemStyle={itemStyle}
+                    getTextToReplace={textToReplace}
+                    onSelect={this._onSelect}
+                  />
+                )}
+              {dataLoading && (
+                <div
+                  className={`rta__loader ${
+                    suggestionData !== null
+                      ? 'rta__loader--suggestion-data'
+                      : 'rta__loader--empty-suggestion-data'
+                  } ${loaderClassName || ''}`}
+                  style={loaderStyle}
+                >
+                  <Loader data={suggestionData} />
+                </div>
               )}
-            {dataLoading && (
-              <div
-                className={`rta__loader ${
-                  suggestionData !== null
-                    ? 'rta__loader--suggestion-data'
-                    : 'rta__loader--empty-suggestion-data'
-                } ${loaderClassName || ''}`}
-                style={loaderStyle}
-              >
-                <Loader data={suggestionData} />
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
       </div>
     );
   }
