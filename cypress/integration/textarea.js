@@ -36,6 +36,10 @@ describe('React Textarea Autocomplete', () => {
     });
 
     it('should have place caret before outputed word', () => {
+      /**
+      * This is probably Cypress bug (1.0.2)
+      * This test needs to be runned in headed mode, otherwise fails
+      */
       cy.get('[data-test="changeCaretOption"]').click();
 
       cy.get('.rta__textarea').type('This is test :ro{downarrow}{downarrow}');
@@ -46,6 +50,10 @@ describe('React Textarea Autocomplete', () => {
     });
 
     it('should have place caret after word', () => {
+      /**
+      * This is probably Cypress bug (1.0.2)
+      * This test needs to be runned in headed mode, otherwise fails
+      */
       cy.get('[data-test="changeCaretOption"]').click();
 
       cy.get('.rta__textarea').type('This is test :ro{downarrow}{downarrow}');
