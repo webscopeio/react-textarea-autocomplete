@@ -276,6 +276,7 @@ ShallowWrapper {
         minChar={1}
         onCaretPositionChange={[Function]}
         onChange={[Function]}
+        onSelect={undefined}
         placeholder="Write a message."
         style={
           Object {
@@ -315,6 +316,7 @@ ShallowWrapper {
           "minChar": 1,
           "onCaretPositionChange": [Function],
           "onChange": [Function],
+          "onSelect": undefined,
           "placeholder": "Write a message.",
           "style": Object {
             "background": "red",
@@ -413,6 +415,7 @@ ShallowWrapper {
     minChar={1}
     onCaretPositionChange={[Function]}
     onChange={[Function]}
+    onSelect={undefined}
     placeholder="Write a message."
     style={
       Object {
@@ -489,6 +492,7 @@ ShallowWrapper {
         minChar={1}
         onCaretPositionChange={[Function]}
         onChange={[Function]}
+        onSelect={undefined}
         placeholder="Write a message."
         style={
           Object {
@@ -529,6 +533,7 @@ ShallowWrapper {
           "minChar": 1,
           "onCaretPositionChange": [Function],
           "onChange": [Function],
+          "onSelect": undefined,
           "placeholder": "Write a message.",
           "style": Object {
             "background": "red",
@@ -628,6 +633,7 @@ ShallowWrapper {
     minChar={1}
     onCaretPositionChange={[Function]}
     onChange={[Function]}
+    onSelect={undefined}
     placeholder="Write a message."
     style={
       Object {

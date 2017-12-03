@@ -1,5 +1,18 @@
 // @flow
 
+export type caretPositionType = 'start' | 'end' | number;
+
+export type textToReplaceType = {|
+  text: string,
+  caretPosition: caretPositionType,
+|};
+
+export type outputType = (Object | string, ?string) => textToReplaceType;
+
+export type dataProviderType = string =>
+  | Promise<Array<Object | string>>
+  | Array<Object | string>;
+
 /**
  * Item Types
  */
@@ -8,55 +21,47 @@ export type ItemProps = {
   onSelectHandler: (Object | string) => void,
   item: Object | string,
   onClickHandler: (SyntheticEvent<*>) => void,
-  selected: boolean
+  selected: boolean,
 };
+
 export type ListProps = {
   values: Array<Object | string>,
   component: React$StatelessFunctionalComponent<*>,
-  getTextToReplace: (Object | string) => string,
-  onSelect: string => void
+  getTextToReplace: outputType,
+  onSelect: textToReplaceType => void,
 };
 
 /**
  * List Types
  */
 export type ListState = {
-  selectedItem: ?Object | ?string
+  selectedItem: ?Object | ?string,
 };
 
 /**
  * Textarea Types
  */
-type dataProviderType = string =>
-  | Promise<Array<Object | string>>
-  | Array<Object | string>;
-
-export type settingType = {
+export type settingType = {|
   component: React$StatelessFunctionalComponent<*>,
   dataProvider: dataProviderType,
-  output?: (Object | string, ?string) => string
-};
-
-export type getTextToReplaceType = (Object | string) => string;
+  output?: (Object | string, ?string) => textToReplaceType | string,
+|};
 
 export type triggerType = {
-  [string]: {|
-    output?: (Object | string, ?string) => string,
-    dataProvider: dataProviderType,
-    component: React$StatelessFunctionalComponent<*>
-  |}
+  [string]: settingType,
 };
 
 export type TextareaProps = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
   onChange: ?(SyntheticEvent<*> | Event) => void,
+  onSelect: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
   minChar: ?number,
   value?: string,
   style: ?Object,
   containerStyle: ?Object,
-  className: ?string
+  className: ?string,
 };
 
 export type TextareaState = {
@@ -69,5 +74,5 @@ export type TextareaState = {
   dataLoading: boolean,
   selectionEnd: number,
   selectionStart: number,
-  component: ?React$StatelessFunctionalComponent<*>
+  component: ?React$StatelessFunctionalComponent<*>,
 };

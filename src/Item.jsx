@@ -18,7 +18,9 @@ export default class Item extends React.Component<ItemProps, *> {
     return (
       <li className="rta__item">
         <div
-          className={`rta__entity ${selected === true ? 'rta__entity--selected' : ''}`}
+          className={`rta__entity ${
+            selected === true ? 'rta__entity--selected' : ''
+          }`}
           role="button"
           tabIndex={0}
           onClick={onClickHandler}

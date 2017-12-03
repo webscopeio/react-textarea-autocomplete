@@ -14,7 +14,7 @@ export default class List extends React.Component<ListProps, ListState> {
   componentDidMount() {
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
-      Listeners.add([KEY_CODES.ENTER, KEY_CODES.TAB], this.onPressEnter),
+      Listeners.add([KEY_CODES.ENTER, KEY_CODES.TAB], this.onPressEnter)
     );
 
     const { values } = this.props;
@@ -50,7 +50,8 @@ export default class List extends React.Component<ListProps, ListState> {
     return values.findIndex(a => this.getId(a) === this.getId(selectedItem));
   };
 
-  getId = (item: Object | string): string => this.props.getTextToReplace(item);
+  getId = (item: Object | string): string =>
+    this.props.getTextToReplace(item).text;
 
   props: ListProps;
 
@@ -105,16 +106,16 @@ export default class List extends React.Component<ListProps, ListState> {
 
     return (
       <ul className="rta__list">
-        {values.map(item =>
-          (<Item
+        {values.map(item => (
+          <Item
             key={this.getId(item)}
             selected={this.isSelected(item)}
             item={item}
             onClickHandler={this.onPressEnter}
             onSelectHandler={this.selectItem}
             component={component}
-          />),
-        )}
+          />
+        ))}
       </ul>
     );
   }
