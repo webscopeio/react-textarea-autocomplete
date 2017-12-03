@@ -12,7 +12,9 @@ type ItemProps = {
   },
 };
 
-const Item = ({ entity: { name, char } }: ItemProps) => <div>{`${name}: ${char}`}</div>;
+const Item = ({ entity: { name, char } }: ItemProps) => (
+  <div>{`${name}: ${char}`}</div>
+);
 
 type LoadingProps = {
   data: Array<{ name: string, char: string }>,
@@ -67,13 +69,15 @@ class App extends React.Component {
         <label>
           Place caret before word
           <input
+            data-test="changeCaretOption"
             type="checkbox"
             defaultChecked={optionsCaretStart}
             onChange={this._handleOptionsCaretStart}
           />
         </label>
         <div>
-          Actual caret position: <span data-test="actualCaretPosition">{caretPosition}</span>
+          Actual caret position:{' '}
+          <span data-test="actualCaretPosition">{caretPosition}</span>
         </div>
         <button data-test="setCaretPosition" onClick={this._setCaretPosition}>
           setCaretPosition(1);
@@ -84,7 +88,7 @@ class App extends React.Component {
 
         <ReactTextareaAutocomplete
           className="one"
-          ref={(ref) => {
+          ref={ref => {
             this.rtaRef = ref;
           }}
           loadingComponent={Loading}
@@ -110,7 +114,9 @@ class App extends React.Component {
                   .slice(0, 10)
                   .map(({ name, char }) => ({ name, char })),
               component: Item,
-              output: optionsCaretStart ? this._outputCaretStart : this._outputCaretEnd,
+              output: optionsCaretStart
+                ? this._outputCaretStart
+                : this._outputCaretEnd,
             },
           }}
         />
