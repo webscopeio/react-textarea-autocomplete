@@ -28,11 +28,7 @@ class ReactTextareaAutocomplete extends React.Component<
   TextareaState
 > {
   static defaultProps = {
-    containerStyle: undefined,
-    onChange: undefined,
-    onSelect: undefined,
-    onCaretPositionChange: undefined,
-    style: undefined,
+    closeOnClickOutside: false,
     value: '',
     minChar: 1,
   };
@@ -312,6 +308,7 @@ class ReactTextareaAutocomplete extends React.Component<
       'listClassName',
       'itemClassName',
       'loaderClassName',
+      'closeOnClickOutside',
     ];
 
     // eslint-disable-next-line
@@ -400,6 +397,19 @@ class ReactTextareaAutocomplete extends React.Component<
     }
   };
 
+  _onBlurHandler = (e: SyntheticInputEvent<*>) => {
+    const { closeOnClickOutside, onBlur } = this.props;
+
+    if (closeOnClickOutside) {
+      this._closeAutocomplete();
+    }
+
+    if (onBlur) {
+      e.persist();
+      onBlur(e);
+    }
+  };
+
   props: TextareaProps;
 
   textareaRef: HTMLInputElement;
@@ -442,6 +452,7 @@ class ReactTextareaAutocomplete extends React.Component<
           className={`rta__textarea ${className || ''}`}
           onChange={this._changeHandler}
           onSelect={this._selectHandler}
+          onBlur={this._onBlurHandler}
           value={value}
           style={style}
         />
@@ -521,10 +532,12 @@ ReactTextareaAutocomplete.propTypes = {
   minChar: PropTypes.number,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
+  onBlur: PropTypes.func,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
   containerStyle: PropTypes.object,
   containerClassName: PropTypes.string,
+  closeOnClickOutside: PropTypes.bool,
   style: PropTypes.object,
   listStyle: PropTypes.object,
   itemStyle: PropTypes.object,

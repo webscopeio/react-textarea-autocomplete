@@ -41,6 +41,7 @@ yarn add @webscopeio/react-textarea-autocomplete
 | **loadingComponent*** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
 | minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
+| closeOnClickOutside | boolean | When it's true autocomplete will close when use click outside. Defaults to false.
 | style | Style Object | Style's of textarea
 | listStyle | Style Object | Style's of list's wrapper
 | itemStyle | Style Object | Style's of item's wrapper
