@@ -1,7 +1,5 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb", "plugin:flowtype/recommended"],
-  "plugins": ["react", "jsx-a11y", "flowtype"],
+  "extends": ["callstack-io"],
   "rules": {
     "react/jsx-filename-extension": [
       1,
@@ -11,7 +9,11 @@
     ],
     "no-underscore-dangle": 0,
     "no-console": 0,
+    "flowtype/no-weak-types": 0,
     "react/forbid-prop-types": [0, { "forbid": ["object"] }]
+  },
+  "globals": {
+    "context": true
   },
   "env": {
     "es6": true,

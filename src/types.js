@@ -2,11 +2,16 @@
 
 export type caretPositionType = 'start' | 'end' | number;
 
-export type textToReplaceType = {| text: string, caretPosition: caretPositionType |};
+export type textToReplaceType = {|
+  text: string,
+  caretPosition: caretPositionType,
+|};
 
 export type outputType = (Object | string, ?string) => textToReplaceType;
 
-export type dataProviderType = string => Promise<Array<Object | string>> | Array<Object | string>;
+export type dataProviderType = string =>
+  | Promise<Array<Object | string>>
+  | Array<Object | string>;
 
 /**
  * Item Types

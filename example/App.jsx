@@ -75,8 +75,12 @@ class App extends React.Component {
         <div>
           Actual caret position: <span data-test="actualCaretPosition">{caretPosition}</span>
         </div>
-        <button onClick={this._setCaretPosition}>setCaretPosition(1);</button>
-        <button onClick={this._getCaretPosition}>getCaretPosition();</button>
+        <button data-test="setCaretPosition" onClick={this._setCaretPosition}>
+          setCaretPosition(1);
+        </button>
+        <button data-test="getCaretPosition" onClick={this._getCaretPosition}>
+          getCaretPosition();
+        </button>
 
         <ReactTextareaAutocomplete
           className="one"
