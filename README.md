@@ -101,7 +101,7 @@ export default App;
 ```javascript 
 {
     [triggerChar: string]: {|
-        ?output: (item: Object | string, trigger?: string) => string,
+        ?output: (item: Object | string, trigger?: string) => {| text: string, caretPosition: "start" | "end" | number |} | string,
         dataProvider: (token: string) => Promise<Array<Object | string>> | Array<Object | string>,
         component: ReactClass<*>,
     |},
@@ -112,7 +112,9 @@ export default App;
 - **component** is the component for render the item in suggestion list. It has `selected` and `entity` props provided by React Textarea Autocomplete
 - **output** (Optional for string based item. If the item is an object this method is *required*) This function defines text which will be placed into textarea after the user makes a selection.
 
-    Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
+   You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value is "end" and number, which is absolute number in contex of textarea. (0 is equal position before the first char);
+ 
+   Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
