@@ -43,17 +43,17 @@ yarn add @webscopeio/react-textarea-autocomplete
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 | closeOnClickOutside | boolean | When it's true autocomplete will close when use click outside. Defaults to false.
 | style | Style Object | Style's of textarea
-| listStyle | Style Object | Style's of list's wrapper
-| itemStyle | Style Object | Style's of item's wrapper
-| loaderStyle | Style Object | Style's of loader's wrapper 
-| containerStyle | Style Object | Style's of textarea's container
-| dropdownStyle| Style Object | Style's of dropdown's wrapper
-| className | string | ClassName's of the textarea
-| containerClassName | string | ClassName's of the textarea's container
-| listClassName | string | ClassName's of list's wrapper 
-| itemClassName | string | ClassName's of item's wrapper
-| loaderClassName | string | ClassName's of loader's wrapper
-| dropdownClassName | string | ClassName's of dropdown's wrapper
+| listStyle | Style Object | Styles of list's wrapper
+| itemStyle | Style Object | Styles of item's wrapper
+| loaderStyle | Style Object | Styles of loader's wrapper 
+| containerStyle | Style Object | Styles of textarea's container
+| dropdownStyle| Style Object | Styles of dropdown's wrapper
+| className | string | ClassNames of the textarea
+| containerClassName | string | ClassNames of the textarea's container
+| listClassName | string | ClassNames of list's wrapper 
+| itemClassName | string | ClassNames of item's wrapper
+| loaderClassName | string | ClassNames of loader's wrapper
+| dropdownClassName | string | ClassNames of dropdown's wrapper
 
 
 
