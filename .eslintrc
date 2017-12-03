@@ -10,6 +10,7 @@
       }
     ],
     "no-underscore-dangle": 0,
+    "no-console": 0,
     "react/forbid-prop-types": [0, { "forbid": ["object"] }]
   },
   "env": {
