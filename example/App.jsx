@@ -144,6 +144,18 @@ class App extends React.Component {
                 ? this._outputCaretStart
                 : this._outputCaretEnd,
             },
+            '@': {
+              dataProvider: token =>
+                new Promise(res =>
+                  setTimeout(() => {
+                    res([{ name: 'jakub', char: 'Jakub' }]);
+                  }, 1000)
+                ),
+              component: Item,
+              output: optionsCaretStart
+                ? this._outputCaretStart
+                : this._outputCaretEnd,
+            },
           }}
         />
       </div>
