@@ -82,5 +82,17 @@ describe('React Textarea Autocomplete', () => {
           expect(stub.getCall(0)).to.be.calledWith(15);
         });
     });
+
+    it('should close the textarea when click outside happens', () => {
+      cy.get('[data-test="clickoutsideOption"]').click();
+
+      cy.get('.rta__textarea').type('This is test :ro{uparrow}{uparrow}');
+
+      cy.get('.rta__autocomplete').should('be.visible');
+
+      cy.get('[data-test="clickoutsideOption"]').click();
+
+      cy.get('.rta__autocomplete').should('not.be.visible');
+    });
   });
 });

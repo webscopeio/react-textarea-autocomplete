@@ -25,6 +25,7 @@ const Loading = ({ data }: LoadingProps) => <div>Loading</div>;
 class App extends React.Component {
   state = {
     optionsCaretStart: false,
+    clickoutsideOption: false,
     caretPosition: 0,
     text: '',
   };
@@ -32,6 +33,12 @@ class App extends React.Component {
   _handleOptionsCaretStart = () => {
     this.setState(({ optionsCaretStart }) => ({
       optionsCaretStart: !optionsCaretStart,
+    }));
+  };
+
+  _handleClickoutsideOption = () => {
+    this.setState(({ clickoutsideOption }) => ({
+      clickoutsideOption: !clickoutsideOption,
     }));
   };
 
@@ -62,19 +69,37 @@ class App extends React.Component {
   _outputCaretStart = item => ({ text: item.char, caretPosition: 'start' });
 
   render() {
-    const { optionsCaretStart, caretPosition, text } = this.state;
+    const {
+      optionsCaretStart,
+      caretPosition,
+      clickoutsideOption,
+      text,
+    } = this.state;
 
     return (
       <div>
-        <label>
-          Place caret before word
-          <input
-            data-test="changeCaretOption"
-            type="checkbox"
-            defaultChecked={optionsCaretStart}
-            onChange={this._handleOptionsCaretStart}
-          />
-        </label>
+        <div>
+          <label>
+            <input
+              data-test="changeCaretOption"
+              type="checkbox"
+              defaultChecked={optionsCaretStart}
+              onChange={this._handleOptionsCaretStart}
+            />
+            Place caret before word
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              data-test="clickoutsideOption"
+              type="checkbox"
+              defaultChecked={clickoutsideOption}
+              onChange={this._handleClickoutsideOption}
+            />
+            Close when click outside
+          </label>
+        </div>
         <div>
           Actual caret position:{' '}
           <span data-test="actualCaretPosition">{caretPosition}</span>
@@ -103,6 +128,7 @@ class App extends React.Component {
             height: 100,
             margin: '20px auto',
           }}
+          closeOnClickOutside={clickoutsideOption}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
           minChar={0}
           value={text}
