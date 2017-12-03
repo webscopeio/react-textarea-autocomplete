@@ -415,10 +415,11 @@ class ReactTextareaAutocomplete extends React.Component<
       itemStyle,
       listClassName,
       itemClassName,
-      dropdownClassname,
+      dropdownClassName,
+      dropdownStyle,
       containerStyle,
       containerClassName,
-      loadingStyle,
+      loaderStyle,
       loaderClassName,
     } = this.props;
     const { left, top, dataLoading, component, value } = this.state;
@@ -446,8 +447,8 @@ class ReactTextareaAutocomplete extends React.Component<
         />
         {(dataLoading || suggestionData) && (
           <div
-            style={{ top, left }}
-            className={`rta__autocomplete ${dropdownClassname || ''}`}
+            style={{ top, left, ...dropdownStyle }}
+            className={`rta__autocomplete ${dropdownClassName || ''}`}
           >
             {suggestionData &&
               component &&
@@ -470,7 +471,7 @@ class ReactTextareaAutocomplete extends React.Component<
                     ? 'rta__loader--suggestion-data'
                     : 'rta__loader--empty-suggestion-data'
                 } ${loaderClassName || ''}`}
-                style={loadingStyle}
+                style={loaderStyle}
               >
                 <Loader data={suggestionData} />
               </div>
@@ -528,9 +529,11 @@ ReactTextareaAutocomplete.propTypes = {
   listStyle: PropTypes.object,
   itemStyle: PropTypes.object,
   loaderStyle: PropTypes.object,
+  dropdownStyle: PropTypes.object,
   listClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   loaderClassName: PropTypes.string,
+  dropdownClassName: PropTypes.string,
   value: PropTypes.string,
   trigger: triggerPropsCheck, //eslint-disable-line
 };

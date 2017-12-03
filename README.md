@@ -46,11 +46,15 @@ yarn add @webscopeio/react-textarea-autocomplete
 | itemStyle | Style Object | Style's of item's wrapper
 | loaderStyle | Style Object | Style's of loader's wrapper 
 | containerStyle | Style Object | Style's of textarea's container
+| dropdownStyle| Style Object | Style's of dropdown's wrapper
 | className | string | ClassName's of the textarea
-| containerClassName | string | ClassName's of textarea's container
-| listClassName | string | ClassName's of list wrapper 
-| itemClassName | string | ClassName's of item wrapper
-| loaderClassName | string | ClassName's of loader wrapper
+| containerClassName | string | ClassName's of the textarea's container
+| listClassName | string | ClassName's of list's wrapper 
+| itemClassName | string | ClassName's of item's wrapper
+| loaderClassName | string | ClassName's of loader's wrapper
+| dropdownClassName | string | ClassName's of dropdown's wrapper
+
+
 
 **are mandatory*
 
