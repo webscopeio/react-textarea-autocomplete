@@ -37,12 +37,22 @@ yarn add @webscopeio/react-textarea-autocomplete
 
 | Props         | Type           |  Description 
 | :------------- | :-------------  |  ---------
-| **trigger** | Object: Trigger type | Define triggers and their corresponding behavior
-| **loadingComponent** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
+| **trigger*** | Object: Trigger type | Define triggers and their corresponding behavior
+| **loadingComponent*** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
 | minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
-| style | Style Object | Style's of textarea
-| containerStyle | Style Object | Style's of textarea's container
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
+| style | Style Object | Style's of textarea
+| listStyle | Style Object | Style's of list's wrapper
+| itemStyle | Style Object | Style's of item's wrapper
+| loaderStyle | Style Object | Style's of loader's wrapper 
+| containerStyle | Style Object | Style's of textarea's container
+| className | string | ClassName's of the textarea
+| containerClassName | string | ClassName's of textarea's container
+| listClassName | string | ClassName's of list wrapper 
+| itemClassName | string | ClassName's of item wrapper
+| loaderClassName | string | ClassName's of loader wrapper
+
+**are mandatory*
 
 ## Methods
 

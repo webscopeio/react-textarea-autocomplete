@@ -60,8 +60,15 @@ export type TextareaProps = {
   minChar: ?number,
   value?: string,
   style: ?Object,
+  listStyle: ?Object,
+  itemStyle: ?Object,
   containerStyle: ?Object,
+  loaderStyle: ?Object,
   className: ?string,
+  containerClassName: ?string,
+  listClassName: ?string,
+  itemClassName: ?string,
+  loaderClassName: ?string,
 };
 
 export type TextareaState = {

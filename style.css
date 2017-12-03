@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, .8);
+  background: rgba(255, 255, 255, 0.8);
 }
 .rta--loading .rta__loader.rta__loader--suggestion-data > * {
   position: relative;
@@ -43,6 +43,9 @@
   width: 100%;
   text-align: left;
   outline: none;
+}
+.rta__entity:hover {
+  cursor: pointer;
 }
 .rta__item:not(:last-child) {
   border-bottom: 1px solid #dfe2e5;

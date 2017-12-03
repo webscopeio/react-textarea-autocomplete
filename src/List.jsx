@@ -102,15 +102,24 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   render() {
-    const { values, component } = this.props;
+    const {
+      values,
+      component,
+      style,
+      itemClassName,
+      className,
+      itemStyle,
+    } = this.props;
 
     return (
-      <ul className="rta__list">
+      <ul className={`rta__list ${className || ''}`} style={style}>
         {values.map(item => (
           <Item
             key={this.getId(item)}
             selected={this.isSelected(item)}
             item={item}
+            className={itemClassName}
+            style={itemStyle}
             onClickHandler={this.onPressEnter}
             onSelectHandler={this.selectItem}
             component={component}
