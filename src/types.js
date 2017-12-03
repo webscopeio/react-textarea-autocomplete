@@ -1,5 +1,13 @@
 // @flow
 
+export type caretPositionType = 'start' | 'end' | number;
+
+export type textToReplaceType = {| text: string, caretPosition: caretPositionType |};
+
+export type outputType = (Object | string, ?string) => textToReplaceType;
+
+export type dataProviderType = string => Promise<Array<Object | string>> | Array<Object | string>;
+
 /**
  * Item Types
  */
@@ -14,8 +22,8 @@ export type ItemProps = {
 export type ListProps = {
   values: Array<Object | string>,
   component: React$StatelessFunctionalComponent<*>,
-  getTextToReplace: (Object | string) => string,
-  onSelect: string => void,
+  getTextToReplace: outputType,
+  onSelect: textToReplaceType => void,
 };
 
 /**
@@ -28,34 +36,21 @@ export type ListState = {
 /**
  * Textarea Types
  */
-type dataProviderType = string => Promise<Array<Object | string>> | Array<Object | string>;
-
-export type settingType = {
+export type settingType = {|
   component: React$StatelessFunctionalComponent<*>,
   dataProvider: dataProviderType,
-  output?: (Object | string, ?string) => string,
-};
-
-export type caretPositionType = 'start' | 'end' | number;
-
-export type outputType = (
-  Object | string,
-  ?string,
-) => string | { text: string, caretPosition: caretPositionType };
+  output?: (Object | string, ?string) => textToReplaceType | string,
+|};
 
 export type triggerType = {
-  [string]: {|
-    output?: outputType,
-    dataProvider: dataProviderType,
-    component: React$StatelessFunctionalComponent<*>,
-  |},
+  [string]: settingType,
 };
 
 export type TextareaProps = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
-  onChange: ?(SyntheticEvent<*>) => void,
-  onSelect: ?(SyntheticEvent<*>) => void,
+  onChange: ?(SyntheticEvent<*> | Event) => void,
+  onSelect: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
   minChar: ?number,
   value?: string,

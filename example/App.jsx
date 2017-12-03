@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 import emoji from '@jukben/emoji-search';

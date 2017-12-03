@@ -13,6 +13,7 @@ import type {
   caretPositionType,
   outputType,
   triggerType,
+  textToReplaceType,
   settingType,
 } from './types';
 
@@ -91,7 +92,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     return position;
   };
 
-  _onSelect = (newToken: string | { text: string, caretPosition: caretPositionType }) => {
+  _onSelect = (newToken: textToReplaceType) => {
     const { selectionEnd, value: textareaValue } = this.state;
     const { onChange } = this.props;
 
@@ -156,7 +157,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
     const { currentTrigger } = this.state;
     const triggerSettings = this._getCurrentTriggerSettings();
 
-    if (!currentTrigger || !triggerSettings) return () => '';
+    if (!currentTrigger || !triggerSettings) return null;
 
     const { output } = triggerSettings;
 
@@ -243,7 +244,7 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
           component,
         });
       })
-      .catch(({ message }) => errorMessage(message));
+      .catch(e => errorMessage(e.message));
   };
 
   _getSuggestions = (): ?Array<Object | string> => {
@@ -348,8 +349,8 @@ class ReactTextareaAutocomplete extends React.Component<TextareaProps, TextareaS
       () => {
         try {
           this._getValuesFromProvider();
-        } catch ({ message }) {
-          errorMessage(message);
+        } catch (err) {
+          errorMessage(err.message);
         }
       },
     );
