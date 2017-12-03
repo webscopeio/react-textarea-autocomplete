@@ -20,6 +20,8 @@ export type ItemProps = {
   component: React$StatelessFunctionalComponent<*>,
   onSelectHandler: (Object | string) => void,
   item: Object | string,
+  style: ?Object,
+  className: ?string,
   onClickHandler: (SyntheticEvent<*>) => void,
   selected: boolean,
 };
@@ -28,6 +30,10 @@ export type ListProps = {
   values: Array<Object | string>,
   component: React$StatelessFunctionalComponent<*>,
   getTextToReplace: outputType,
+  style: ?Object,
+  itemStyle: ?Object,
+  className: ?string,
+  itemClassName: ?string,
   onSelect: textToReplaceType => void,
 };
 
@@ -60,8 +66,17 @@ export type TextareaProps = {
   minChar: ?number,
   value?: string,
   style: ?Object,
+  listStyle: ?Object,
+  itemStyle: ?Object,
   containerStyle: ?Object,
+  loaderStyle: ?Object,
+  dropdownStyle: ?Object,
   className: ?string,
+  containerClassName: ?string,
+  listClassName: ?string,
+  itemClassName: ?string,
+  loaderClassName: ?string,
+  dropdownClassName: ?string,
 };
 
 export type TextareaState = {
