@@ -37,7 +37,7 @@
     "test:watch": "jest --watch",
     "flow": "flow",
     "flow:check": "flow check",
-    "cypress": "yarn run dev & cypress run",
+    "cypress": "yarn run dev & cypress run --headed",
     "cypress:open": "cypress open",
     "precommit": "lint-staged"
   },
