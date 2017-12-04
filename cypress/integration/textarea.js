@@ -16,7 +16,7 @@ describe('React Textarea Autocomplete', () => {
       cy
         .get('.rta__textarea')
         .type('This is test :ro{downarrow}{enter}')
-        .should('have.value', 'This is test 🤣');
+        .should('have.value', 'This is test 🤣 ');
     });
 
     it('basic test with mouse', () => {
@@ -26,7 +26,7 @@ describe('React Textarea Autocomplete', () => {
         .get('li:nth-child(2)')
         .click();
 
-      cy.get('.rta__textarea').should('have.value', 'This is test 🤣');
+      cy.get('.rta__textarea').should('have.value', 'This is test 🤣 ');
     });
   });
 
@@ -60,7 +60,7 @@ describe('React Textarea Autocomplete', () => {
 
       cy.get('.rta__item:nth-child(3)').click();
 
-      cy.get('[data-test="actualCaretPosition"]').contains('15'); // emoji is 2 bytes
+      cy.get('[data-test="actualCaretPosition"]').contains('16'); // emoji is 2 bytes
     });
 
     it('set caret position', () => {
@@ -79,7 +79,7 @@ describe('React Textarea Autocomplete', () => {
         .get('[data-test="getCaretPosition"]')
         .click()
         .then(() => {
-          expect(stub.getCall(0)).to.be.calledWith(15);
+          expect(stub.getCall(0)).to.be.calledWith(16);
         });
     });
 
