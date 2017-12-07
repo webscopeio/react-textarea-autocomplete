@@ -26,6 +26,7 @@ This module is distributed via [npm][npm] and should be installed as one of your
 yarn add @webscopeio/react-textarea-autocomplete
 ```
 
+or there is UMD build available under `umd/rta.min.js`. [Check out this pen as example](https://codepen.io/jukben/pen/bYZqvR). 
 
 
 > This package also depends on `react` and `prop-types`. Please make sure you have
@@ -134,7 +135,7 @@ export default App;
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
 
-> There is also UMD build available, [check this CodePen for a proof](https://codepen.io/jukben/pen/dZaNma).💪
+> There is also UMD build available, [check this CodePen for a proof](https://codepen.io/jukben/pen/bYZqvR).💪
 ### App.js
 ```javascript
 import React, { Component } from "react";
