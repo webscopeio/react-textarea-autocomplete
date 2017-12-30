@@ -46,6 +46,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "kajmagnus",
+      "name": "KajMagnus",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7477359?v=4",
+      "profile": "http://www.effectivediscussions.org/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
