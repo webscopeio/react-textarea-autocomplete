@@ -95,6 +95,20 @@ describe('React Textarea Autocomplete', () => {
       cy.get('.rta__autocomplete').should('not.be.visible');
     });
 
+    it('should be possible to select item with click with closeOnClickOutside option enabled', () => {
+      cy.get('[data-test="clickoutsideOption"]').click();
+
+      cy
+        .get('.rta__textarea')
+        .type('This is test :ro')
+        .get('li:nth-child(2)')
+        .click();
+
+      cy.get('.rta__textarea').should('have.value', 'This is test 🤣');
+
+      cy.get('.rta__autocomplete').should('not.be.visible');
+    });
+
     it('slow request should be "cancelled" when user keep typing', () => {
       cy.get('.rta__textarea').type('This is test @jaku not really');
 
