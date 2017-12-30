@@ -398,8 +398,15 @@ class ReactTextareaAutocomplete extends React.Component<
     }
   };
 
-  _onBlurHandler = (e: SyntheticInputEvent<*>) => {
+  _onClickAndBlurHandler = (e: SyntheticInputEvent<*>) => {
     const { closeOnClickOutside, onBlur } = this.props;
+
+    // If this is a click: e.target is the textarea, and e.relatedTarget is the thing
+    // that was actually clicked. If we clicked inside the autoselect dropdown, then
+    // that's not a blur, from the autoselect's point of view, so then do nothing.
+    if (this._dropdown && this._dropdown.contains(e.relatedTarget)) {
+      return;
+    }
 
     if (closeOnClickOutside) {
       this._closeAutocomplete();
@@ -460,13 +467,20 @@ class ReactTextareaAutocomplete extends React.Component<
           className={`rta__textarea ${className || ''}`}
           onChange={this._changeHandler}
           onSelect={this._selectHandler}
-          onBlur={this._onBlurHandler}
+          onClick={
+            // The textarea itself is outside the autoselect dropdown.
+            this._onClickAndBlurHandler
+          }
+          onBlur={this._onClickAndBlurHandler}
           value={value}
           style={style}
         />
         {(dataLoading || suggestionData) &&
           currentTrigger && (
             <div
+              ref={ref => {
+                this._dropdown = ref;
+              }}
               style={{ top, left, ...dropdownStyle }}
               className={`rta__autocomplete ${dropdownClassName || ''}`}
             >
