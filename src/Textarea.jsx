@@ -132,7 +132,7 @@ class ReactTextareaAutocomplete extends React.Component<
     );
 
     const startOfTokenPosition = textToModify.search(/\S*$/);
-    // we add space after an item is selected, see #43
+    // we add space after emoji is selected
     const newTokenString = `${newToken.text} `;
     const newCaretPosition = computeCaretPosition(
       newToken.caretPosition,
