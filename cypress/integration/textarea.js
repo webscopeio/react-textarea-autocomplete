@@ -40,7 +40,7 @@ describe('React Textarea Autocomplete', () => {
        * This is probably Cypress bug (1.0.2)
        * This test needs to be runned in headed mode, otherwise fails
        */
-      cy.get('[data-test="changeCaretOption"]').click();
+      cy.get('[id="caretStart"]').click();
 
       cy.get('.rta__textarea').type('This is test :ro{downarrow}{downarrow}');
 
@@ -54,7 +54,7 @@ describe('React Textarea Autocomplete', () => {
        * This is probably Cypress bug (1.0.2)
        * This test needs to be runned in headed mode, otherwise fails
        */
-      cy.get('[data-test="changeCaretOption"]').click();
+      cy.get('[id="caretEnd"]').click();
 
       cy.get('.rta__textarea').type('This is test :ro{downarrow}{downarrow}');
 
