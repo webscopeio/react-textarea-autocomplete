@@ -36,6 +36,13 @@ class App extends React.Component {
       optionsCaret: 'end',
     }))
   }
+
+  _handleOptionsCaretNext = () => {
+    this.setState(() => ({
+      optionsCaret: 'next',
+    }))
+  }
+
   _handleOptionsCaretStart = () => {
     this.setState(() => ({
       optionsCaret: 'start',
@@ -73,6 +80,8 @@ class App extends React.Component {
   _outputCaretEnd = (item, trigger) => item.char;
 
   _outputCaretStart = item => ({ text: item.char, caretPosition: 'start' });
+
+  _outputCaretNext = item => ({ text: item.char, caretPosition: 'next' });
 
   render() {
     const {
@@ -115,7 +124,7 @@ class App extends React.Component {
             value="next"
             type="radio"
             checked={this.state.optionsCaret === 'next'}
-            onChange={this._handleOptionsCaretEnd}
+            onChange={this._handleOptionsCaretNext}
           />
           <label htmlFor="caretNext">
             Place caret after word with a space
@@ -172,9 +181,11 @@ class App extends React.Component {
                   .slice(0, 10)
                   .map(({ name, char }) => ({ name, char })),
               component: Item,
-              output: optionsCaret === 'start'
-                ? this._outputCaretStart
-                : this._outputCaretEnd,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret]
             },
             '@': {
               dataProvider: token =>
@@ -184,9 +195,11 @@ class App extends React.Component {
                   }, 1000)
                 ),
               component: Item,
-              output: optionsCaret === 'start'
-                ? this._outputCaretStart
-                : this._outputCaretEnd,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret]
             },
           }}
         />

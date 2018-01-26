@@ -63,13 +63,29 @@ describe('React Textarea Autocomplete', () => {
       cy.get('[data-test="actualCaretPosition"]').contains('15'); // emoji is 2 bytes
     });
 
+    it('should have place caret after word with a space', () => {
+      /**
+       * This is probably Cypress bug (1.0.2)
+       * This test needs to be runned in headed mode, otherwise fails
+       */
+      cy.get('[id="caretNext"]').click();
+
+      cy.get('.rta__textarea').type('This is test :ro{downarrow}{downarrow}');
+
+      cy.get('.rta__item:nth-child(3)').click();
+
+      cy.get('[data-test="actualCaretPosition"]').contains('16'); // emoji is 2 bytes
+    });
+
     it('set caret position', () => {
+      cy.get('[id="caretEnd"]').click();
       cy.get('.rta__textarea').type('This is test :ro{uparrow}{enter}');
       cy.get('[data-test="setCaretPosition"]').click();
       cy.get('[data-test="actualCaretPosition"]').contains('1');
     });
 
     it('get caret position', () => {
+      cy.get('[id="caretEnd"]').click();
       const stub = cy.stub();
 
       cy.on('window:alert', stub);
