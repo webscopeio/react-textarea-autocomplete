@@ -5,7 +5,7 @@ Enhanced textarea to achieve autocomplete functionality.
 
 [![MIT License][license-badge]][License]
 [![PRs Welcome][prs-badge]][prs]
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)
 <hr>
 
 </div>
@@ -128,7 +128,7 @@ export default App;
 - **component** is the component for render the item in suggestion list. It has `selected` and `entity` props provided by React Textarea Autocomplete
 - **output** (Optional for string based item. If the item is an object this method is *required*) This function defines text which will be placed into textarea after the user makes a selection.
 
-   You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value is "end" and number, which is absolute number in contex of textarea. (0 is equal position before the first char);
+   You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value is "next", "end" and number, which is absolute number in contex of textarea. (0 is equal position before the first char);
  
    Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
@@ -222,8 +222,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") [🎨](#design-jukben "Design") [🤔](#ideas-jukben "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub><b>Andrey Taktaev</b></sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") | [<img src="https://avatars0.githubusercontent.com/u/10706203?v=4" width="100px;"/><br /><sub><b>Marcin Lichwała</b></sub>](https://github.com/marcinlichwala)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/9276511?v=4" width="100px;"/><br /><sub><b>Davidson Nascimento</b></sub>](https://github.com/davidsonsns)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=davidsonsns "Code") | [<img src="https://avatars1.githubusercontent.com/u/7477359?v=4" width="100px;"/><br /><sub><b>KajMagnus</b></sub>](http://www.effectivediscussions.org/)<br />[🐛](https://github.com/webscopeio/react-textarea-autocomplete/issues?q=author%3Akajmagnus "Bug reports") [💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=kajmagnus "Code") |
-| :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jukben "Documentation") [🎨](#design-jukben "Design") [🤔](#ideas-jukben "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/3114719?v=4" width="100px;"/><br /><sub><b>Andrey Taktaev</b></sub>](https://github.com/JokerNN)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=JokerNN "Code") | [<img src="https://avatars0.githubusercontent.com/u/10706203?v=4" width="100px;"/><br /><sub><b>Marcin Lichwała</b></sub>](https://github.com/marcinlichwala)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Code") [📖](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=marcinlichwala "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/9276511?v=4" width="100px;"/><br /><sub><b>Davidson Nascimento</b></sub>](https://github.com/davidsonsns)<br />[💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=davidsonsns "Code") | [<img src="https://avatars1.githubusercontent.com/u/7477359?v=4" width="100px;"/><br /><sub><b>KajMagnus</b></sub>](http://www.effectivediscussions.org/)<br />[🐛](https://github.com/webscopeio/react-textarea-autocomplete/issues?q=author%3Akajmagnus "Bug reports") [💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=kajmagnus "Code") | [<img src="https://avatars2.githubusercontent.com/u/1083817?v=4" width="100px;"/><br /><sub><b>Ján Vorčák</b></sub>](https://twitter.com/janvorcak)<br />[🐛](https://github.com/webscopeio/react-textarea-autocomplete/issues?q=author%3Ajvorcak "Bug reports") [💻](https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jvorcak "Code") |
+| :---: | :---: | :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

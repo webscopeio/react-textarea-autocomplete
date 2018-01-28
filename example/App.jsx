@@ -28,13 +28,26 @@ class App extends React.Component {
     clickoutsideOption: false,
     caretPosition: 0,
     text: '',
-  };
+    optionsCaret: 'start',
+  }
+
+  _handleOptionsCaretEnd = () => {
+    this.setState(() => ({
+      optionsCaret: 'end',
+    }))
+  }
+
+  _handleOptionsCaretNext = () => {
+    this.setState(() => ({
+      optionsCaret: 'next',
+    }))
+  }
 
   _handleOptionsCaretStart = () => {
-    this.setState(({ optionsCaretStart }) => ({
-      optionsCaretStart: !optionsCaretStart,
-    }));
-  };
+    this.setState(() => ({
+      optionsCaret: 'start',
+    }))
+  }
 
   _handleClickoutsideOption = () => {
     this.setState(({ clickoutsideOption }) => ({
@@ -68,9 +81,11 @@ class App extends React.Component {
 
   _outputCaretStart = item => ({ text: item.char, caretPosition: 'start' });
 
+  _outputCaretNext = item => ({ text: item.char, caretPosition: 'next' });
+
   render() {
     const {
-      optionsCaretStart,
+      optionsCaret,
       caretPosition,
       clickoutsideOption,
       text,
@@ -79,14 +94,40 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          <label>
-            <input
-              data-test="changeCaretOption"
-              type="checkbox"
-              defaultChecked={optionsCaretStart}
-              onChange={this._handleOptionsCaretStart}
-            />
+          <input
+            id="caretStart"
+            name="caret"
+            value="start"
+            type="radio"
+            checked={this.state.optionsCaret === 'start'}
+            onChange={this._handleOptionsCaretStart}
+          />
+          <label htmlFor="caretStart">
             Place caret before word
+          </label>
+
+          <input
+            id="caretEnd"
+            name="caret"
+            value="end"
+            type="radio"
+            checked={this.state.optionsCaret === 'end'}
+            onChange={this._handleOptionsCaretEnd}
+          />
+          <label htmlFor="caretEnd">
+            Place caret after word
+          </label>
+
+          <input
+            id="caretNext"
+            name="caret"
+            value="next"
+            type="radio"
+            checked={this.state.optionsCaret === 'next'}
+            onChange={this._handleOptionsCaretNext}
+          />
+          <label htmlFor="caretNext">
+            Place caret after word with a space
           </label>
         </div>
         <div>
@@ -140,9 +181,11 @@ class App extends React.Component {
                   .slice(0, 10)
                   .map(({ name, char }) => ({ name, char })),
               component: Item,
-              output: optionsCaretStart
-                ? this._outputCaretStart
-                : this._outputCaretEnd,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret]
             },
             '@': {
               dataProvider: token =>
@@ -152,9 +195,11 @@ class App extends React.Component {
                   }, 1000)
                 ),
               component: Item,
-              output: optionsCaretStart
-                ? this._outputCaretStart
-                : this._outputCaretEnd,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret]
             },
           }}
         />

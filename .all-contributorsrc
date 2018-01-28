@@ -56,6 +56,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "jvorcak",
+      "name": "Ján Vorčák",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1083817?v=4",
+      "profile": "https://twitter.com/janvorcak",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }

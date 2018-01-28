@@ -1,6 +1,6 @@
 // @flow
 
-export type caretPositionType = 'start' | 'end' | number;
+export type caretPositionType = 'start' | 'end' | 'next' | number;
 
 export type textToReplaceType = {|
   text: string,

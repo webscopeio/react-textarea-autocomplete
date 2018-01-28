@@ -105,6 +105,7 @@ class ReactTextareaAutocomplete extends React.Component<
       switch (position) {
         case 'start':
           return startToken;
+        case 'next':
         case 'end':
           return startToken + token.length;
         default:
@@ -132,7 +133,9 @@ class ReactTextareaAutocomplete extends React.Component<
     );
 
     const startOfTokenPosition = textToModify.search(/\S*$/);
-    const newTokenString = newToken.text;
+    // we add space after emoji is selected if a caret position is next
+    const newTokenString =
+      newToken.caretPosition === 'next' ? `${newToken.text} ` : newToken.text;
     const newCaretPosition = computeCaretPosition(
       newToken.caretPosition,
       newTokenString,
