@@ -11,6 +11,5 @@ coverage/
 
 # build
 
-index.js
-umd/
+dist/
 types.js
