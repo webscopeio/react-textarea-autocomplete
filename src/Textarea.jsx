@@ -314,6 +314,7 @@ class ReactTextareaAutocomplete extends React.Component<
       'loaderClassName',
       'closeOnClickOutside',
       'dropdownStyle',
+      'dropdownClassName',
     ];
 
     // eslint-disable-next-line
