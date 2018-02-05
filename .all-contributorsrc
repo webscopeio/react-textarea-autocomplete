@@ -76,6 +76,16 @@
         "code",
         "platform"
       ]
+    },
+    {
+      "login": "debugpai2",
+      "name": "Deepak Pai",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/35139777?v=4",
+      "profile": "https://github.com/debugpai2",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
