@@ -94,7 +94,7 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   _onSelect = (newToken: textToReplaceType) => {
-    const { selectionEnd, value: textareaValue } = this.state;
+    const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
     const { onChange } = this.props;
 
     const computeCaretPosition = (
@@ -111,7 +111,7 @@ class ReactTextareaAutocomplete extends React.Component<
         default:
           if (!Number.isInteger(position)) {
             throw new Error(
-              'RTA: caretPosition should be "start", "end" or number.'
+              'RTA: caretPosition should be "start", "next", "end" or number.'
             );
           }
 
@@ -132,7 +132,10 @@ class ReactTextareaAutocomplete extends React.Component<
       selectionEnd + offsetToEndOfToken
     );
 
-    const startOfTokenPosition = textToModify.search(/\S*$/);
+    const startOfTokenPosition = textToModify.search(
+      new RegExp(`${currentTrigger}\\S*$`)
+    );
+
     // we add space after emoji is selected if a caret position is next
     const newTokenString =
       newToken.caretPosition === 'next' ? `${newToken.text} ` : newToken.text;
@@ -539,7 +542,7 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 
     if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
       return Error(
-        'Invalid prop trigger. Keys of the object has to be string.'
+        'Invalid prop trigger. Keys of the object has to be string / one character.'
       );
     }
 
