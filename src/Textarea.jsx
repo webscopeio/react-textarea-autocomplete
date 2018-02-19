@@ -97,6 +97,8 @@ class ReactTextareaAutocomplete extends React.Component<
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
     const { onChange } = this.props;
 
+    if (!currentTrigger) return;
+
     const computeCaretPosition = (
       position: caretPositionType,
       token: string,
