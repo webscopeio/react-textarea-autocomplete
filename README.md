@@ -26,7 +26,7 @@ This module is distributed via [npm][npm] and should be installed as one of your
 yarn add @webscopeio/react-textarea-autocomplete
 ```
 
-or there is UMD build available under `umd/rta.min.js`. [Check out this pen as example](https://codepen.io/jukben/pen/bYZqvR). 
+or there is UMD build available. [Check out this pen as example](https://codepen.io/jukben/pen/bYZqvR). 
 
 
 > This package also depends on `react` and `prop-types`. Please make sure you have
