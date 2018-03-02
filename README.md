@@ -117,7 +117,7 @@ export default App;
 ```javascript 
 {
     [triggerChar: string]: {|
-        ?output: (item: Object | string, trigger?: string) => {| text: string, caretPosition: "start" | "end" | number |} | string,
+        ?output: (item: Object | string, trigger?: string) => {| text: string, caretPosition: "start" | "end" | "next" | number |} | string,
         dataProvider: (token: string) => Promise<Array<Object | string>> | Array<Object | string>,
         component: ReactClass<*>,
     |},
