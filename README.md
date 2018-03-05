@@ -43,6 +43,7 @@ or there is UMD build available. [Check out this pen as example](https://codepen
 | minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 | closeOnClickOutside | boolean | When it's true autocomplete will close when use click outside. Defaults to false.
+| movePopupAsYouType | boolean | When it's true the textarea will move along with a caret as a user continues to type. Defaults to false.
 | style | Style Object | Style's of textarea
 | listStyle | Style Object | Styles of list's wrapper
 | itemStyle | Style Object | Styles of item's wrapper
@@ -128,7 +129,7 @@ export default App;
 - **component** is the component for render the item in suggestion list. It has `selected` and `entity` props provided by React Textarea Autocomplete
 - **output** (Optional for string based item. If the item is an object this method is *required*) This function defines text which will be placed into textarea after the user makes a selection.
 
-   You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value are "next", "end" and number, which is absolute number in contex of textarea (0 is equal position before the first char).
+   You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value are "next", "end" and number, which is absolute number in contex of textarea (0 is equal position before the first char). Defaults to "next" which is space after the injected word.
  
    Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string.
 
