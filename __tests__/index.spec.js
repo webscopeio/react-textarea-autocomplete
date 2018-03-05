@@ -3,9 +3,7 @@ import { shallow, mount } from 'enzyme';
 import ReactTextareaAutocomplete from '../src';
 
 // eslint-disable-next-line
-const SmileItemComponent = ({ entity: { label, text } }) => (
-  <div> {label} </div>
-);
+const SmileItemComponent = ({ entity: { label, text } }) => <div> {label} </div>;
 
 const Loading = () => <div>Loading...</div>;
 
@@ -114,7 +112,7 @@ describe('object-based items', () => {
 
   it('text in textarea should be changed', () => {
     expect(rta.find('textarea').node.value).toBe(
-      '___happy_face___some test :a'
+      '___happy_face___ some test :a'
     );
   });
 });
@@ -196,7 +194,7 @@ describe('string-based items w/o output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe(':happy_face:some test :a');
+    expect(rta.find('textarea').node.value).toBe(':happy_face: some test :a');
   });
 });
 
@@ -277,7 +275,7 @@ describe('string-based items with output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('__happy_face__some test :a');
+    expect(rta.find('textarea').node.value).toBe('__happy_face__ some test :a');
   });
 });
 
