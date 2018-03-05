@@ -1,6 +1,6 @@
 .rta {
   position: relative;
-
+  font-size: 18px;
   width: 100%;
   height: 100%;
 }
@@ -24,10 +24,12 @@
 .rta__textarea {
   width: 100%;
   height: 100%;
+  font-size: 1em;
 }
 .rta__autocomplete {
   position: absolute;
   display: block;
+  margin-top: 1em;
 }
 .rta__list {
   margin: 0;

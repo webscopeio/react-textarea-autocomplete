@@ -9,7 +9,7 @@ describe('React Textarea Autocomplete', () => {
 
   context('basic', () => {
     beforeEach(() => {
-      cy.get('.rta__textarea').clear();
+      cy.get('.rta__textarea').clear({ force: true });
     });
 
     it('basic test with keyboard', () => {
@@ -42,17 +42,59 @@ describe('React Textarea Autocomplete', () => {
 
       cy.get('.rta__textarea').should('have.value', 'This is test 🤣');
     });
+
+    it('do not move as you type', () => {
+      let startLeft = null;
+
+      cy
+        .get('.rta__textarea')
+        .type('This is test :r')
+        .then(() => {
+          startLeft = Cypress.$('.rta__autocomplete').css('left');
+        })
+        .type('ofl', { force: true })
+        .then(() => {
+          const endLeft = Cypress.$('.rta__autocomplete').css('left');
+          cy
+            .get('.rta__autocomplete')
+            .should('to.have.css', { left: startLeft });
+
+          expect(startLeft).to.be.equal(endLeft);
+        });
+    });
+
+    it('do move as you type', () => {
+      cy.get('[data-test="movePopupAsYouType"]').click();
+
+      let startLeft = null;
+
+      cy
+        .get('.rta__textarea')
+        .type('This is test :r')
+        .then(() => {
+          startLeft = Cypress.$('.rta__autocomplete').css('left');
+        })
+        .type('ofl', { force: true })
+        .then(() => {
+          const endLeft = Cypress.$('.rta__autocomplete').css('left');
+          cy.get('.rta__autocomplete').should('to.have.css', { left: endLeft });
+
+          expect(startLeft).to.not.be.equal(endLeft);
+        });
+
+      cy.get('[data-test="movePopupAsYouType"]').click();
+    });
   });
 
   context('advanced', () => {
     beforeEach(() => {
-      cy.get('.rta__textarea').clear();
+      cy.get('.rta__textarea').clear({ force: true });
     });
 
-    it('should have place caret before outputed word', () => {
+    it('should have place caret before outputted word', () => {
       /**
        * This is probably Cypress bug (1.0.2)
-       * This test needs to be runned in headed mode, otherwise fails
+       * This test needs to be run in headed mode, otherwise fails
        */
       cy.get('[id="caretStart"]').click();
 
@@ -63,10 +105,10 @@ describe('React Textarea Autocomplete', () => {
       cy.get('[data-test="actualCaretPosition"]').contains('13');
     });
 
-    it('should have place caret after word', () => {
+    it('should place caret after word', () => {
       /**
        * This is probably Cypress bug (1.0.2)
-       * This test needs to be runned in headed mode, otherwise fails
+       * This test needs to be run in headed mode, otherwise fails
        */
       cy.get('[id="caretEnd"]').click();
 
@@ -77,10 +119,10 @@ describe('React Textarea Autocomplete', () => {
       cy.get('[data-test="actualCaretPosition"]').contains('15'); // emoji is 2 bytes
     });
 
-    it('should have place caret after word with a space', () => {
+    it('should caret after word with a space', () => {
       /**
        * This is probably Cypress bug (1.0.2)
-       * This test needs to be runned in headed mode, otherwise fails
+       * This test needs to be run in headed mode, otherwise fails
        */
       cy.get('[id="caretNext"]').click();
 

@@ -27,6 +27,7 @@ class App extends React.Component {
     optionsCaretStart: false,
     clickoutsideOption: false,
     caretPosition: 0,
+    movePopupAsYouType: false,
     text: '',
     optionsCaret: 'start',
   };
@@ -55,6 +56,12 @@ class App extends React.Component {
     }));
   };
 
+  _handleMovePopupAsYouType = () => {
+    this.setState(({ movePopupAsYouType }) => ({
+      movePopupAsYouType: !movePopupAsYouType,
+    }));
+  };
+
   _onChangeHandle = ({ target: { value } }) => {
     this.setState({
       text: value,
@@ -75,19 +82,26 @@ class App extends React.Component {
     alert(this.rtaRef.getCaretPosition());
   };
 
-  _getCarePosition = () => {};
-
-  _outputCaretEnd = (item, trigger) => item.char;
+  _outputCaretEnd = (item, trigger) => ({
+    text: item.char,
+    caretPosition: 'end',
+  });
 
   _outputCaretStart = item => ({ text: item.char, caretPosition: 'start' });
 
   _outputCaretNext = item => ({ text: item.char, caretPosition: 'next' });
+
+  /**
+   * it's the same as _outputCaretNext
+   */
+  _outputCaretDefault = item => item.char;
 
   render() {
     const {
       optionsCaret,
       caretPosition,
       clickoutsideOption,
+      movePopupAsYouType,
       text,
     } = this.state;
 
@@ -136,6 +150,17 @@ class App extends React.Component {
           </label>
         </div>
         <div>
+          <label>
+            <input
+              data-test="movePopupAsYouType"
+              type="checkbox"
+              defaultChecked={movePopupAsYouType}
+              onChange={this._handleMovePopupAsYouType}
+            />
+            Move popup as you type
+          </label>
+        </div>
+        <div>
           Actual caret position:{' '}
           <span data-test="actualCaretPosition">{caretPosition}</span>
         </div>
@@ -153,8 +178,6 @@ class App extends React.Component {
           }}
           loadingComponent={Loading}
           style={{
-            fontSize: '18px',
-            lineHeight: '20px',
             padding: 5,
           }}
           containerStyle={{
@@ -163,6 +186,7 @@ class App extends React.Component {
             height: 100,
             margin: '20px auto',
           }}
+          movePopupAsYouType={movePopupAsYouType}
           closeOnClickOutside={clickoutsideOption}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
           minChar={0}
@@ -173,6 +197,7 @@ class App extends React.Component {
               dataProvider: token =>
                 emoji(token)
                   .slice(0, 10)
+                  .filter(({ char }) => char)
                   .map(({ name, char }) => ({ name, char })),
               component: Item,
               output: {
@@ -192,7 +217,7 @@ class App extends React.Component {
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
-                next: this._outputCaretNext,
+                next: this._outputCaretDefault,
               }[optionsCaret],
             },
             // test of special character

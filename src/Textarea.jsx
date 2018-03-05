@@ -17,6 +17,8 @@ import type {
   settingType,
 } from './types';
 
+const DEFAULT_CARET_POSITION = 'next';
+
 const errorMessage = (message: string) =>
   console.error(
     `RTA: dataProvider fails: ${
@@ -29,6 +31,7 @@ class ReactTextareaAutocomplete extends React.Component<
 > {
   static defaultProps = {
     closeOnClickOutside: false,
+    movePopupAsYouType: false,
     value: '',
     minChar: 1,
   };
@@ -53,8 +56,8 @@ class ReactTextareaAutocomplete extends React.Component<
   }
 
   state = {
-    top: 0,
-    left: 0,
+    top: null,
+    left: null,
     currentTrigger: null,
     actualToken: '',
     data: null,
@@ -193,7 +196,7 @@ class ReactTextareaAutocomplete extends React.Component<
         if (typeof textToReplace === 'string') {
           return {
             text: textToReplace,
-            caretPosition: 'end',
+            caretPosition: DEFAULT_CARET_POSITION,
           };
         }
 
@@ -218,7 +221,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
       return {
         text: `${currentTrigger}${item}${currentTrigger}`,
-        caretPosition: 'end',
+        caretPosition: DEFAULT_CARET_POSITION,
       };
     };
   };
@@ -296,7 +299,13 @@ class ReactTextareaAutocomplete extends React.Component<
    * Close autocomplete, also clean up trigger (to aviod slow promises)
    */
   _closeAutocomplete = () => {
-    this.setState({ data: null, dataLoading: false, currentTrigger: null });
+    this.setState({
+      data: null,
+      dataLoading: false,
+      currentTrigger: null,
+      top: null,
+      left: null,
+    });
   };
 
   _cleanUpProps = (): Object => {
@@ -323,6 +332,7 @@ class ReactTextareaAutocomplete extends React.Component<
       'closeOnClickOutside',
       'dropdownStyle',
       'dropdownClassName',
+      'movePopupAsYouType',
     ];
 
     // eslint-disable-next-line
@@ -334,7 +344,15 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   _changeHandler = (e: SyntheticInputEvent<*>) => {
-    const { trigger, onChange, minChar, onCaretPositionChange } = this.props;
+    const {
+      trigger,
+      onChange,
+      minChar,
+      onCaretPositionChange,
+      movePopupAsYouType,
+    } = this.props;
+    const { top, left } = this.state;
+
     const textarea = e.target;
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
@@ -377,8 +395,9 @@ class ReactTextareaAutocomplete extends React.Component<
       return;
     }
 
-    const { top, left } = getCaretCoordinates(textarea, selectionEnd);
-    this.setState({ top, left });
+    if (movePopupAsYouType || (top === null && left === null)) {
+      this.setState(getCaretCoordinates(textarea, selectionEnd));
+    }
 
     this.setState(
       {

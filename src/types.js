@@ -64,7 +64,8 @@ export type TextareaProps = {
   onSelect: ?(SyntheticEvent<*> | Event) => void,
   onBlur: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
-  closeOnClickOutside: boolean,
+  closeOnClickOutside?: boolean,
+  movePopupAsYouType?: boolean,
   minChar: ?number,
   value?: string,
   style: ?Object,
@@ -83,8 +84,8 @@ export type TextareaProps = {
 
 export type TextareaState = {
   currentTrigger: ?string,
-  top: number,
-  left: number,
+  top: ?number,
+  left: ?number,
   actualToken: string,
   data: ?Array<Object | string>,
   value: string,
