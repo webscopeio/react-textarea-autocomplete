@@ -26,6 +26,13 @@ describe('React Textarea Autocomplete', () => {
         .should('have.value', 'This is test🤣');
     });
 
+    it('special character like [, ( should be also possible to use as trigger char', () => {
+      cy
+        .get('.rta__textarea')
+        .type('This is test [{downarrow}{enter}')
+        .should('have.value', 'This is test @');
+    });
+
     it('basic test with mouse', () => {
       cy
         .get('.rta__textarea')

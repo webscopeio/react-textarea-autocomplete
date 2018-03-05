@@ -135,7 +135,10 @@ class ReactTextareaAutocomplete extends React.Component<
     );
 
     const startOfTokenPosition = textToModify.search(
-      new RegExp(`${currentTrigger}\\S*$`)
+      /**
+       * It's important to enscape the currentTrigger char for chars like [, (,...
+       */
+      new RegExp(`\\${currentTrigger}\\S*$`)
     );
 
     // we add space after emoji is selected if a caret position is next

@@ -29,25 +29,25 @@ class App extends React.Component {
     caretPosition: 0,
     text: '',
     optionsCaret: 'start',
-  }
+  };
 
   _handleOptionsCaretEnd = () => {
     this.setState(() => ({
       optionsCaret: 'end',
-    }))
-  }
+    }));
+  };
 
   _handleOptionsCaretNext = () => {
     this.setState(() => ({
       optionsCaret: 'next',
-    }))
-  }
+    }));
+  };
 
   _handleOptionsCaretStart = () => {
     this.setState(() => ({
       optionsCaret: 'start',
-    }))
-  }
+    }));
+  };
 
   _handleClickoutsideOption = () => {
     this.setState(({ clickoutsideOption }) => ({
@@ -102,9 +102,7 @@ class App extends React.Component {
             checked={this.state.optionsCaret === 'start'}
             onChange={this._handleOptionsCaretStart}
           />
-          <label htmlFor="caretStart">
-            Place caret before word
-          </label>
+          <label htmlFor="caretStart">Place caret before word</label>
 
           <input
             id="caretEnd"
@@ -114,9 +112,7 @@ class App extends React.Component {
             checked={this.state.optionsCaret === 'end'}
             onChange={this._handleOptionsCaretEnd}
           />
-          <label htmlFor="caretEnd">
-            Place caret after word
-          </label>
+          <label htmlFor="caretEnd">Place caret after word</label>
 
           <input
             id="caretNext"
@@ -126,9 +122,7 @@ class App extends React.Component {
             checked={this.state.optionsCaret === 'next'}
             onChange={this._handleOptionsCaretNext}
           />
-          <label htmlFor="caretNext">
-            Place caret after word with a space
-          </label>
+          <label htmlFor="caretNext">Place caret after word with a space</label>
         </div>
         <div>
           <label>
@@ -185,7 +179,7 @@ class App extends React.Component {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
                 next: this._outputCaretNext,
-              }[optionsCaret]
+              }[optionsCaret],
             },
             '@': {
               dataProvider: token =>
@@ -199,7 +193,17 @@ class App extends React.Component {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
                 next: this._outputCaretNext,
-              }[optionsCaret]
+              }[optionsCaret],
+            },
+            // test of special character
+            '[': {
+              dataProvider: () => [{ name: 'alt', char: '@' }],
+              component: Item,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret],
             },
           }}
         />
