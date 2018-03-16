@@ -44,7 +44,8 @@ class ReactTextareaAutocomplete extends React.Component<
     const { loadingComponent, trigger, value } = this.props;
 
     if (value) this.state.value = value;
-    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
+
+    this._createRegExp();
 
     if (!loadingComponent) {
       throw new Error('RTA: loadingComponent is not defined');
@@ -285,18 +286,27 @@ class ReactTextareaAutocomplete extends React.Component<
     return data;
   };
 
+  _createRegExp = () => {
+    const { trigger } = this.props;
+
+    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}][^\\s]*$`);
+  };
+
   _update({ value, trigger }: TextareaProps) {
     const { value: oldValue } = this.state;
     const { trigger: oldTrigger } = this.props;
 
     if (value !== oldValue || !oldValue) this.setState({ value });
-    if (trigger !== oldTrigger || !this.tokenRegExp) {
-      this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}]\\w*$`);
+    /**
+     * check if trigger chars are changed, if so, change the regexp accordingly
+     */
+    if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
+      this._createRegExp();
     }
   }
 
   /**
-   * Close autocomplete, also clean up trigger (to aviod slow promises)
+   * Close autocomplete, also clean up trigger (to avoid slow promises)
    */
   _closeAutocomplete = () => {
     this.setState({
