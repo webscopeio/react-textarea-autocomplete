@@ -94,3 +94,7 @@ export type TextareaState = {
   selectionStart: number,
   component: ?React$StatelessFunctionalComponent<*>,
 };
+
+export type OutputItem = {
+  key: string,
+};

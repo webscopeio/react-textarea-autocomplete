@@ -21,9 +21,7 @@ const DEFAULT_CARET_POSITION = 'next';
 
 const errorMessage = (message: string) =>
   console.error(
-    `RTA: dataProvider fails: ${
-      message
-    } Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
+    `RTA: dataProvider fails: ${message} Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -261,7 +259,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     providedData
       .then(data => {
-        if (typeof providedData !== 'object') {
+        if (Object.prototype.toString.call(data) !== '[object Array]') {
           throw new Error('Trigger provider has to provide an array!');
         }
 

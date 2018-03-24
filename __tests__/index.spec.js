@@ -320,3 +320,50 @@ describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
     expect(actual).toBe(expected);
   });
 });
+
+describe('data provided with keys', () => {
+  const mockedChangeFn = jest.fn();
+  const mockedSelectFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
+
+  const createRtaComponent = override => (
+    <ReactTextareaAutocomplete
+      listStyle={{ background: 'pink' }}
+      itemStyle={{ background: 'green' }}
+      containerStyle={{ background: 'orange' }}
+      loaderStyle={{ background: 'blue' }}
+      className="my-rta"
+      containerClassName="my-rta-container"
+      listClassName="my-rta-list"
+      itemClassName="my-rta-item"
+      loaderClassName="my-rta-loader"
+      placeholder={'Write a message.'}
+      value={'Controlled text'}
+      onChange={mockedChangeFn}
+      onSelect={mockedSelectFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
+      style={{ background: 'red' }}
+      loadingComponent={Loading}
+      trigger={{
+        ':': {
+          output: item => `___${item.text}___`,
+          dataProvider: () => [
+            { key: '1', label: ':)', text: 'sad_face' },
+            { key: '2', label: ':(', text: 'sad_face' },
+          ],
+          component: SmileItemComponent,
+        },
+      }}
+      {...override}
+    />
+  );
+
+  it('Duplicate values should not error if keys are provided', () => {
+    const rtaComponent = createRtaComponent();
+    const rta = mount(rtaComponent);
+    rta
+      .find('textarea')
+      .simulate('change', { target: { value: 'some test :a' } });
+    expect(rta.find('.rta__autocomplete')).toHaveLength(1);
+  });
+});
