@@ -261,7 +261,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     providedData
       .then(data => {
-        if (Object.prototype.toString.call(data) !== '[object Array]') {
+        if (!Array.isArray(data)) {
           throw new Error('Trigger provider has to provide an array!');
         }
 
