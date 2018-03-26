@@ -157,6 +157,207 @@ exports[`object-based items match the snapshot of dropdown, list, and item 3`] =
 </li>
 `;
 
+exports[`object-based items with keys match the snapshot 1`] = `
+<div
+  className="rta  my-rta-container"
+  style={
+    Object {
+      "background": "orange",
+    }
+  }
+>
+  <textarea
+    className="rta__textarea my-rta"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onClick={[Function]}
+    onSelect={[Function]}
+    placeholder="Write a message."
+    style={
+      Object {
+        "background": "red",
+      }
+    }
+    value="Controlled text"
+  />
+</div>
+`;
+
+exports[`object-based items with keys match the snapshot of dropdown, list, and item 1`] = `
+<div
+  class="rta__autocomplete "
+>
+  <ul
+    class="rta__list my-rta-list"
+  >
+    <li
+      class="rta__item my-rta-item"
+      style="background: green;"
+    >
+      <div
+        class="rta__entity rta__entity--selected"
+        role="button"
+        tabindex="0"
+      >
+        <div>
+          <!-- react-text: 10 -->
+           
+          <!-- /react-text -->
+          <!-- react-text: 11 -->
+          :)
+          <!-- /react-text -->
+          <!-- react-text: 12 -->
+           
+          <!-- /react-text -->
+        </div>
+      </div>
+    </li>
+    <li
+      class="rta__item my-rta-item"
+      style="background: green;"
+    >
+      <div
+        class="rta__entity "
+        role="button"
+        tabindex="0"
+      >
+        <div>
+          <!-- react-text: 16 -->
+           
+          <!-- /react-text -->
+          <!-- react-text: 17 -->
+          :(
+          <!-- /react-text -->
+          <!-- react-text: 18 -->
+           
+          <!-- /react-text -->
+        </div>
+      </div>
+    </li>
+    <li
+      class="rta__item my-rta-item"
+      style="background: green;"
+    >
+      <div
+        class="rta__entity "
+        role="button"
+        tabindex="0"
+      >
+        <div>
+          <!-- react-text: 22 -->
+           
+          <!-- /react-text -->
+          <!-- react-text: 23 -->
+          :|
+          <!-- /react-text -->
+          <!-- react-text: 24 -->
+           
+          <!-- /react-text -->
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`object-based items with keys match the snapshot of dropdown, list, and item 2`] = `
+<ul
+  class="rta__list my-rta-list"
+>
+  <li
+    class="rta__item my-rta-item"
+    style="background: green;"
+  >
+    <div
+      class="rta__entity rta__entity--selected"
+      role="button"
+      tabindex="0"
+    >
+      <div>
+        <!-- react-text: 10 -->
+         
+        <!-- /react-text -->
+        <!-- react-text: 11 -->
+        :)
+        <!-- /react-text -->
+        <!-- react-text: 12 -->
+         
+        <!-- /react-text -->
+      </div>
+    </div>
+  </li>
+  <li
+    class="rta__item my-rta-item"
+    style="background: green;"
+  >
+    <div
+      class="rta__entity "
+      role="button"
+      tabindex="0"
+    >
+      <div>
+        <!-- react-text: 16 -->
+         
+        <!-- /react-text -->
+        <!-- react-text: 17 -->
+        :(
+        <!-- /react-text -->
+        <!-- react-text: 18 -->
+         
+        <!-- /react-text -->
+      </div>
+    </div>
+  </li>
+  <li
+    class="rta__item my-rta-item"
+    style="background: green;"
+  >
+    <div
+      class="rta__entity "
+      role="button"
+      tabindex="0"
+    >
+      <div>
+        <!-- react-text: 22 -->
+         
+        <!-- /react-text -->
+        <!-- react-text: 23 -->
+        :|
+        <!-- /react-text -->
+        <!-- react-text: 24 -->
+         
+        <!-- /react-text -->
+      </div>
+    </div>
+  </li>
+</ul>
+`;
+
+exports[`object-based items with keys match the snapshot of dropdown, list, and item 3`] = `
+<li
+  class="rta__item my-rta-item"
+  style="background: green;"
+>
+  <div
+    class="rta__entity rta__entity--selected"
+    role="button"
+    tabindex="0"
+  >
+    <div>
+      <!-- react-text: 10 -->
+       
+      <!-- /react-text -->
+      <!-- react-text: 11 -->
+      :)
+      <!-- /react-text -->
+      <!-- react-text: 12 -->
+       
+      <!-- /react-text -->
+    </div>
+  </div>
+</li>
+`;
+
 exports[`string-based items w/o output fn match match the snapshot 1`] = `
 <div
   className="rta  "

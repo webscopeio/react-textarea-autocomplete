@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shallow, mount } from 'enzyme';
 import ReactTextareaAutocomplete from '../src';
+import Item from '../src/Item';
 
 // eslint-disable-next-line
 const SmileItemComponent = ({ entity: { label, text } }) => <div> {label} </div>;
@@ -76,6 +77,12 @@ describe('object-based items', () => {
     expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
       2
     );
+  });
+
+  it('should use the create a key from the output function if no key is provided', () => {
+    const items = rta.find(Item);
+    expect(items.at(0).key()).toEqual('___happy_face___');
+    expect(items.at(1).key()).toEqual('___sad_face___');
   });
 
   it('items should be rendered within the component', () => {
@@ -318,5 +325,123 @@ describe('using ref to the ReactTextareaAutocomplete to call methods', () => {
     const expected = CARET_POSITION_TO_SET;
 
     expect(actual).toBe(expected);
+  });
+});
+
+describe('object-based items with keys', () => {
+  const mockedChangeFn = jest.fn();
+  const mockedSelectFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
+
+  const rtaComponent = (
+    <ReactTextareaAutocomplete
+      listStyle={{ background: 'pink' }}
+      itemStyle={{ background: 'green' }}
+      containerStyle={{ background: 'orange' }}
+      loaderStyle={{ background: 'blue' }}
+      className="my-rta"
+      containerClassName="my-rta-container"
+      listClassName="my-rta-list"
+      itemClassName="my-rta-item"
+      loaderClassName="my-rta-loader"
+      placeholder={'Write a message.'}
+      value={'Controlled text'}
+      onChange={mockedChangeFn}
+      onSelect={mockedSelectFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
+      style={{ background: 'red' }}
+      loadingComponent={Loading}
+      trigger={{
+        ':': {
+          output: item => `___${item.text}___`,
+          dataProvider: () => [
+            { key: '1', label: ':)', text: 'happy_face' },
+            { key: 'some id', label: ':(', text: 'sad_face' },
+            { key: 3, label: ':|', text: 'sad_face' },
+          ],
+          component: SmileItemComponent,
+        },
+      }}
+    />
+  );
+  const rta = mount(rtaComponent);
+
+  it('match the snapshot', () => {
+    expect(shallow(rtaComponent)).toMatchSnapshot();
+  });
+
+  it('Textarea exists', () => {
+    expect(rta.find('textarea')).toHaveLength(1);
+  });
+
+  it('After the trigger was typed, it should appear list of options', () => {
+    rta
+      .find('textarea')
+      .simulate('change', { target: { value: 'some test :a' } });
+    expect(rta.find('.rta__autocomplete')).toHaveLength(1);
+  });
+
+  it('match the snapshot of dropdown, list, and item', () => {
+    expect(rta.find('.rta__autocomplete').getNode()).toMatchSnapshot();
+    expect(
+      rta.find('.rta__autocomplete .rta__list').getNode()
+    ).toMatchSnapshot();
+    expect(
+      rta
+        .find('.rta__autocomplete .rta__list .rta__item')
+        .first()
+        .getNode()
+    ).toMatchSnapshot();
+  });
+
+  it('should display all items', () => {
+    expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
+      3
+    );
+  });
+
+  it('should use the key property from the data obejct', () => {
+    const items = rta.find(Item);
+    expect(items.at(0).key()).toEqual('1');
+    expect(items.at(1).key()).toEqual('some id');
+    expect(items.at(2).key()).toEqual('3');
+  });
+
+  it('items should be rendered within the component', () => {
+    expect(
+      rta
+        .find('.rta__item')
+        .first()
+        .containsMatchingElement(<SmileItemComponent />)
+    ).toEqual(true);
+  });
+
+  it('should invoke onChange handler', () => {
+    expect(mockedChangeFn).toHaveBeenCalled();
+  });
+
+  it('should handle selection in textarea correctly', () => {
+    rta.find('textarea').simulate('select');
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalled();
+  });
+
+  it('should close the autocomplete after mouse click', () => {
+    const item = rta.find('.rta__entity').first();
+    item.simulate('click');
+    expect(rta.find('.rta__entity')).toHaveLength(0);
+  });
+
+  it('should invoke onChange handler after selection', () => {
+    expect(mockedChangeFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should invoke onCaretPositionChange handler after selection', () => {
+    expect(mockedCaretPositionChangeFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('text in textarea should be changed', () => {
+    expect(rta.find('textarea').node.value).toBe(
+      '___happy_face___ some test :a'
+    );
   });
 });

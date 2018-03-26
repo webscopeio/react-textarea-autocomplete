@@ -5,6 +5,7 @@ export type caretPositionType = 'start' | 'end' | 'next' | number;
 export type textToReplaceType = {|
   text: string,
   caretPosition: caretPositionType,
+  key?: ?string,
 |};
 
 export type outputType = (Object | string, ?string) => textToReplaceType;
