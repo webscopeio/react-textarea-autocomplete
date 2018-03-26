@@ -4,7 +4,7 @@ import React from 'react';
 
 import Listeners, { KEY_CODES } from './listener';
 import Item from './Item';
-import type { ListProps, ListState, OutputItem } from './types';
+import type { ListProps, ListState, textToReplaceType } from './types';
 
 export default class List extends React.Component<ListProps, ListState> {
   state: ListState = {
@@ -50,12 +50,12 @@ export default class List extends React.Component<ListProps, ListState> {
     return values.findIndex(a => this.getId(a) === this.getId(selectedItem));
   };
 
-  getId = (item: OutputItem | string): string => {
+  getId = (item: textToReplaceType | string): string => {
     if (typeof item === 'string' || typeof item.key === 'undefined') {
       return this.props.getTextToReplace(item).text;
     }
 
-    return item.key;
+    return String(item.key);
   };
 
   props: ListProps;

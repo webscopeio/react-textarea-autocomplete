@@ -123,7 +123,7 @@ export default App;
         trigger?: string
       ) =>
         | {|
-            key?: string | number,
+            key?: ?string,
             text: string,
             caretPosition: "start" | "end" | "next" | number
           |}
