@@ -99,7 +99,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   _onSelect = (newToken: textToReplaceType) => {
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
-    const { onChange } = this.props;
+    const { onChange, trigger } = this.props;
 
     if (!currentTrigger) return;
 
@@ -125,24 +125,17 @@ class ReactTextareaAutocomplete extends React.Component<
       }
     };
 
-    let offsetToEndOfToken = 0;
-    while (
-      textareaValue[selectionEnd + offsetToEndOfToken] &&
-      /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
-    ) {
-      offsetToEndOfToken += 1;
-    }
-
-    const textToModify = textareaValue.slice(
-      0,
-      selectionEnd + offsetToEndOfToken
-    );
+    const textToModify = textareaValue.slice(0, selectionEnd);
 
     const startOfTokenPosition = textToModify.search(
       /**
-       * It's important to enscape the currentTrigger char for chars like [, (,...
+       * It's important to escape the currentTrigger char for chars like [, (,...
        */
-      new RegExp(`\\${currentTrigger}\\S*$`)
+      new RegExp(
+        `\\${currentTrigger}${
+          trigger[currentTrigger].allowWhitespace ? '.' : '\\S'
+        }*$`
+      )
     );
 
     // we add space after emoji is selected if a caret position is next
@@ -309,6 +302,9 @@ class ReactTextareaAutocomplete extends React.Component<
    * Close autocomplete, also clean up trigger (to avoid slow promises)
    */
   _closeAutocomplete = () => {
+    if (!this.state.currentTrigger) {
+      return;
+    }
     this.setState({
       data: null,
       dataLoading: false,
@@ -381,16 +377,36 @@ class ReactTextareaAutocomplete extends React.Component<
       value,
     });
 
-    const tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
-    const lastToken = tokenMatch && tokenMatch[0];
+    let tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
+    let lastToken = tokenMatch && tokenMatch[0];
 
     /*
      if we lost the trigger token or there is no following character we want to close
      the autocomplete
     */
-    if (!lastToken || lastToken.length <= minChar) {
+    if (
+      (!lastToken || lastToken.length <= minChar) &&
+      ((this.state.currentTrigger &&
+        !trigger[this.state.currentTrigger].allowWhitespace) ||
+        !this.state.currentTrigger)
+    ) {
       this._closeAutocomplete();
       return;
+    }
+
+    if (
+      this.state.currentTrigger &&
+      trigger[this.state.currentTrigger].allowWhitespace
+    ) {
+      tokenMatch = new RegExp(
+        `\\${this.state.currentTrigger}[^${this.state.currentTrigger}]*$`
+      ).exec(value.slice(0, selectionEnd));
+      lastToken = tokenMatch && tokenMatch[0];
+
+      if (!lastToken) {
+        this._closeAutocomplete();
+        return;
+      }
     }
 
     const triggerChars = Object.keys(trigger);
@@ -472,6 +488,8 @@ class ReactTextareaAutocomplete extends React.Component<
   dropdownRef: ?HTMLDivElement;
 
   tokenRegExp: RegExp;
+
+  tokenRegExpWhitespace: RegExp;
 
   render() {
     const {

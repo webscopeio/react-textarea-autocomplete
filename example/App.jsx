@@ -222,8 +222,15 @@ class App extends React.Component {
             },
             // test of special character
             '[': {
-              dataProvider: () => [{ name: 'alt', char: '@' }],
+              dataProvider: token => {
+                console.log(token);
+                return [
+                  { name: 'alt', char: '@' },
+                  { name: 'another character', char: '/' },
+                ];
+              },
               component: Item,
+              allowWhitespace: true,
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,

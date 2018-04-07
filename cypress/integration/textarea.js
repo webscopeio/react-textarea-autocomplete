@@ -29,7 +29,7 @@ describe('React Textarea Autocomplete', () => {
     it('special character like [, ( should be also possible to use as trigger char', () => {
       cy
         .get('.rta__textarea')
-        .type('This is test [{downarrow}{enter}')
+        .type('This is test [{enter}')
         .should('have.value', 'This is test @');
     });
 
