@@ -30,6 +30,7 @@ class App extends React.Component {
     movePopupAsYouType: false,
     text: '',
     optionsCaret: 'start',
+    actualTokenInProvider: '',
   };
 
   _handleOptionsCaretEnd = () => {
@@ -102,6 +103,7 @@ class App extends React.Component {
       caretPosition,
       clickoutsideOption,
       movePopupAsYouType,
+      actualTokenInProvider,
       text,
     } = this.state;
 
@@ -170,6 +172,10 @@ class App extends React.Component {
         <button data-test="getCaretPosition" onClick={this._getCaretPosition}>
           getCaretPosition();
         </button>
+        <div>
+          Actual token in "[" provider:{' '}
+          <span data-test="actualToken">{actualTokenInProvider}</span>
+        </div>
 
         <ReactTextareaAutocomplete
           className="one"
@@ -223,7 +229,11 @@ class App extends React.Component {
             // test of special character
             '[': {
               dataProvider: token => {
-                console.log(token);
+                /**
+                  Let's pass token to state to easily test it in Cypress 
+                  We going to test that we get also whitespace because this trigger has set "allowWhitespace"  
+                 */
+                this.setState({ actualTokenInProvider: token });
                 return [
                   { name: 'alt', char: '@' },
                   { name: 'another character', char: '/' },

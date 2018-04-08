@@ -1,3 +1,20 @@
+/**
+  Helper function for a repeating of commands
+
+  e.g : cy
+        .get('.rta__textarea')
+        .type(`${repeat('{backspace}', 13)} again {downarrow}{enter}`);
+ */
+function repeat(string, times = 1) {
+  let result = '';
+  let round = times;
+  while (round--) {
+    result += string;
+  }
+
+  return result;
+}
+
 describe('React Textarea Autocomplete', () => {
   it('server is reachable', () => {
     cy.visit('http://localhost:8080');
@@ -185,6 +202,18 @@ describe('React Textarea Autocomplete', () => {
       cy.get('.rta__textarea').type('This is test @jaku not really');
 
       cy.get('.rta__autocomplete').should('not.be.visible');
+    });
+
+    it('should allows tokens with eventual whitespace', () => {
+      cy.get('.rta__textarea').type('This is test [another charact');
+      cy.get('[data-test="actualToken"]').contains('another charact');
+      cy.get('.rta__textarea').type('{esc} and', { force: true });
+      cy
+        .get('.rta__textarea')
+        .type(`${repeat('{backspace}', 13)} again {downarrow}{enter}`, {
+          force: true,
+        });
+      cy.get('.rta__textarea').should('have.value', 'This is test /');
     });
   });
 });

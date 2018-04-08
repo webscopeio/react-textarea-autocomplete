@@ -25,6 +25,7 @@ const errorMessage = (message: string) =>
       message
     } Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
+
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
   TextareaState
@@ -262,6 +263,9 @@ class ReactTextareaAutocomplete extends React.Component<
           throw new Error('Component should be defined!');
         }
 
+        // throw away if we resolved old trigger
+        if (currentTrigger !== this.state.currentTrigger) return;
+
         this.setState({
           dataLoading: false,
           data,
@@ -302,9 +306,6 @@ class ReactTextareaAutocomplete extends React.Component<
    * Close autocomplete, also clean up trigger (to avoid slow promises)
    */
   _closeAutocomplete = () => {
-    if (!this.state.currentTrigger) {
-      return;
-    }
     this.setState({
       data: null,
       dataLoading: false,
