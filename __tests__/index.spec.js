@@ -4,7 +4,9 @@ import ReactTextareaAutocomplete from '../src';
 import Item from '../src/Item';
 
 // eslint-disable-next-line
-const SmileItemComponent = ({ entity: { label, text } }) => <div> {label} </div>;
+const SmileItemComponent = ({ entity: { label, text } }) => (
+  <div> {label} </div>
+);
 
 const Loading = () => <div>Loading...</div>;
 
@@ -118,9 +120,7 @@ describe('object-based items', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe(
-      '___happy_face___ some test :a'
-    );
+    expect(rta.find('textarea').node.value).toBe('some test ___happy_face___ ');
   });
 });
 
@@ -201,7 +201,7 @@ describe('string-based items w/o output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe(':happy_face: some test :a');
+    expect(rta.find('textarea').node.value).toBe('some test :happy_face: ');
   });
 });
 
@@ -282,7 +282,7 @@ describe('string-based items with output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('__happy_face__ some test :a');
+    expect(rta.find('textarea').node.value).toBe('some test __happy_face__ ');
   });
 });
 
@@ -440,8 +440,6 @@ describe('object-based items with keys', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe(
-      '___happy_face___ some test :a'
-    );
+    expect(rta.find('textarea').node.value).toBe('some test ___happy_face___ ');
   });
 });
