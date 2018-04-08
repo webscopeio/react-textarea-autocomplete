@@ -387,6 +387,7 @@ class ReactTextareaAutocomplete extends React.Component<
     */
     if (
       (!lastToken || lastToken.length <= minChar) &&
+      // check if our current trigger disallows whitespace
       ((this.state.currentTrigger &&
         !trigger[this.state.currentTrigger].allowWhitespace) ||
         !this.state.currentTrigger)
@@ -395,6 +396,10 @@ class ReactTextareaAutocomplete extends React.Component<
       return;
     }
 
+    /**
+      If our current trigger allows whitespace 
+      get the correct token for DataProvider, so we need to construct new RegExp
+     */
     if (
       this.state.currentTrigger &&
       trigger[this.state.currentTrigger].allowWhitespace
@@ -489,8 +494,6 @@ class ReactTextareaAutocomplete extends React.Component<
   dropdownRef: ?HTMLDivElement;
 
   tokenRegExp: RegExp;
-
-  tokenRegExpWhitespace: RegExp;
 
   render() {
     const {
