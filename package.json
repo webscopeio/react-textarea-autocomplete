@@ -6,11 +6,7 @@
     "type": "git",
     "url": "https://github.com/webscopeio/react-textarea-autocomplete"
   },
-  "files": [
-    "dist",
-    "types.js",
-    "style.css"
-  ],
+  "files": ["dist", "types.js", "style.css"],
   "main": "dist/react-textarea-autocomplete.cjs.js",
   "module": "dist/react-textarea-autocomplete.es.js",
   "unpkg": "dist/react-textarea-autocomplete.umd.min.js",
@@ -20,12 +16,7 @@
     "url": "https://github.com/webscopeio/react-textarea-autocomplete/issues"
   },
   "homepage": "https://github.com/webscopeio/react-textarea-autocomplete",
-  "keywords": [
-    "react-component",
-    "textarea",
-    "autocomplete",
-    "react"
-  ],
+  "keywords": ["react-component", "textarea", "autocomplete", "react"],
   "scripts": {
     "build": "cp src/types.js types.js && rollup -c",
     "dev": "webpack-dev-server --config webpack.config.js",
@@ -41,7 +32,7 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "@jukben/emoji-search": "^1.1.2",
+    "@jukben/emoji-search": "^1.1.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
@@ -81,25 +72,16 @@
     "textarea-caret": "3.0.2"
   },
   "lint-staged": {
-    "src/*.{js,jsx}": [
-      "eslint src --fix",
-      "git add"
-    ]
+    "src/*.{js,jsx}": ["eslint src --fix", "git add"]
   },
   "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "setupFiles": [
-      "<rootDir>/setupJest.js"
-    ],
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "setupFiles": ["<rootDir>/setupJest.js"],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   }
 }

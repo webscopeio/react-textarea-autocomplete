@@ -21,9 +21,8 @@ const DEFAULT_CARET_POSITION = 'next';
 
 const errorMessage = (message: string) =>
   console.error(
-    `RTA: dataProvider fails: ${
-      message
-    } Check the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
+    `RTA: dataProvider fails: ${message}
+    \n\nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -188,11 +187,21 @@ class ReactTextareaAutocomplete extends React.Component<
         typeof item === 'object' &&
         (!output || typeof output !== 'function')
       ) {
-        throw new Error('Output function is not defined!');
+        throw new Error(
+          'Output functor is not defined! If you are using items as object you have to define "output" function. https://github.com/webscopeio/react-textarea-autocomplete#trigger-type'
+        );
       }
 
       if (output) {
         const textToReplace = output(item, currentTrigger);
+
+        if (!textToReplace || typeof textToReplace === 'number') {
+          throw new Error(
+            `Output functor should return string or object in shape {text: string, caretPosition: string | number}.\nGot "${String(
+              textToReplace
+            )}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
+          );
+        }
 
         if (typeof textToReplace === 'string') {
           return {
@@ -203,13 +212,13 @@ class ReactTextareaAutocomplete extends React.Component<
 
         if (!textToReplace.text) {
           throw new Error(
-            'Outupt "text" is not defined! Object should has shape {text: string, caretPosition: string | number}.'
+            'Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}.\n'
           );
         }
 
         if (!textToReplace.caretPosition) {
           throw new Error(
-            'Outupt "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}.'
+            'Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}.\n'
           );
         }
 
@@ -217,7 +226,7 @@ class ReactTextareaAutocomplete extends React.Component<
       }
 
       if (typeof item !== 'string') {
-        throw new Error('Output item should be string.');
+        throw new Error('Output item should be string\n');
       }
 
       return {
