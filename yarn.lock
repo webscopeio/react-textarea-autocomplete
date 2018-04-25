@@ -15,10 +15,11 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cypress/xvfb/-/xvfb-1.0.4.tgz#e7391d534baef2b180bd84fdc2ffea1020f7d6a5"
 
-"@jukben/emoji-search@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@jukben/emoji-search/-/emoji-search-1.1.2.tgz#5a439f12ef9efd1d14a13b16e8bc2a71d2eae15d"
+"@jukben/emoji-search@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@jukben/emoji-search/-/emoji-search-1.1.4.tgz#9bb9f250d9cb3939b83390e8e485c4de07375952"
   dependencies:
+    babel-runtime "^6.26.0"
     emojilib "2.2.9"
     match-sorter "1.8.1"
 
