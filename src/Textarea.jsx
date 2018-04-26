@@ -22,7 +22,7 @@ const DEFAULT_CARET_POSITION = 'next';
 const errorMessage = (message: string) =>
   console.error(
     `RTA: dataProvider fails: ${message}
-    \n\nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
+    \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -175,7 +175,7 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   _getTextToReplace = (): ?outputType => {
-    const { currentTrigger } = this.state;
+    const { currentTrigger, actualToken } = this.state;
     const triggerSettings = this._getCurrentTriggerSettings();
 
     if (!currentTrigger || !triggerSettings) return null;
@@ -199,7 +199,11 @@ class ReactTextareaAutocomplete extends React.Component<
           throw new Error(
             `Output functor should return string or object in shape {text: string, caretPosition: string | number}.\nGot "${String(
               textToReplace
-            )}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
+            )}". Check the implementation for trigger "${
+              currentTrigger
+            }" and its token "${
+              actualToken
+            }"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
           );
         }
 
@@ -212,13 +216,17 @@ class ReactTextareaAutocomplete extends React.Component<
 
         if (!textToReplace.text) {
           throw new Error(
-            'Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}.\n'
+            `Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${
+              currentTrigger
+            }" and its token "${actualToken}"\n`
           );
         }
 
         if (!textToReplace.caretPosition) {
           throw new Error(
-            'Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}.\n'
+            `Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${
+              currentTrigger
+            }" and its token "${actualToken}"\n`
           );
         }
 
