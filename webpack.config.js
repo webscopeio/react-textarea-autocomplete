@@ -10,7 +10,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@webscopeio/react-textarea-autocomplete': path.resolve(__dirname, './src'),
+      '@webscopeio/react-textarea-autocomplete': path.resolve(
+        __dirname,
+        './src'
+      ),
     },
     extensions: ['.js', '.jsx', '.json'],
   },

@@ -215,5 +215,12 @@ describe('React Textarea Autocomplete', () => {
         });
       cy.get('.rta__textarea').should('have.value', 'This is test /');
     });
+
+    it('show autocomplete only after whitespace', () => {
+      cy.get('.rta__textarea').type('This is test;');
+      cy.get('.rta__autocomplete').should('not.be.visible');
+      cy.get('.rta__textarea').type(' ;');
+      cy.get('.rta__autocomplete').should('be.visible');
+    });
   });
 });

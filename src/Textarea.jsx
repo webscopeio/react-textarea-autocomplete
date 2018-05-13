@@ -398,6 +398,9 @@ class ReactTextareaAutocomplete extends React.Component<
     let tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
     let lastToken = tokenMatch && tokenMatch[0];
 
+    let currentTrigger =
+      (lastToken && Object.keys(trigger).find(a => a === lastToken[0])) || null;
+
     /*
      if we lost the trigger token or there is no following character we want to close
      the autocomplete
@@ -408,6 +411,22 @@ class ReactTextareaAutocomplete extends React.Component<
       ((this.state.currentTrigger &&
         !trigger[this.state.currentTrigger].allowWhitespace) ||
         !this.state.currentTrigger)
+    ) {
+      this._closeAutocomplete();
+      return;
+    }
+
+    /**
+     * This code has to be sync that is the reason why we obtain the currentTrigger
+     * from currentTrigger not this.state.currentTrigger
+     *
+     * Check if the currently typed token has to be afterWhitespace, or not.
+     */
+    if (
+      currentTrigger &&
+      value[tokenMatch.index - 1] &&
+      (trigger[currentTrigger].afterWhitespace &&
+        !value[tokenMatch.index - 1].match(/\s/))
     ) {
       this._closeAutocomplete();
       return;
@@ -430,12 +449,10 @@ class ReactTextareaAutocomplete extends React.Component<
         this._closeAutocomplete();
         return;
       }
+
+      currentTrigger =
+        Object.keys(trigger).find(a => a === lastToken[0]) || null;
     }
-
-    const triggerChars = Object.keys(trigger);
-
-    const currentTrigger =
-      (lastToken && triggerChars.find(a => a === lastToken[0])) || null;
 
     const actualToken = lastToken.slice(1);
 
@@ -620,7 +637,15 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
     }
 
     // $FlowFixMe
-    const { component, dataProvider, output } = settings;
+    const triggerSetting: triggerType = settings;
+
+    const {
+      component,
+      dataProvider,
+      output,
+      afterWhitespace,
+      allowWhitespace,
+    } = triggerSetting;
 
     if (!component || typeof component !== 'function') {
       return Error('Invalid prop trigger: component should be defined.');
@@ -632,6 +657,12 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 
     if (output && typeof output !== 'function') {
       return Error('Invalid prop trigger: output should be a function.');
+    }
+
+    if (afterWhitespace && allowWhitespace) {
+      return Error(
+        'Invalid prop trigger: afterWhitespace and allowWhitespace can be used together'
+      );
     }
   }
 

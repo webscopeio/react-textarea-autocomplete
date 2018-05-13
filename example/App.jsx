@@ -247,6 +247,19 @@ class App extends React.Component {
                 next: this._outputCaretNext,
               }[optionsCaret],
             },
+            ';': {
+              dataProvider: token => [
+                { name: '1', char: 'one' },
+                { name: '2', char: 'two' },
+              ],
+              component: Item,
+              afterWhitespace: true,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext,
+              }[optionsCaret],
+            },
           }}
         />
       </div>
