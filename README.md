@@ -132,6 +132,7 @@ export default App;
         token: string
       ) => Promise<Array<Object | string>> | Array<Object | string>,
       allowWhitespace?: boolean,
+      afterWhitespace?: boolean,
       component: ReactClass<*>
     |},
 }
@@ -140,6 +141,7 @@ export default App;
 - **dataProvider** is called after each keystroke to get data what the suggestion list should display (array or promise resolving array)
 - **component** is the component for render the item in suggestion list. It has `selected` and `entity` props provided by React Textarea Autocomplete
 - **allowWhitespace** (Optional; defaults to false) Set this to true if you want to provide autocomplete for words (tokens) containing whitespace 
+- **afterWhitespace** (Optional; defaults to false) Show autocomplete only if it's preceded by whitespace. Cannot be combined with _allowWhitespace_
 - **output** (Optional for string based item. If the item is an object this method is *required*) This function defines text which will be placed into textarea after the user makes a selection.
 
    You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value are "next", "end" and number, which is absolute number in contex of textarea (0 is equal position before the first char). Defaults to "next" which is space after the injected word.
