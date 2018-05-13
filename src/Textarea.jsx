@@ -24,6 +24,7 @@ const errorMessage = (message: string) =>
     `RTA: dataProvider fails: ${message}
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
+
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
   TextareaState
@@ -98,7 +99,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   _onSelect = (newToken: textToReplaceType) => {
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
-    const { onChange } = this.props;
+    const { onChange, trigger } = this.props;
 
     if (!currentTrigger) return;
 
@@ -124,24 +125,17 @@ class ReactTextareaAutocomplete extends React.Component<
       }
     };
 
-    let offsetToEndOfToken = 0;
-    while (
-      textareaValue[selectionEnd + offsetToEndOfToken] &&
-      /\S/.test(textareaValue[selectionEnd + offsetToEndOfToken])
-    ) {
-      offsetToEndOfToken += 1;
-    }
-
-    const textToModify = textareaValue.slice(
-      0,
-      selectionEnd + offsetToEndOfToken
-    );
+    const textToModify = textareaValue.slice(0, selectionEnd);
 
     const startOfTokenPosition = textToModify.search(
       /**
-       * It's important to enscape the currentTrigger char for chars like [, (,...
+       * It's important to escape the currentTrigger char for chars like [, (,...
        */
-      new RegExp(`\\${currentTrigger}\\S*$`)
+      new RegExp(
+        `\\${currentTrigger}${
+          trigger[currentTrigger].allowWhitespace ? '.' : '\\S'
+        }*$`
+      )
     );
 
     // we add space after emoji is selected if a caret position is next
@@ -286,6 +280,9 @@ class ReactTextareaAutocomplete extends React.Component<
           throw new Error('Component should be defined!');
         }
 
+        // throw away if we resolved old trigger
+        if (currentTrigger !== this.state.currentTrigger) return;
+
         this.setState({
           dataLoading: false,
           data,
@@ -398,16 +395,41 @@ class ReactTextareaAutocomplete extends React.Component<
       value,
     });
 
-    const tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
-    const lastToken = tokenMatch && tokenMatch[0];
+    let tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
+    let lastToken = tokenMatch && tokenMatch[0];
 
     /*
      if we lost the trigger token or there is no following character we want to close
      the autocomplete
     */
-    if (!lastToken || lastToken.length <= minChar) {
+    if (
+      (!lastToken || lastToken.length <= minChar) &&
+      // check if our current trigger disallows whitespace
+      ((this.state.currentTrigger &&
+        !trigger[this.state.currentTrigger].allowWhitespace) ||
+        !this.state.currentTrigger)
+    ) {
       this._closeAutocomplete();
       return;
+    }
+
+    /**
+      If our current trigger allows whitespace 
+      get the correct token for DataProvider, so we need to construct new RegExp
+     */
+    if (
+      this.state.currentTrigger &&
+      trigger[this.state.currentTrigger].allowWhitespace
+    ) {
+      tokenMatch = new RegExp(
+        `\\${this.state.currentTrigger}[^${this.state.currentTrigger}]*$`
+      ).exec(value.slice(0, selectionEnd));
+      lastToken = tokenMatch && tokenMatch[0];
+
+      if (!lastToken) {
+        this._closeAutocomplete();
+        return;
+      }
     }
 
     const triggerChars = Object.keys(trigger);

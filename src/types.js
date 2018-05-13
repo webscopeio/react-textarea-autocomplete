@@ -51,6 +51,7 @@ export type ListState = {
 export type settingType = {|
   component: React$StatelessFunctionalComponent<*>,
   dataProvider: dataProviderType,
+  allowWhitespace?: boolean,
   output?: (Object | string, ?string) => textToReplaceType | string,
 |};
 
