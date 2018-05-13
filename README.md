@@ -69,6 +69,8 @@ The methods below can be called on the React component's ref (see: [React Docs](
 | :------------- | :-------------
 | getCaretPosition() : number | Gets the current caret position in the textarea
 | setCaretPosition(position : number) : void | Sets the caret position to the integer value passed as the argument
+| getSelectionPositions(): {selectionStar: number, selectionEnd: number} | Returns selectionStart and selectionEnd of the textarea
+| getSelectedText(): ?string | Returns currently selected word
 
 Example:
 ```javascript

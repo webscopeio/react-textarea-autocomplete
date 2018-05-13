@@ -92,6 +92,14 @@ class App extends React.Component {
 
   _outputCaretNext = item => ({ text: item.char, caretPosition: 'next' });
 
+  _getSelectionPosition = () => {
+    alert(JSON.stringify(this.rtaRef.getSelectionPosition()));
+  };
+
+  _getSelectedText = () => {
+    alert(this.rtaRef.getSelectedText());
+  };
+
   /**
    * it's the same as _outputCaretNext
    */
@@ -171,6 +179,15 @@ class App extends React.Component {
         </button>
         <button data-test="getCaretPosition" onClick={this._getCaretPosition}>
           getCaretPosition();
+        </button>
+        <button
+          data-test="getSelectionPosition"
+          onClick={this._getSelectionPosition}
+        >
+          getSelectionPosition();
+        </button>
+        <button data-test="getSelectedText" onClick={this._getSelectedText}>
+          getSelectedText();
         </button>
         <div>
           Actual token in "[" provider:{' '}
