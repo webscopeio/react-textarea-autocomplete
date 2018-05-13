@@ -187,7 +187,7 @@ describe('React Textarea Autocomplete', () => {
         });
 
       cy
-        .get('[data-test="getSelectionPositions"]')
+        .get('[data-test="getSelectionPosition"]')
         .click()
         .then(() => {
           expect(stub.getCall(1)).to.be.calledWith(
