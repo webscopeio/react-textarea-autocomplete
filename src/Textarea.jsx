@@ -81,6 +81,30 @@ class ReactTextareaAutocomplete extends React.Component<
     Listeners.stopListen();
   }
 
+  getSelectionPosition = (): ?{|
+    selectionStart: number,
+    selectionEnd: number,
+  |} => {
+    if (!this.textareaRef) return null;
+
+    return {
+      selectionStart: this.textareaRef.selectionStart,
+      selectionEnd: this.textareaRef.selectionEnd,
+    };
+  };
+
+  getSelectedText = (): ?string => {
+    if (!this.textareaRef) return null;
+    const { selectionStart, selectionEnd } = this.textareaRef;
+
+    if (selectionStart === selectionEnd) return null;
+
+    return this.state.value.substr(
+      selectionStart,
+      selectionEnd - selectionStart
+    );
+  };
+
   setCaretPosition = (position: number = 0) => {
     if (!this.textareaRef) return;
 

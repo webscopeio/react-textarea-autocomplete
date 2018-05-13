@@ -172,6 +172,30 @@ describe('React Textarea Autocomplete', () => {
         });
     });
 
+    it('get currently selected word', () => {
+      cy.get('.rta__textarea').type(`test{selectall}`);
+
+      const stub = cy.stub();
+
+      cy.on('window:alert', stub);
+
+      cy
+        .get('[data-test="getSelectedText"]')
+        .click()
+        .then(() => {
+          expect(stub.getCall(0)).to.be.calledWith('test');
+        });
+
+      cy
+        .get('[data-test="getSelectionPosition"]')
+        .click()
+        .then(() => {
+          expect(stub.getCall(1)).to.be.calledWith(
+            '{"selectionStart":0,"selectionEnd":4}'
+          );
+        });
+    });
+
     it('should close the textarea when click outside happens', () => {
       cy.get('[data-test="clickoutsideOption"]').click();
 
