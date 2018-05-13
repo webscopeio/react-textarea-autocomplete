@@ -33,10 +33,10 @@
   },
   "devDependencies": {
     "@jukben/emoji-search": "1.1.4",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-react-app": "^3.1.0",
+    "babel-preset-react-app": "^3.1.1",
     "babel-runtime": "^6.23.0",
     "css-loader": "^0.28.7",
     "cypress": "^1.1.2",

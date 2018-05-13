@@ -52,6 +52,7 @@ export type settingType = {|
   component: React$StatelessFunctionalComponent<*>,
   dataProvider: dataProviderType,
   allowWhitespace?: boolean,
+  afterWhitespace?: boolean,
   output?: (Object | string, ?string) => textToReplaceType | string,
 |};
 
