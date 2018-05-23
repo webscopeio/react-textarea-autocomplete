@@ -105,6 +105,10 @@ class App extends React.Component {
    */
   _outputCaretDefault = item => item.char;
 
+  _focus = () => {
+    this.textareaRef.focus();
+  };
+
   render() {
     const {
       optionsCaret,
@@ -189,6 +193,9 @@ class App extends React.Component {
         <button data-test="getSelectedText" onClick={this._getSelectedText}>
           getSelectedText();
         </button>
+        <button data-test="focus" onClick={this._focus}>
+          Focus the textarea
+        </button>
         <div>
           Actual token in "[" provider:{' '}
           <span data-test="actualToken">{actualTokenInProvider}</span>
@@ -198,6 +205,9 @@ class App extends React.Component {
           className="one"
           ref={ref => {
             this.rtaRef = ref;
+          }}
+          innerRef={ref => {
+            this.textareaRef = ref;
           }}
           loadingComponent={Loading}
           style={{

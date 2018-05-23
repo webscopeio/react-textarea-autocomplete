@@ -495,8 +495,8 @@ describe('object-based items without keys and custom unique generator', () => {
 
   it('should generate unique value by the output generator', () => {
     const items = rta.find(Item);
-    expect(items.at(0).key()).toEqual("11");
-    expect(items.at(1).key()).toEqual("12");
-    expect(items.at(2).key()).toEqual("13");
+    expect(items.at(0).key()).toEqual('11');
+    expect(items.at(1).key()).toEqual('12');
+    expect(items.at(2).key()).toEqual('13');
   });
 });
