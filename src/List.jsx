@@ -51,8 +51,13 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   getId = (item: textToReplaceType | string): string => {
+    const textToReplace = this.props.getTextToReplace(item);
+    if (textToReplace.key) {
+      return textToReplace.key;
+    }
+
     if (typeof item === 'string' || !item.key) {
-      return this.props.getTextToReplace(item).text;
+      return textToReplace.text;
     }
 
     return item.key;

@@ -358,6 +358,22 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
 </li>
 `;
 
+exports[`object-based items without keys and custom unique generator match the snapshot 1`] = `
+<div
+  className="rta  "
+>
+  <textarea
+    className="rta__textarea "
+    onBlur={[Function]}
+    onChange={[Function]}
+    onClick={[Function]}
+    onSelect={[Function]}
+    placeholder="Write a message."
+    value="Controlled text"
+  />
+</div>
+`;
+
 exports[`string-based items w/o output fn match match the snapshot 1`] = `
 <div
   className="rta  "

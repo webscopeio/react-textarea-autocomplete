@@ -443,3 +443,60 @@ describe('object-based items with keys', () => {
     expect(rta.find('textarea').node.value).toBe('some test ___happy_face___ ');
   });
 });
+
+describe('object-based items without keys and custom unique generator', () => {
+  const mockedChangeFn = jest.fn();
+  const mockedSelectFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
+
+  const rtaComponent = (
+    <ReactTextareaAutocomplete
+      placeholder={'Write a message.'}
+      value={'Controlled text'}
+      onChange={mockedChangeFn}
+      onSelect={mockedSelectFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
+      loadingComponent={Loading}
+      trigger={{
+        ':': {
+          output: item => ({
+            key: 10 + item.value,
+            text: `___${item.text}___`,
+            caretPosition: 'next',
+          }),
+          dataProvider: () => [
+            { value: 1, label: ':)', text: 'happy_face' },
+            { value: 2, label: ':(', text: 'sad_face' },
+            { value: 3, label: ':|', text: 'sad_face' },
+          ],
+          component: SmileItemComponent,
+        },
+      }}
+    />
+  );
+  const rta = mount(rtaComponent);
+
+  it('match the snapshot', () => {
+    expect(shallow(rtaComponent)).toMatchSnapshot();
+  });
+
+  it('After the trigger was typed, it should appear list of options', () => {
+    rta
+      .find('textarea')
+      .simulate('change', { target: { value: 'some test :a' } });
+    expect(rta.find('.rta__autocomplete')).toHaveLength(1);
+  });
+
+  it('should display all items', () => {
+    expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
+      3
+    );
+  });
+
+  it('should generate unique value by the output generator', () => {
+    const items = rta.find(Item);
+    expect(items.at(0).key()).toEqual("11");
+    expect(items.at(1).key()).toEqual("12");
+    expect(items.at(2).key()).toEqual("13");
+  });
+});
