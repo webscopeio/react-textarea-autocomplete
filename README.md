@@ -148,7 +148,7 @@ export default App;
 
    You can also specify the behavior of caret if you return object `{text: "item", caretPosition: "start"}` the caret will be before the word once the user confirms his selection. Other possible value are "next", "end" and number, which is absolute number in contex of textarea (0 is equal position before the first char). Defaults to "next" which is space after the injected word.
  
-   Default behavior for string based item is string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string, otherwise you have to use object notation and specify your own `key`.
+   The default behavior for string based item is a string: `<TRIGGER><ITEM><TRIGGER>`). This method should **always** return a unique string, otherwise, you have to use object notation and specify your own `key` or return object from `dataProvider` with `key` property. 
 
 ## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
