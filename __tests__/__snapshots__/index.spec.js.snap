@@ -363,7 +363,7 @@ exports[`object-based items without keys and custom unique generator match the s
   className="rta  "
 >
   <textarea
-    className="rta__textarea my-rta"
+    className="rta__textarea "
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
