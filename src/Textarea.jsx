@@ -363,6 +363,7 @@ class ReactTextareaAutocomplete extends React.Component<
       'containerStyle',
       'minChar',
       'ref',
+      'innerRef',
       'onChange',
       'onCaretPositionChange',
       'className',
@@ -591,6 +592,7 @@ class ReactTextareaAutocomplete extends React.Component<
         <textarea
           {...this._cleanUpProps()}
           ref={ref => {
+            this.props.innerRef && this.props.innerRef(ref);
             this.textareaRef = ref;
           }}
           className={`rta__textarea ${className || ''}`}

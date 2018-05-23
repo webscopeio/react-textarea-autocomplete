@@ -34,12 +34,13 @@ or there is UMD build available. [Check out this pen as example](https://codepen
 
 ## Props
 
-*Note: Every other props than the mentioned below will be propagated to textarea itself*
+> *☝️ Note: Every other props than the mentioned below will be propagated to the textarea itself*
 
 | Props         | Type           |  Description 
 | :------------- | :-------------  |  ---------
 | **trigger*** | Object: Trigger type | Define triggers and their corresponding behavior
 | **loadingComponent*** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
+| innerRef | Function: (HTMLTextAreaElement) => void) | Allows you to get React ref of the underlying textarea
 | minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 | closeOnClickOutside | boolean | When it's true autocomplete will close when use click outside. Defaults to false.
@@ -83,11 +84,11 @@ class App extends Component {
   }
 
   resetCaretPosition = () => {
-    this.textarea.setCaretPosition(0);
+    this.rta.setCaretPosition(0);
   }
 
   printCurrentCaretPosition = () => {
-    const caretPosition = this.textarea.getCaretPosition();
+    const caretPosition = this.rta.getCaretPosition();
     console.log(`Caret position is equal to ${caretPosition}`);
   }
 
@@ -102,7 +103,7 @@ class App extends Component {
           className="my-textarea"
           loadingComponent={() => <span>Loading</span>}
           trigger={{ ... }}
-          ref={(textarea) => { this.textarea = textarea; } }
+          ref={(rta) => { this.rta = rta; } }
           onCaretPositionChange={this.onCaretPositionChange}
         />
       </div>
@@ -184,6 +185,8 @@ class App extends Component {
             lineHeight: "20px",
             padding: 5
           }}
+          ref={(rta) => { this.rta = rta; } }
+          innerRef={(textarea) => { this.textarea = textarea; } }
           containerStyle={{
             marginTop: 20,
             width: 400,

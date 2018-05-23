@@ -67,6 +67,7 @@ export type TextareaProps = {
   onSelect: ?(SyntheticEvent<*> | Event) => void,
   onBlur: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
+  innerRef: ?(HTMLTextAreaElement) => void,
   closeOnClickOutside?: boolean,
   movePopupAsYouType?: boolean,
   minChar: ?number,

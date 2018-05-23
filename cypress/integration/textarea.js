@@ -24,6 +24,12 @@ describe('React Textarea Autocomplete', () => {
     cy.get('.rta__textarea');
   });
 
+  it('focus textarea by innerRef', () => {
+    cy.focused().should('not.be.visible');
+    cy.get('[data-test="focus"]').click();
+    cy.focused().should('be.visible');
+  });
+
   context('basic', () => {
     beforeEach(() => {
       cy.get('.rta__textarea').clear({ force: true });
