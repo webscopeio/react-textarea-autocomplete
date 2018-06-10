@@ -34,6 +34,7 @@ export default class Item extends React.Component<ItemProps, *> {
           onClick={onClickHandler}
           onFocus={this.selectItem}
           onMouseEnter={this.selectItem}
+          /* $FlowFixMe */
           ref={innerRef}
         >
           <Component selected={selected} entity={item} />
