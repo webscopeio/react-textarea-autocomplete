@@ -25,6 +25,7 @@ export type ItemProps = {
   className: ?string,
   onClickHandler: (SyntheticEvent<*>) => void,
   selected: boolean,
+  innerRef: HTMLDivElement => void,
 };
 
 export type ListProps = {

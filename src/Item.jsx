@@ -20,6 +20,7 @@ export default class Item extends React.Component<ItemProps, *> {
       item,
       selected,
       className,
+      innerRef,
     } = this.props;
 
     return (
@@ -33,6 +34,7 @@ export default class Item extends React.Component<ItemProps, *> {
           onClick={onClickHandler}
           onFocus={this.selectItem}
           onMouseEnter={this.selectItem}
+          ref={innerRef}
         >
           <Component selected={selected} entity={item} />
         </div>

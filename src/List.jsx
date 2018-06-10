@@ -67,6 +67,10 @@ export default class List extends React.Component<ListProps, ListState> {
 
   listeners: Array<number> = [];
 
+  itemsRef: {
+    [key: string]: HTMLDivElement,
+  } = {};
+
   modifyText = (value: Object | string) => {
     if (!value) return;
 
@@ -76,7 +80,9 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   selectItem = (item: Object | string) => {
-    this.setState({ selectedItem: item });
+    this.setState({ selectedItem: item }, () => {
+      this.itemsRef[this.getId(item)].scrollIntoView();
+    });
   };
 
   scroll = (e: KeyboardEvent) => {
@@ -101,7 +107,7 @@ export default class List extends React.Component<ListProps, ListState> {
     }
 
     newPosition = (newPosition % values.length + values.length) % values.length; // eslint-disable-line
-    this.setState({ selectedItem: values[newPosition] });
+    this.selectItem(values[newPosition]);
   };
 
   isSelected = (item: Object | string): boolean => {
@@ -126,6 +132,9 @@ export default class List extends React.Component<ListProps, ListState> {
         {values.map(item => (
           <Item
             key={this.getId(item)}
+            innerRef={ref => {
+              this.itemsRef[this.getId(item)] = ref;
+            }}
             selected={this.isSelected(item)}
             item={item}
             className={itemClassName}

@@ -1,3 +1,9 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* proof for https://github.com/webscopeio/react-textarea-autocomplete/issues/70 */
+.rta__autocomplete {
+  height: 100px;
+  overflow: scroll;
+}
