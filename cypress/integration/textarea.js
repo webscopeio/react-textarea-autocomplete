@@ -42,6 +42,15 @@ describe('React Textarea Autocomplete', () => {
         .should('have.value', 'This is test 🤣');
     });
 
+    it('basic keyboard test after unmounting second instance', () => {
+      cy.get('[data-test="showSecondTextarea"]').click();
+      cy.get('[data-test="showSecondTextarea"]').click();
+      cy
+        .get('.rta__textarea')
+        .type('This is test :ro{downarrow}{enter}')
+        .should('have.value', 'This is test 🤣');
+    });
+
     it('should change only correct part of the word', () => {
       cy
         .get('.rta__textarea')

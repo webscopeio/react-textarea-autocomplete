@@ -16,14 +16,14 @@ class Listener {
     [number]: {| keyCode: Array<number>, fn: Function |},
   };
 
-  isListening: boolean;
+  refCount: number;
 
   f: Function;
 
   constructor() {
     this.index = 0;
     this.listeners = {};
-    this.isListening = false;
+    this.refCount = 0;
 
     this.f = (e: KeyboardEvent) => {
       const code = e.keyCode || e.which;
@@ -35,16 +35,19 @@ class Listener {
   }
 
   startListen = () => {
-    if (!this.isListening) {
+    if (!this.refCount) {
       // prevent multiple listeners in case of multiple TextareaAutocomplete components on page
       document.addEventListener('keydown', this.f);
-      this.isListening = true;
     }
+    this.refCount++;
   };
 
   stopListen = () => {
-    document.removeEventListener('keydown', this.f);
-    this.isListening = false;
+    this.refCount--;
+    if (!this.refCount) {
+      // prevent disable listening in case of multiple TextareaAutocomplete components on page
+      document.removeEventListener('keydown', this.f);
+    }
   };
 
   add = (keyCodes: Array<number> | number, fn: Function) => {

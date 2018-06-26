@@ -31,6 +31,7 @@ class App extends React.Component {
     text: '',
     optionsCaret: 'start',
     actualTokenInProvider: '',
+    showSecondTextarea: false,
   };
 
   _handleOptionsCaretEnd = () => {
@@ -54,6 +55,12 @@ class App extends React.Component {
   _handleClickoutsideOption = () => {
     this.setState(({ clickoutsideOption }) => ({
       clickoutsideOption: !clickoutsideOption,
+    }));
+  };
+
+  _handleShowSecondTextarea = () => {
+    this.setState(({ showSecondTextarea }) => ({
+      showSecondTextarea: !showSecondTextarea,
     }));
   };
 
@@ -116,6 +123,7 @@ class App extends React.Component {
       clickoutsideOption,
       movePopupAsYouType,
       actualTokenInProvider,
+      showSecondTextarea,
       text,
     } = this.state;
 
@@ -161,6 +169,17 @@ class App extends React.Component {
               onChange={this._handleClickoutsideOption}
             />
             Close when click outside
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              data-test="showSecondTextarea"
+              type="checkbox"
+              defaultChecked={showSecondTextarea}
+              onChange={this._handleShowSecondTextarea}
+            />
+            Show second textarea
           </label>
         </div>
         <div>
@@ -289,6 +308,35 @@ class App extends React.Component {
             },
           }}
         />
+        {!showSecondTextarea ? null :
+          <ReactTextareaAutocomplete
+            style={{
+              padding: 5,
+            }}
+            containerStyle={{
+              marginTop: 20,
+              width: 400,
+              height: 100,
+              margin: '20px auto',
+            }}
+            loadingComponent={Loading}
+            trigger={{
+              ':': {
+                dataProvider: token =>
+                  emoji(token)
+                    .slice(0, 10)
+                    .filter(({ char }) => char)
+                    .map(({ name, char }) => ({ name, char })),
+                component: Item,
+                output: {
+                  start: this._outputCaretStart,
+                  end: this._outputCaretEnd,
+                  next: this._outputCaretNext,
+                }[optionsCaret],
+              },
+            }}
+          />
+        }
       </div>
     );
   }
