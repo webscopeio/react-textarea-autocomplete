@@ -81,7 +81,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   selectItem = (item: Object | string) => {
     this.setState({ selectedItem: item }, () => {
-      this.itemsRef[this.getId(item)].scrollIntoView();
+      this.itemsRef[this.getId(item)].scrollIntoView(false);
     });
   };
 
