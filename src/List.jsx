@@ -79,9 +79,12 @@ export default class List extends React.Component<ListProps, ListState> {
     onSelect(getTextToReplace(value));
   };
 
-  selectItem = (item: Object | string) => {
+  selectItem = (item: Object | string, animation: boolean = false) => {
     this.setState({ selectedItem: item }, () => {
-      this.itemsRef[this.getId(item)].scrollIntoView();
+      // const offsetTop = this.itemsRef[this.getId(item)].offsetTop;
+      if (animation) {
+        this.props.dropdownScroll(this.itemsRef[this.getId(item)]);
+      }
     });
   };
 
@@ -107,7 +110,10 @@ export default class List extends React.Component<ListProps, ListState> {
     }
 
     newPosition = (newPosition % values.length + values.length) % values.length; // eslint-disable-line
-    this.selectItem(values[newPosition]);
+    this.selectItem(
+      values[newPosition],
+      [KEY_CODES.DOWN, KEY_CODES.UP].includes(code)
+    );
   };
 
   isSelected = (item: Object | string): boolean => {

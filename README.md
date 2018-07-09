@@ -41,6 +41,7 @@ or there is UMD build available. [Check out this pen as example](https://codepen
 | **trigger*** | Object: Trigger type | Define triggers and their corresponding behavior
 | **loadingComponent*** | React Component | Gets `data` props which is already fetched (and displayed) suggestion 
 | innerRef | Function: (HTMLTextAreaElement) => void) | Allows you to get React ref of the underlying textarea
+| scrollToItem | boolean \| (container: HTMLDivElement, item: HTMLDivElement) => void) | Defaults to true. With default implementation it will scroll the dropdown every time when the item gets out of the view. 
 | minChar | Number | Number of characters that user should type for trigger a suggestion. Defaults to 1.
 | onCaretPositionChange | Function: (number) => void | Listener called every time the textarea's caret position is changed. The listener is called with one attribute - caret position denoted by an integer number.
 | closeOnClickOutside | boolean | When it's true autocomplete will close when use click outside. Defaults to false.

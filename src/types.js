@@ -37,6 +37,7 @@ export type ListProps = {
   className: ?string,
   itemClassName: ?string,
   onSelect: textToReplaceType => void,
+  dropdownScroll: HTMLDivElement => void,
 };
 
 /**
@@ -69,6 +70,9 @@ export type TextareaProps = {
   onBlur: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
   innerRef: ?(HTMLTextAreaElement) => void,
+  scrollToItem:
+    | boolean
+    | ((container: HTMLDivElement, item: HTMLDivElement) => void),
   closeOnClickOutside?: boolean,
   movePopupAsYouType?: boolean,
   minChar: ?number,
