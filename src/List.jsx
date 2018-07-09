@@ -79,10 +79,9 @@ export default class List extends React.Component<ListProps, ListState> {
     onSelect(getTextToReplace(value));
   };
 
-  selectItem = (item: Object | string, animation: boolean = false) => {
+  selectItem = (item: Object | string, keyboard: boolean = false) => {
     this.setState({ selectedItem: item }, () => {
-      // const offsetTop = this.itemsRef[this.getId(item)].offsetTop;
-      if (animation) {
+      if (keyboard) {
         this.props.dropdownScroll(this.itemsRef[this.getId(item)]);
       }
     });
