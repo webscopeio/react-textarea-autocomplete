@@ -308,7 +308,7 @@ class App extends React.Component {
             },
           }}
         />
-        {!showSecondTextarea ? null :
+        {!showSecondTextarea ? null : (
           <ReactTextareaAutocomplete
             style={{
               padding: 5,
@@ -336,7 +336,7 @@ class App extends React.Component {
               },
             }}
           />
-        }
+        )}
       </div>
     );
   }

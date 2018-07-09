@@ -7,6 +7,8 @@ import getCaretCoordinates from 'textarea-caret';
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
 
+import { defaultScrollToItem } from './utilities';
+
 import type {
   TextareaProps,
   TextareaState,
@@ -34,6 +36,7 @@ class ReactTextareaAutocomplete extends React.Component<
     movePopupAsYouType: false,
     value: '',
     minChar: 1,
+    scrollToItem: true,
   };
 
   constructor(props: TextareaProps) {
@@ -362,6 +365,7 @@ class ReactTextareaAutocomplete extends React.Component<
       'loadingComponent',
       'containerStyle',
       'minChar',
+      'scrollToItem',
       'ref',
       'innerRef',
       'onChange',
@@ -546,11 +550,30 @@ class ReactTextareaAutocomplete extends React.Component<
     }
   };
 
+  _dropdownScroll = (item: HTMLDivElement) => {
+    const { scrollToItem } = this.props;
+
+    if (!scrollToItem) return;
+
+    if (scrollToItem === true) {
+      defaultScrollToItem(this.dropdownRef, item);
+      return;
+    }
+
+    if (typeof scrollToItem !== 'function' || scrollToItem.length !== 2) {
+      throw new Error(
+        '`scrollToItem` has to be boolean (true for default implementation) or function with two parameters: container, item.'
+      );
+    }
+
+    scrollToItem(this.dropdownRef, item);
+  };
+
   props: TextareaProps;
 
   textareaRef: HTMLInputElement;
 
-  dropdownRef: ?HTMLDivElement;
+  dropdownRef: HTMLDivElement;
 
   tokenRegExp: RegExp;
 
@@ -610,6 +633,7 @@ class ReactTextareaAutocomplete extends React.Component<
           currentTrigger && (
             <div
               ref={ref => {
+                // $FlowFixMe
                 this.dropdownRef = ref;
               }}
               style={{ top, left, ...dropdownStyle }}
@@ -627,6 +651,7 @@ class ReactTextareaAutocomplete extends React.Component<
                     itemStyle={itemStyle}
                     getTextToReplace={textToReplace}
                     onSelect={this._onSelect}
+                    dropdownScroll={this._dropdownScroll}
                   />
                 )}
               {dataLoading && (
