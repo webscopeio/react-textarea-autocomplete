@@ -1,6 +1,6 @@
 {
   "name": "@webscopeio/react-textarea-autocomplete",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Offers autocomplete over textarea in style of GitHub.",
   "repository": {
     "type": "git",
