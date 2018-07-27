@@ -22,9 +22,8 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   componentWillReceiveProps({ values }: ListProps) {
-    if (this.props.values !== values) {
-      if (values && values[0]) this.selectItem(values[0]);
-    }
+    if (this.props.values !== values && values && values[0])
+      this.selectItem(values[0]);
   }
 
   componentWillUnmount() {
