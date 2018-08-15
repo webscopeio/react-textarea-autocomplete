@@ -160,7 +160,9 @@ class ReactTextareaAutocomplete extends React.Component<
        */
       new RegExp(
         `\\${currentTrigger}${
-          trigger[currentTrigger].allowWhitespace ? '.' : '\\S'
+          trigger[currentTrigger].allowWhitespace
+            ? '.'
+            : `[^\\${currentTrigger}\\s]`
         }*$`
       )
     );
@@ -310,6 +312,12 @@ class ReactTextareaAutocomplete extends React.Component<
         // throw away if we resolved old trigger
         if (currentTrigger !== this.state.currentTrigger) return;
 
+        // if we haven't resolved any data let's close the autocomplete
+        if (!data.length) {
+          this._closeAutocomplete();
+          return;
+        }
+
         this.setState({
           dataLoading: false,
           data,
@@ -330,7 +338,11 @@ class ReactTextareaAutocomplete extends React.Component<
   _createRegExp = () => {
     const { trigger } = this.props;
 
-    this.tokenRegExp = new RegExp(`[${Object.keys(trigger).join('')}][^\\s]*$`);
+    // negative lookahead to match only the trigger + the actual token = "bladhwd:adawd:word test" => ":word"
+    // https://stackoverflow.com/a/8057827/2719917
+    this.tokenRegExp = new RegExp(
+      `([${Object.keys(trigger).join('')}])(?:(?!\\1)[^\\s])*$`
+    );
   };
 
   _update({ value, trigger }: TextareaProps) {
@@ -490,7 +502,12 @@ class ReactTextareaAutocomplete extends React.Component<
       return;
     }
 
-    if (movePopupAsYouType || (top === null && left === null)) {
+    if (
+      movePopupAsYouType ||
+      (top === null && left === null) ||
+      // if we have single char - trigger it means we want to re-position the autocomplete
+      lastToken.length === 1
+    ) {
       this.setState(getCaretCoordinates(textarea, selectionEnd));
     }
 
