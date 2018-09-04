@@ -115,6 +115,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "isachivka",
+      "name": "Igor Sachivka",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1263650?v=4",
+      "profile": "https://github.com/isachivka",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "repoType": "github"
