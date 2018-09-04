@@ -1900,6 +1900,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+custom-event@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
+
 cypress@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-1.1.2.tgz#fa477495a99d0c2c78eb2d2bf52eb721a4325cf8"

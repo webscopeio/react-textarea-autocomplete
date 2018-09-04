@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
+import CustomEvent from 'custom-event';
 
 import Listeners, { KEY_CODES } from './listener';
 import List from './List';
@@ -187,7 +188,7 @@ class ReactTextareaAutocomplete extends React.Component<
       },
       () => {
         // fire onChange event after successful selection
-        const e = new Event('change', { bubbles: true });
+        const e = new CustomEvent('change', { bubbles: true });
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
 
@@ -474,7 +475,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     /**
-      If our current trigger allows whitespace 
+      If our current trigger allows whitespace
       get the correct token for DataProvider, so we need to construct new RegExp
      */
     if (
