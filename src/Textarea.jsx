@@ -160,17 +160,16 @@ class ReactTextareaAutocomplete extends React.Component<
        * It's important to escape the currentTrigger char for chars like [, (,...
        */
       new RegExp(
-        `\\${currentTrigger}${
-          trigger[currentTrigger].allowWhitespace
-            ? '.'
-            : `[^\\${currentTrigger}\\s]`
-        }*$`
+        `\\${currentTrigger}${`[^\\${currentTrigger}${
+          trigger[currentTrigger].allowWhitespace ? '' : '\\s'
+        }]`}*$`
       )
     );
 
     // we add space after emoji is selected if a caret position is next
     const newTokenString =
       newToken.caretPosition === 'next' ? `${newToken.text} ` : newToken.text;
+
     const newCaretPosition = computeCaretPosition(
       newToken.caretPosition,
       newTokenString,
