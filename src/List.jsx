@@ -11,6 +11,8 @@ export default class List extends React.Component<ListProps, ListState> {
     selectedItem: null,
   };
 
+  cachedValues: ?string = null;
+
   componentDidMount() {
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
@@ -22,8 +24,12 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   componentWillReceiveProps({ values }: ListProps) {
-    if (this.props.values !== values && values && values[0])
+    const newValues = values.map(val => this.getId(val)).join('');
+
+    if (this.cachedValues !== newValues && values && values[0]) {
       this.selectItem(values[0]);
+      this.cachedValues = newValues;
+    }
   }
 
   componentWillUnmount() {
