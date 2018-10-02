@@ -515,7 +515,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
       this.setState({
         // make position relative to textarea
-        top: newTop - this.textareaRef.scrollTop,
+        top: newTop - this.textareaRef.scrollTop || 0,
         left: newLeft,
       });
     }

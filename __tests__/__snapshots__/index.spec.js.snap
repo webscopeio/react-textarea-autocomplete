@@ -14,6 +14,7 @@ exports[`object-based items match the snapshot 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
+    onScroll={[Function]}
     onSelect={[Function]}
     placeholder="Write a message."
     style={
@@ -29,6 +30,7 @@ exports[`object-based items match the snapshot 1`] = `
 exports[`object-based items match the snapshot of dropdown, list, and item 1`] = `
 <div
   class="rta__autocomplete "
+  style="top: 0px;"
 >
   <ul
     class="rta__list my-rta-list"
@@ -171,6 +173,7 @@ exports[`object-based items with keys match the snapshot 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
+    onScroll={[Function]}
     onSelect={[Function]}
     placeholder="Write a message."
     style={
@@ -186,6 +189,7 @@ exports[`object-based items with keys match the snapshot 1`] = `
 exports[`object-based items with keys match the snapshot of dropdown, list, and item 1`] = `
 <div
   class="rta__autocomplete "
+  style="top: 0px;"
 >
   <ul
     class="rta__list my-rta-list"
@@ -367,6 +371,7 @@ exports[`object-based items without keys and custom unique generator match the s
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
+    onScroll={[Function]}
     onSelect={[Function]}
     placeholder="Write a message."
     value="Controlled text"
@@ -383,6 +388,7 @@ exports[`string-based items w/o output fn match match the snapshot 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
+    onScroll={[Function]}
     onSelect={[Function]}
     placeholder="Write a message."
     style={
@@ -404,6 +410,7 @@ exports[`string-based items with output fn match match the snapshot 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onClick={[Function]}
+    onScroll={[Function]}
     onSelect={[Function]}
     placeholder="Write a message."
     style={
