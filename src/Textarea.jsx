@@ -508,7 +508,16 @@ class ReactTextareaAutocomplete extends React.Component<
       // if we have single char - trigger it means we want to re-position the autocomplete
       lastToken.length === 1
     ) {
-      this.setState(getCaretCoordinates(textarea, selectionEnd));
+      const { top: newTop, left: newLeft } = getCaretCoordinates(
+        textarea,
+        selectionEnd
+      );
+
+      this.setState({
+        // make position relative to textarea
+        top: newTop - this.textareaRef.scrollTop || 0,
+        left: newLeft,
+      });
     }
 
     this.setState(
@@ -565,6 +574,10 @@ class ReactTextareaAutocomplete extends React.Component<
       e.persist();
       onBlur(e);
     }
+  };
+
+  _onScrollHandler = () => {
+    this._closeAutocomplete();
   };
 
   _dropdownScroll = (item: HTMLDivElement) => {
@@ -638,6 +651,7 @@ class ReactTextareaAutocomplete extends React.Component<
           className={`rta__textarea ${className || ''}`}
           onChange={this._changeHandler}
           onSelect={this._selectHandler}
+          onScroll={this._onScrollHandler}
           onClick={
             // The textarea itself is outside the autoselect dropdown.
             this._onClickAndBlurHandler
