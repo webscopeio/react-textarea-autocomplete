@@ -4,8 +4,9 @@ Enhanced textarea to achieve autocomplete functionality.
 <br><br>
 
 [![MIT License][license-badge]][License]
-[![PRs Welcome][prs-badge]][prs]
+[![PRs Welcome][prs-badge]](#Development)
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors)
+[![npm](https://img.shields.io/npm/dw/@webscopeio/react-textarea-autocomplete.svg?style=flat-square)]()
 <hr>
 
 </div>
