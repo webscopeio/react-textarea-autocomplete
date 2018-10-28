@@ -45,6 +45,7 @@ describe('object-based items', () => {
       }}
     />
   );
+
   const rta = mount(rtaComponent);
 
   it('match the snapshot', () => {
@@ -63,15 +64,15 @@ describe('object-based items', () => {
   });
 
   it('match the snapshot of dropdown, list, and item', () => {
-    expect(rta.find('.rta__autocomplete').getNode()).toMatchSnapshot();
-    expect(
-      rta.find('.rta__autocomplete .rta__list').getNode()
-    ).toMatchSnapshot();
+    // RTA is by default async (there is loader)
+    rta.update();
+    expect(rta.find('.rta__autocomplete').instance()).toMatchSnapshot();
+    expect(rta.find('ul').instance()).toMatchSnapshot();
     expect(
       rta
         .find('.rta__autocomplete .rta__list .rta__item')
         .first()
-        .getNode()
+        .instance()
     ).toMatchSnapshot();
   });
 
@@ -120,7 +121,9 @@ describe('object-based items', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('some test ___happy_face___ ');
+    expect(rta.find('textarea').instance().value).toBe(
+      'some test ___happy_face___ '
+    );
   });
 });
 
@@ -163,6 +166,7 @@ describe('string-based items w/o output fn', () => {
   });
 
   it('should display all items', () => {
+    rta.update();
     expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
       2
     );
@@ -201,7 +205,9 @@ describe('string-based items w/o output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('some test :happy_face: ');
+    expect(rta.find('textarea').instance().value).toBe(
+      'some test :happy_face: '
+    );
   });
 });
 
@@ -244,6 +250,7 @@ describe('string-based items with output fn', () => {
   });
 
   it('should display all items', () => {
+    rta.update();
     expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
       2
     );
@@ -282,7 +289,9 @@ describe('string-based items with output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('some test __happy_face__ ');
+    expect(rta.find('textarea').instance().value).toBe(
+      'some test __happy_face__ '
+    );
   });
 });
 
@@ -382,19 +391,21 @@ describe('object-based items with keys', () => {
   });
 
   it('match the snapshot of dropdown, list, and item', () => {
-    expect(rta.find('.rta__autocomplete').getNode()).toMatchSnapshot();
+    rta.update();
+    expect(rta.find('.rta__autocomplete').instance()).toMatchSnapshot();
     expect(
-      rta.find('.rta__autocomplete .rta__list').getNode()
+      rta.find('.rta__autocomplete .rta__list').instance()
     ).toMatchSnapshot();
     expect(
       rta
         .find('.rta__autocomplete .rta__list .rta__item')
         .first()
-        .getNode()
+        .instance()
     ).toMatchSnapshot();
   });
 
   it('should display all items', () => {
+    rta.update();
     expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
       3
     );
@@ -440,7 +451,9 @@ describe('object-based items with keys', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').node.value).toBe('some test ___happy_face___ ');
+    expect(rta.find('textarea').instance().value).toBe(
+      'some test ___happy_face___ '
+    );
   });
 });
 
@@ -488,6 +501,7 @@ describe('object-based items without keys and custom unique generator', () => {
   });
 
   it('should display all items', () => {
+    rta.update();
     expect(rta.find('.rta__autocomplete .rta__list .rta__item')).toHaveLength(
       3
     );
