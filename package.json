@@ -75,8 +75,8 @@
     "webpack-dev-server": "^2.9.5"
   },
   "peerDependencies": {
-    "prop-types": "^15.0.0 || ^16.0.0",
-    "react": "^15.0.0 || ^16.0.0"
+    "prop-types": "^16.0.0",
+    "react": "^16.0.0"
   },
   "dependencies": {
     "custom-event": "^1.0.1",
