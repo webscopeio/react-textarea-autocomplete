@@ -28,7 +28,7 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
-class ReactTextareaAutocomplete extends React.Component<
+class ReactTextareaAutocomplete extends React.PureComponent<
   TextareaProps,
   TextareaState
 > {
@@ -77,8 +77,17 @@ class ReactTextareaAutocomplete extends React.Component<
     Listeners.startListen();
   }
 
-  componentWillReceiveProps(nextProps: TextareaProps) {
-    this._update(nextProps);
+  componentDidUpdate({ trigger: oldTrigger }: TextareaProps) {
+    const { trigger } = this.props;
+    if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
+      this._createRegExp();
+    }
+  }
+
+  static getDerivedStateFromProps({ value }: TextareaProps) {
+    return {
+      value,
+    };
   }
 
   componentWillUnmount() {
@@ -179,15 +188,17 @@ class ReactTextareaAutocomplete extends React.Component<
     const modifiedText =
       textToModify.substring(0, startOfTokenPosition) + newTokenString;
 
+    const newValue = textareaValue.replace(textToModify, modifiedText);
     // set the new textarea value and after that set the caret back to its position
     this.setState(
       {
-        value: textareaValue.replace(textToModify, modifiedText),
+        value: newValue,
         dataLoading: false,
       },
       () => {
         // fire onChange event after successful selection
         const e = new CustomEvent('change', { bubbles: true });
+        this.textareaRef.value = newValue;
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
 

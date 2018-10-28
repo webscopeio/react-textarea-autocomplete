@@ -5,12 +5,23 @@ import React from 'react';
 import type { ItemProps } from './types';
 
 export default class Item extends React.Component<ItemProps, *> {
+  shouldComponentUpdate(nextProps: ItemProps) {
+    if (
+      this.props.item !== nextProps.item ||
+      this.props.selected !== nextProps.selected ||
+      this.props.style !== nextProps.style ||
+      this.props.className !== nextProps.className
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   selectItem = () => {
     const { item, onSelectHandler } = this.props;
     onSelectHandler(item);
   };
-
-  props: ItemProps;
 
   render() {
     const {

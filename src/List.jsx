@@ -11,8 +11,6 @@ export default class List extends React.Component<ListProps, ListState> {
     selectedItem: null,
   };
 
-  cachedValues: ?string = null;
-
   componentDidMount() {
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
@@ -23,12 +21,14 @@ export default class List extends React.Component<ListProps, ListState> {
     if (values && values[0]) this.selectItem(values[0]);
   }
 
-  componentWillReceiveProps({ values }: ListProps) {
-    const newValues = values.map(val => this.getId(val)).join('');
+  componentDidUpdate({ values: oldValues }: ListProps) {
+    const { values } = this.props;
 
-    if (this.cachedValues !== newValues && values && values[0]) {
+    const oldValuesSerialized = oldValues.map(val => this.getId(val)).join('');
+    const newValuesSerialized = values.map(val => this.getId(val)).join('');
+
+    if (oldValuesSerialized !== newValuesSerialized && values && values[0]) {
       this.selectItem(values[0]);
-      this.cachedValues = newValues;
     }
   }
 
@@ -87,6 +87,8 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   selectItem = (item: Object | string, keyboard: boolean = false) => {
+    if (this.state.selectedItem === item) return;
+
     this.setState({ selectedItem: item }, () => {
       if (keyboard) {
         this.props.dropdownScroll(this.itemsRef[this.getId(item)]);
