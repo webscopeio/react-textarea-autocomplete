@@ -45,15 +45,9 @@ exports[`object-based items match the snapshot of dropdown, list, and item 1`] =
         tabindex="0"
       >
         <div>
-          <!-- react-text: 10 -->
            
-          <!-- /react-text -->
-          <!-- react-text: 11 -->
           :)
-          <!-- /react-text -->
-          <!-- react-text: 12 -->
            
-          <!-- /react-text -->
         </div>
       </div>
     </li>
@@ -67,15 +61,9 @@ exports[`object-based items match the snapshot of dropdown, list, and item 1`] =
         tabindex="0"
       >
         <div>
-          <!-- react-text: 16 -->
            
-          <!-- /react-text -->
-          <!-- react-text: 17 -->
           :(
-          <!-- /react-text -->
-          <!-- react-text: 18 -->
            
-          <!-- /react-text -->
         </div>
       </div>
     </li>
@@ -97,15 +85,9 @@ exports[`object-based items match the snapshot of dropdown, list, and item 2`] =
       tabindex="0"
     >
       <div>
-        <!-- react-text: 10 -->
          
-        <!-- /react-text -->
-        <!-- react-text: 11 -->
         :)
-        <!-- /react-text -->
-        <!-- react-text: 12 -->
          
-        <!-- /react-text -->
       </div>
     </div>
   </li>
@@ -119,15 +101,9 @@ exports[`object-based items match the snapshot of dropdown, list, and item 2`] =
       tabindex="0"
     >
       <div>
-        <!-- react-text: 16 -->
          
-        <!-- /react-text -->
-        <!-- react-text: 17 -->
         :(
-        <!-- /react-text -->
-        <!-- react-text: 18 -->
          
-        <!-- /react-text -->
       </div>
     </div>
   </li>
@@ -145,15 +121,9 @@ exports[`object-based items match the snapshot of dropdown, list, and item 3`] =
     tabindex="0"
   >
     <div>
-      <!-- react-text: 10 -->
        
-      <!-- /react-text -->
-      <!-- react-text: 11 -->
       :)
-      <!-- /react-text -->
-      <!-- react-text: 12 -->
        
-      <!-- /react-text -->
     </div>
   </div>
 </li>
@@ -204,15 +174,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
         tabindex="0"
       >
         <div>
-          <!-- react-text: 10 -->
            
-          <!-- /react-text -->
-          <!-- react-text: 11 -->
           :)
-          <!-- /react-text -->
-          <!-- react-text: 12 -->
            
-          <!-- /react-text -->
         </div>
       </div>
     </li>
@@ -226,15 +190,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
         tabindex="0"
       >
         <div>
-          <!-- react-text: 16 -->
            
-          <!-- /react-text -->
-          <!-- react-text: 17 -->
           :(
-          <!-- /react-text -->
-          <!-- react-text: 18 -->
            
-          <!-- /react-text -->
         </div>
       </div>
     </li>
@@ -248,15 +206,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
         tabindex="0"
       >
         <div>
-          <!-- react-text: 22 -->
            
-          <!-- /react-text -->
-          <!-- react-text: 23 -->
           :|
-          <!-- /react-text -->
-          <!-- react-text: 24 -->
            
-          <!-- /react-text -->
         </div>
       </div>
     </li>
@@ -278,15 +230,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
       tabindex="0"
     >
       <div>
-        <!-- react-text: 10 -->
          
-        <!-- /react-text -->
-        <!-- react-text: 11 -->
         :)
-        <!-- /react-text -->
-        <!-- react-text: 12 -->
          
-        <!-- /react-text -->
       </div>
     </div>
   </li>
@@ -300,15 +246,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
       tabindex="0"
     >
       <div>
-        <!-- react-text: 16 -->
          
-        <!-- /react-text -->
-        <!-- react-text: 17 -->
         :(
-        <!-- /react-text -->
-        <!-- react-text: 18 -->
          
-        <!-- /react-text -->
       </div>
     </div>
   </li>
@@ -322,15 +262,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
       tabindex="0"
     >
       <div>
-        <!-- react-text: 22 -->
          
-        <!-- /react-text -->
-        <!-- react-text: 23 -->
         :|
-        <!-- /react-text -->
-        <!-- react-text: 24 -->
          
-        <!-- /react-text -->
       </div>
     </div>
   </li>
@@ -348,15 +282,9 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
     tabindex="0"
   >
     <div>
-      <!-- react-text: 10 -->
        
-      <!-- /react-text -->
-      <!-- react-text: 11 -->
       :)
-      <!-- /react-text -->
-      <!-- react-text: 12 -->
        
-      <!-- /react-text -->
     </div>
   </div>
 </li>

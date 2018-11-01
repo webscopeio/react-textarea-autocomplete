@@ -77,8 +77,17 @@ class ReactTextareaAutocomplete extends React.Component<
     Listeners.startListen();
   }
 
-  componentWillReceiveProps(nextProps: TextareaProps) {
-    this._update(nextProps);
+  componentDidUpdate({ trigger: oldTrigger }: TextareaProps) {
+    const { trigger } = this.props;
+    if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
+      this._createRegExp();
+    }
+  }
+
+  static getDerivedStateFromProps({ value }: TextareaProps) {
+    return {
+      value,
+    };
   }
 
   componentWillUnmount() {
@@ -179,15 +188,17 @@ class ReactTextareaAutocomplete extends React.Component<
     const modifiedText =
       textToModify.substring(0, startOfTokenPosition) + newTokenString;
 
+    const newValue = textareaValue.replace(textToModify, modifiedText);
     // set the new textarea value and after that set the caret back to its position
     this.setState(
       {
-        value: textareaValue.replace(textToModify, modifiedText),
+        value: newValue,
         dataLoading: false,
       },
       () => {
         // fire onChange event after successful selection
         const e = new CustomEvent('change', { bubbles: true });
+        this.textareaRef.value = newValue;
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
 
@@ -344,19 +355,6 @@ class ReactTextareaAutocomplete extends React.Component<
       `([${Object.keys(trigger).join('')}])(?:(?!\\1)[^\\s])*$`
     );
   };
-
-  _update({ value, trigger }: TextareaProps) {
-    const { value: oldValue } = this.state;
-    const { trigger: oldTrigger } = this.props;
-
-    if (value !== oldValue || !oldValue) this.setState({ value });
-    /**
-     * check if trigger chars are changed, if so, change the regexp accordingly
-     */
-    if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
-      this._createRegExp();
-    }
-  }
 
   /**
    * Close autocomplete, also clean up trigger (to avoid slow promises)

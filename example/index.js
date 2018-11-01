@@ -10,4 +10,9 @@ import './style.css';
 
 import App from './App.jsx';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('app')
+);
