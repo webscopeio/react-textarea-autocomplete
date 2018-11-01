@@ -121,9 +121,7 @@ describe('object-based items', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').instance().value).toBe(
-      'some test ___happy_face___ '
-    );
+    expect(rta.find('textarea').instance().value).toBe('___happy_face___ ');
   });
 });
 
@@ -205,9 +203,7 @@ describe('string-based items w/o output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').instance().value).toBe(
-      'some test :happy_face: '
-    );
+    expect(rta.find('textarea').instance().value).toBe(':happy_face: ');
   });
 });
 
@@ -289,9 +285,7 @@ describe('string-based items with output fn', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').instance().value).toBe(
-      'some test __happy_face__ '
-    );
+    expect(rta.find('textarea').instance().value).toBe('__happy_face__ ');
   });
 });
 
@@ -451,9 +445,7 @@ describe('object-based items with keys', () => {
   });
 
   it('text in textarea should be changed', () => {
-    expect(rta.find('textarea').instance().value).toBe(
-      'some test ___happy_face___ '
-    );
+    expect(rta.find('textarea').instance().value).toBe('___happy_face___ ');
   });
 });
 

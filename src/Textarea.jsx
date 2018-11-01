@@ -28,7 +28,7 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
-class ReactTextareaAutocomplete extends React.PureComponent<
+class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
   TextareaState
 > {
@@ -355,19 +355,6 @@ class ReactTextareaAutocomplete extends React.PureComponent<
       `([${Object.keys(trigger).join('')}])(?:(?!\\1)[^\\s])*$`
     );
   };
-
-  _update({ value, trigger }: TextareaProps) {
-    const { value: oldValue } = this.state;
-    const { trigger: oldTrigger } = this.props;
-
-    if (value !== oldValue || !oldValue) this.setState({ value });
-    /**
-     * check if trigger chars are changed, if so, change the regexp accordingly
-     */
-    if (Object.keys(trigger).join('') !== Object.keys(oldTrigger).join('')) {
-      this._createRegExp();
-    }
-  }
 
   /**
    * Close autocomplete, also clean up trigger (to avoid slow promises)
