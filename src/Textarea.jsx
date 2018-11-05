@@ -35,7 +35,7 @@ class ReactTextareaAutocomplete extends React.Component<
   static defaultProps = {
     closeOnClickOutside: false,
     movePopupAsYouType: false,
-    value: '',
+    value: null,
     minChar: 1,
     scrollToItem: true,
   };
