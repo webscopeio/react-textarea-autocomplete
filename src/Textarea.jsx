@@ -85,7 +85,7 @@ class ReactTextareaAutocomplete extends React.Component<
   }
 
   static getDerivedStateFromProps({ value }: TextareaProps) {
-    if (!value) return null;
+    if (value === null || value === undefined) return null;
 
     return {
       value,
