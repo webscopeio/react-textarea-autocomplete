@@ -122,7 +122,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   setCaretPosition = (position: number = 0) => {
     if (!this.textareaRef) return;
-
+    
     this.textareaRef.focus();
     this.textareaRef.setSelectionRange(position, position);
   };
@@ -203,8 +203,13 @@ class ReactTextareaAutocomplete extends React.Component<
         this.textareaRef.value = newValue;
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
-
+        
+        var scrollTop = this.textareaRef.scrollTop
         this.setCaretPosition(newCaretPosition);
+        // Chrome does not maintain scroll position
+        if (window.chrome) {
+          this.textareaRef.scrollTop = scrollTop
+        }
       }
     );
     this._closeAutocomplete();
