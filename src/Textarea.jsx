@@ -204,7 +204,7 @@ class ReactTextareaAutocomplete extends React.Component<
         this.textareaRef.dispatchEvent(e);
         if (onChange) onChange(e);
         
-        var scrollTop = this.textareaRef.scrollTop
+        const scrollTop = this.textareaRef.scrollTop
         this.setCaretPosition(newCaretPosition);
         // Chrome does not maintain scroll position
         if (window.chrome) {
