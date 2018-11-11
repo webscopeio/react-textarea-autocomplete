@@ -138,7 +138,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   _onSelect = (newToken: textToReplaceType) => {
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
-    const { onChange, trigger } = this.props;
+    const { trigger } = this.props;
 
     if (!currentTrigger) return;
 
@@ -202,7 +202,7 @@ class ReactTextareaAutocomplete extends React.Component<
         const e = new CustomEvent('change', { bubbles: true });
         this.textareaRef.value = newValue;
         this.textareaRef.dispatchEvent(e);
-        if (onChange) onChange(e);
+        this._changeHandler(e);
 
         const scrollTop = this.textareaRef.scrollTop;
         this.setCaretPosition(newCaretPosition);
@@ -215,7 +215,6 @@ class ReactTextareaAutocomplete extends React.Component<
         }
       }
     );
-    this._closeAutocomplete();
   };
 
   _getTextToReplace = (): ?outputType => {
@@ -362,7 +361,19 @@ class ReactTextareaAutocomplete extends React.Component<
     // negative lookahead to match only the trigger + the actual token = "bladhwd:adawd:word test" => ":word"
     // https://stackoverflow.com/a/8057827/2719917
     this.tokenRegExp = new RegExp(
-      `([${Object.keys(trigger).join('')}])(?:(?!\\1)[^\\s])*$`
+      `(${Object.keys(trigger)
+        // the sort is important for multi-char combos as "/kick", "/"
+        .sort((a, b) => {
+          if (a < b) {
+            return 1;
+          }
+          if (a > b) {
+            return -1;
+          }
+          return 0;
+        })
+        .map(a => `\\${a}`)
+        .join('|')})((?:(?!\\1)[^\\s])*$)`
     );
   };
 
@@ -430,8 +441,8 @@ class ReactTextareaAutocomplete extends React.Component<
     const { selectionEnd, selectionStart } = textarea;
     const value = textarea.value;
 
-    if (onChange) {
-      e.persist();
+    if (onChange && e) {
+      e.persist && e.persist();
       onChange(e);
     }
 
@@ -447,8 +458,7 @@ class ReactTextareaAutocomplete extends React.Component<
     let tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
     let lastToken = tokenMatch && tokenMatch[0];
 
-    let currentTrigger =
-      (lastToken && Object.keys(trigger).find(a => a === lastToken[0])) || null;
+    let currentTrigger = (tokenMatch && tokenMatch[1]) || null;
 
     /*
      if we lost the trigger token or there is no following character we want to close
@@ -489,9 +499,9 @@ class ReactTextareaAutocomplete extends React.Component<
       this.state.currentTrigger &&
       trigger[this.state.currentTrigger].allowWhitespace
     ) {
-      tokenMatch = new RegExp(
-        `\\${this.state.currentTrigger}[^${this.state.currentTrigger}]*$`
-      ).exec(value.slice(0, selectionEnd));
+      tokenMatch = new RegExp(`\\${this.state.currentTrigger}.*$`).exec(
+        value.slice(0, selectionEnd)
+      );
       lastToken = tokenMatch && tokenMatch[0];
 
       if (!lastToken) {
@@ -720,9 +730,9 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
   for (let i = 0; i < triggers.length; i += 1) {
     const [triggerChar, settings] = triggers[i];
 
-    if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
+    if (typeof triggerChar !== 'string') {
       return Error(
-        'Invalid prop trigger. Keys of the object has to be string / one character.'
+        'Invalid prop trigger. Keys of the object has to be string.'
       );
     }
 

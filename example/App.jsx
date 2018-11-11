@@ -306,6 +306,19 @@ class App extends React.Component {
                 next: this._outputCaretNext,
               }[optionsCaret],
             },
+            '/': {
+              dataProvider: token => [{ name: '1', char: '/kick' }],
+              component: Item,
+              output: this._outputCaretEnd,
+            },
+            '/kick': {
+              dataProvider: token => [
+                { name: '1', char: 'fred' },
+                { name: '2', char: 'jeremy' },
+              ],
+              component: Item,
+              output: this._outputCaretEnd,
+            },
           }}
         />
         {!showSecondTextarea ? null : (
