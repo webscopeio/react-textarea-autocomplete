@@ -523,8 +523,8 @@ class ReactTextareaAutocomplete extends React.Component<
     if (
       movePopupAsYouType ||
       (top === null && left === null) ||
-      // if we have single char - trigger it means we want to re-position the autocomplete
-      lastToken.length === 1
+      // if the trigger got changed, let's reposition the autocomplete
+      this.state.currentTrigger !== currentTrigger
     ) {
       const { top: newTop, left: newLeft } = getCaretCoordinates(
         textarea,
