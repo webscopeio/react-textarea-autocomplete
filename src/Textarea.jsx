@@ -362,6 +362,16 @@ class ReactTextareaAutocomplete extends React.Component<
     // https://stackoverflow.com/a/8057827/2719917
     this.tokenRegExp = new RegExp(
       `(${Object.keys(trigger)
+        // the sort is important for multi-char combos as "/kick", "/"
+        .sort((a, b) => {
+          if (a < b) {
+            return 1;
+          }
+          if (a > b) {
+            return -1;
+          }
+          return 0;
+        })
         .map(a => `\\${a}`)
         .join('|')})((?:(?!\\1)[^\\s])*$)`
     );
