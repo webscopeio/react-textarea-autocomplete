@@ -730,9 +730,9 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
   for (let i = 0; i < triggers.length; i += 1) {
     const [triggerChar, settings] = triggers[i];
 
-    if (typeof triggerChar !== 'string' || triggerChar.length !== 1) {
+    if (typeof triggerChar !== 'string') {
       return Error(
-        'Invalid prop trigger. Keys of the object has to be string / one character.'
+        'Invalid prop trigger. Keys of the object has to be string.'
       );
     }
 
