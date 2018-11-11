@@ -261,5 +261,20 @@ describe('React Textarea Autocomplete', () => {
       cy.get('.rta__textarea').type(' ;');
       cy.get('.rta__autocomplete').should('be.visible');
     });
+
+    it('test multi-character triggers and its possible combo', () => {
+      cy.get('.rta__textarea').type('This is test /');
+      cy.get('.rta__autocomplete').should('be.visible');
+      cy
+        .get('.rta__list')
+        .get('li:nth-child(1)')
+        .click();
+      cy.get('.rta__autocomplete').should('be.visible');
+      cy
+        .get('.rta__list')
+        .get('li:nth-child(1)')
+        .click();
+      cy.get('.rta__textarea').should('have.value', 'This is test fred');
+    });
   });
 });
