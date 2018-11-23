@@ -43,9 +43,24 @@ export default class Item extends React.Component<ItemProps, *> {
           role="button"
           tabIndex={0}
           onClick={onClickHandler}
-          onTouchStart={onClickHandler}
           onFocus={this.selectItem}
           onMouseEnter={this.selectItem}
+          onTouchStart={e => {
+            this.clicked = true;
+            this.selectItem(e);
+          }}
+          onTouchEnd={e => {
+            e.preventDefault();
+            if (this.clicked) {
+              onClickHandler();
+            }
+          }}
+          onTouchMove={() => {
+            this.clicked = false;
+          }}
+          onTouchCancel={() => {
+            this.clicked = false;
+          }}
           /* $FlowFixMe */
           ref={innerRef}
         >
