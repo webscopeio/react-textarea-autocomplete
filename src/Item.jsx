@@ -5,6 +5,8 @@ import React from 'react';
 import type { ItemProps } from './types';
 
 export default class Item extends React.Component<ItemProps, *> {
+  clicked: boolean;
+
   shouldComponentUpdate(nextProps: ItemProps) {
     if (
       this.props.item !== nextProps.item ||
@@ -43,9 +45,24 @@ export default class Item extends React.Component<ItemProps, *> {
           role="button"
           tabIndex={0}
           onClick={onClickHandler}
-          onTouchStart={onClickHandler}
           onFocus={this.selectItem}
           onMouseEnter={this.selectItem}
+          onTouchStart={() => {
+            this.clicked = true;
+            this.selectItem();
+          }}
+          onTouchEnd={e => {
+            e.preventDefault();
+            if (this.clicked) {
+              onClickHandler(e);
+            }
+          }}
+          onTouchMove={() => {
+            this.clicked = false;
+          }}
+          onTouchCancel={() => {
+            this.clicked = false;
+          }}
           /* $FlowFixMe */
           ref={innerRef}
         >

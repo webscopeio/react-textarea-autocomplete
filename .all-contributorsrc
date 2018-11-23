@@ -135,6 +135,25 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "rrikesh",
+      "name": "Rikesh Ramlochund",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3250906?v=4",
+      "profile": "https://paperboat.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "diogeneshamilton",
+      "name": "Matthew Hamilton",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/983876?v=4",
+      "profile": "https://github.com/diogeneshamilton",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "repoType": "github"
