@@ -41,7 +41,9 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   onPressEnter = (e: SyntheticEvent<*>) => {
-    e.preventDefault();
+    if (typeof e !== 'undefined') {
+      e.preventDefault();
+    }
 
     const { values } = this.props;
 
