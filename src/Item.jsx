@@ -5,6 +5,8 @@ import React from 'react';
 import type { ItemProps } from './types';
 
 export default class Item extends React.Component<ItemProps, *> {
+  clicked: boolean;
+
   shouldComponentUpdate(nextProps: ItemProps) {
     if (
       this.props.item !== nextProps.item ||
@@ -45,14 +47,14 @@ export default class Item extends React.Component<ItemProps, *> {
           onClick={onClickHandler}
           onFocus={this.selectItem}
           onMouseEnter={this.selectItem}
-          onTouchStart={e => {
+          onTouchStart={() => {
             this.clicked = true;
-            this.selectItem(e);
+            this.selectItem();
           }}
           onTouchEnd={e => {
             e.preventDefault();
             if (this.clicked) {
-              onClickHandler();
+              onClickHandler(e);
             }
           }}
           onTouchMove={() => {
