@@ -102,4 +102,5 @@ export type TextareaState = {
   selectionEnd: number,
   selectionStart: number,
   component: ?React$StatelessFunctionalComponent<*>,
+  textToReplace: ?outputType,
 };

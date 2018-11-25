@@ -71,6 +71,7 @@ class ReactTextareaAutocomplete extends React.Component<
     selectionEnd: 0,
     selectionStart: 0,
     component: null,
+    textToReplace: '',
   };
 
   componentDidMount() {
@@ -217,9 +218,14 @@ class ReactTextareaAutocomplete extends React.Component<
     );
   };
 
-  _getTextToReplace = (): ?outputType => {
-    const { currentTrigger, actualToken } = this.state;
-    const triggerSettings = this._getCurrentTriggerSettings();
+  _getTextToReplace = ({
+    actualToken,
+    currentTrigger,
+  }: {|
+    actualToken: string,
+    currentTrigger: string,
+  |}): ?outputType => {
+    const triggerSettings = this.props.trigger[currentTrigger];
 
     if (!currentTrigger || !triggerSettings) return null;
 
@@ -543,6 +549,10 @@ class ReactTextareaAutocomplete extends React.Component<
         selectionEnd,
         selectionStart,
         currentTrigger,
+        textToReplace: this._getTextToReplace({
+          actualToken,
+          currentTrigger,
+        }),
         actualToken,
       },
       () => {
@@ -648,10 +658,11 @@ class ReactTextareaAutocomplete extends React.Component<
       currentTrigger,
       component,
       value,
+      textToReplace,
     } = this.state;
 
     const suggestionData = this._getSuggestions();
-    const textToReplace = this._getTextToReplace();
+    // const textToReplace = this._getTextToReplace();
 
     return (
       <div
