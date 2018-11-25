@@ -662,7 +662,6 @@ class ReactTextareaAutocomplete extends React.Component<
     } = this.state;
 
     const suggestionData = this._getSuggestions();
-    // const textToReplace = this._getTextToReplace();
 
     return (
       <div
