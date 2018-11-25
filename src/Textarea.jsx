@@ -71,7 +71,7 @@ class ReactTextareaAutocomplete extends React.Component<
     selectionEnd: 0,
     selectionStart: 0,
     component: null,
-    textToReplace: '',
+    textToReplace: null,
   };
 
   componentDidMount() {
