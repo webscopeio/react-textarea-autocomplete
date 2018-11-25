@@ -6,7 +6,7 @@ Enhanced textarea to achieve autocomplete functionality.
 [![MIT License][license-badge]][License]
 [![PRs Welcome][prs-badge]](#Development)
 [![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors)
-[![npm](https://img.shields.io/npm/dw/@webscopeio/react-textarea-autocomplete.svg?style=flat-square)]()
+[![npm](https://img.shields.io/npm/dw/@webscopeio/react-textarea-autocomplete.svg?style=flat-square)](https://www.npmjs.com/package/@webscopeio/react-textarea-autocomplete)
 <hr>
 
 </div>
