@@ -643,20 +643,26 @@ class ReactTextareaAutocomplete extends React.Component<
       value
     });
 
-    if (selectionEnd <= this.lastTrigger) {
+    const cleanLastTrigger = () => {
       this.lastTrigger = selectionEnd - 1;
+    };
+
+    if (selectionEnd <= this.lastTrigger) {
+      cleanLastTrigger();
     }
 
     const affectedTextareaValue = value.slice(this.lastTrigger, selectionEnd);
 
     let tokenMatch = this.tokenRegExp.exec(affectedTextareaValue);
     let lastToken = tokenMatch && tokenMatch[0];
+
     let currentTrigger = (tokenMatch && tokenMatch[1]) || null;
 
-    const endingTrigger = this.tokenRegExpEnding.exec(affectedTextareaValue);
+    // with this approach we want to know if the user just inserted a new trigger sequence
+    const isNewTrigger = this.tokenRegExpEnding.exec(affectedTextareaValue);
 
-    if (endingTrigger) {
-      this.lastTrigger = selectionEnd;
+    if (isNewTrigger) {
+      cleanLastTrigger();
     }
 
     /*
