@@ -1,18 +1,16 @@
 /**
  * Polyfill for CI
  */
-import 'babel-polyfill';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import "./style.css";
 
-import './style.css';
-
-import App from './App.jsx';
+import App from "./App.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('app')
+  document.getElementById("app")
 );

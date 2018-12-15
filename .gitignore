@@ -12,4 +12,5 @@ coverage/
 # build
 
 dist/
+example-build/
 types.js

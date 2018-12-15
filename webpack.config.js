@@ -1,30 +1,35 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = "development";
 
 module.exports = {
-  entry: './example/index.js',
+  mode: "development",
+  entry: ["@babel/polyfill", "./example/index.js"],
   devServer: {
-    port: 8080,
+    port: 8080
   },
   resolve: {
     alias: {
-      '@webscopeio/react-textarea-autocomplete': path.resolve(
+      "@webscopeio/react-textarea-autocomplete": path.resolve(
         __dirname,
-        './src'
-      ),
+        "./src"
+      )
     },
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [".js", ".jsx", ".json"]
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, use: 'babel-loader', exclude: /node_modules/ },
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: { loader: "babel-loader" },
+        exclude: /node_modules/
+      },
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-      },
-    ],
+        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
+      }
+    ]
   },
-  plugins: [new HtmlWebpackPlugin({ template: './example/index.html' })],
+  plugins: [new HtmlWebpackPlugin({ template: "./example/index.html" })]
 };

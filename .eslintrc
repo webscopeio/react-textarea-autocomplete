@@ -1,5 +1,5 @@
 {
-  "extends": ["callstack-io"],
+  "extends": ["@jukben"],
   "rules": {
     "react/jsx-filename-extension": [
       1,
@@ -11,15 +11,14 @@
     "no-console": 0,
     "flowtype/no-weak-types": 0,
     "import/prefer-default-export": 0,
+    "react/require-default-props": 0,
+    "react/default-props-match-prop-types": 0,
+    "react/destructuring-assignment": 0,
+    "prefer-destructuring": 0,
+    "react/sort-comp": 0,
+    "no-plusplus": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "no-unused-expressions": 0,
     "react/forbid-prop-types": [0, { "forbid": ["object"] }]
-  },
-  "globals": {
-    "cy": true,
-    "context": true
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "jest": true
   }
 }

@@ -1,11 +1,11 @@
 // @flow
 
-export type caretPositionType = 'start' | 'end' | 'next' | number;
+export type caretPositionType = "start" | "end" | "next" | number;
 
 export type textToReplaceType = {|
   text: string,
   caretPosition: caretPositionType,
-  key?: ?string,
+  key?: ?string
 |};
 
 export type outputType = (Object | string, ?string) => textToReplaceType;
@@ -25,7 +25,7 @@ export type ItemProps = {
   className: ?string,
   onClickHandler: (SyntheticEvent<*>) => void,
   selected: boolean,
-  innerRef: HTMLDivElement => mixed,
+  innerRef: HTMLDivElement => mixed
 };
 
 export type ListProps = {
@@ -37,14 +37,14 @@ export type ListProps = {
   className: ?string,
   itemClassName: ?string,
   onSelect: textToReplaceType => void,
-  dropdownScroll: HTMLDivElement => void,
+  dropdownScroll: HTMLDivElement => void
 };
 
 /**
  * List Types
  */
 export type ListState = {
-  selectedItem: ?Object | ?string,
+  selectedItem: ?Object | ?string
 };
 
 /**
@@ -55,11 +55,11 @@ export type settingType = {|
   dataProvider: dataProviderType,
   allowWhitespace?: boolean,
   afterWhitespace?: boolean,
-  output?: (Object | string, ?string) => textToReplaceType | string,
+  output?: (Object | string, ?string) => textToReplaceType | string
 |};
 
 export type triggerType = {
-  [string]: settingType,
+  [string]: settingType
 };
 
 export type TextareaProps = {
@@ -88,7 +88,7 @@ export type TextareaProps = {
   listClassName: ?string,
   itemClassName: ?string,
   loaderClassName: ?string,
-  dropdownClassName: ?string,
+  dropdownClassName: ?string
 };
 
 export type TextareaState = {
@@ -100,7 +100,6 @@ export type TextareaState = {
   value: string,
   dataLoading: boolean,
   selectionEnd: number,
-  selectionStart: number,
   component: ?React$StatelessFunctionalComponent<*>,
-  textToReplace: ?outputType,
+  textToReplace: ?outputType
 };
