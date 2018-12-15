@@ -327,6 +327,29 @@ class App extends React.Component {
               ],
               component: Item,
               output: this._outputCaretEnd
+            },
+            "(": {
+              dataProvider: token => [
+                { name: "country", char: "country" },
+                { name: "person", char: "person" }
+              ],
+              component: Item,
+              output: (item, trigger) => ({
+                text: `${trigger}${item.name}`,
+                caretPosition: "end"
+              })
+            },
+            ".": {
+              dataProvider: token => [
+                { name: "ID", char: "ID" },
+                { name: "name", char: "name" },
+                { name: "someProperty", char: "someProperty" }
+              ],
+              component: Item,
+              output: (item, trigger) => ({
+                text: `${trigger}${item.name}`,
+                caretPosition: "end"
+              })
             }
           }}
         />
