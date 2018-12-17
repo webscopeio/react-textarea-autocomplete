@@ -1,7 +1,7 @@
 {
-    "fixturesFolder": false,
-    "screenshotsFolder": false,
-    "supportFile": false,
-    "screenshotOnHeadlessFailure": false,
-    "videoRecording": false
+  "screenshotsFolder": "cypress/screenshots",
+  "videosFolder": "cypress/videos",
+  "fixturesFolder": false,
+  "supportFile": false,
+  "video": false
 }
