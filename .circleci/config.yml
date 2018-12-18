@@ -126,3 +126,6 @@ workflows:
           requires:
             - tests
             - e2e
+          filters:
+            branches:
+              ignore: master
