@@ -8,8 +8,10 @@
 npm-debug.log
 node_modules
 coverage/
+cypress/screenshots
 
 # build
 
 dist/
+example-build/
 types.js

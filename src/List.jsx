@@ -1,14 +1,14 @@
 // @flow
 
-import React from 'react';
+import React from "react";
 
-import Listeners, { KEY_CODES } from './listener';
-import Item from './Item';
-import type { ListProps, ListState, textToReplaceType } from './types';
+import Listeners, { KEY_CODES } from "./listener";
+import Item from "./Item";
+import type { ListProps, ListState, textToReplaceType } from "./types";
 
 export default class List extends React.Component<ListProps, ListState> {
   state: ListState = {
-    selectedItem: null,
+    selectedItem: null
   };
 
   componentDidMount() {
@@ -24,8 +24,8 @@ export default class List extends React.Component<ListProps, ListState> {
   componentDidUpdate({ values: oldValues }: ListProps) {
     const { values } = this.props;
 
-    const oldValuesSerialized = oldValues.map(val => this.getId(val)).join('');
-    const newValuesSerialized = values.map(val => this.getId(val)).join('');
+    const oldValuesSerialized = oldValues.map(val => this.getId(val)).join("");
+    const newValuesSerialized = values.map(val => this.getId(val)).join("");
 
     if (oldValuesSerialized !== newValuesSerialized && values && values[0]) {
       this.selectItem(values[0]);
@@ -41,7 +41,7 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   onPressEnter = (e: SyntheticEvent<*>) => {
-    if (typeof e !== 'undefined') {
+    if (typeof e !== "undefined") {
       e.preventDefault();
     }
 
@@ -65,7 +65,7 @@ export default class List extends React.Component<ListProps, ListState> {
       return textToReplace.key;
     }
 
-    if (typeof item === 'string' || !item.key) {
+    if (typeof item === "string" || !item.key) {
       return textToReplace.text;
     }
 
@@ -77,7 +77,7 @@ export default class List extends React.Component<ListProps, ListState> {
   listeners: Array<number> = [];
 
   itemsRef: {
-    [key: string]: HTMLDivElement,
+    [key: string]: HTMLDivElement
   } = {};
 
   modifyText = (value: Object | string) => {
@@ -119,7 +119,8 @@ export default class List extends React.Component<ListProps, ListState> {
         break;
     }
 
-    newPosition = (newPosition % values.length + values.length) % values.length; // eslint-disable-line
+    newPosition =
+      ((newPosition % values.length) + values.length) % values.length; // eslint-disable-line
     this.selectItem(
       values[newPosition],
       [KEY_CODES.DOWN, KEY_CODES.UP].includes(code)
@@ -140,11 +141,11 @@ export default class List extends React.Component<ListProps, ListState> {
       style,
       itemClassName,
       className,
-      itemStyle,
+      itemStyle
     } = this.props;
 
     return (
-      <ul className={`rta__list ${className || ''}`} style={style}>
+      <ul className={`rta__list ${className || ""}`} style={style}>
         {values.map(item => (
           <Item
             key={this.getId(item)}

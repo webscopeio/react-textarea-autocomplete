@@ -1,47 +1,131 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/rta
+  docker:
+    - image: circleci/node:10
+
+cypress: &cypress
+  working_directory: ~/rta
+  docker:
+    - image: cypress/base:10
+      environment:
+        ## this enables colors in the output
+        TERM: xterm
+
 jobs:
-  build:
-    docker:
-      # the Docker image with Cypress dependencies
-      - image: cypress/base:6
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-
-    working_directory: ~/react-textarea-autocomplete
-
-    parallelism: 1
-    
+  install-dependencies:
+    <<: *defaults
     steps:
       - checkout
-
+      - attach_workspace:
+          at: ~/
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
+            - v4-3-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v4-3-dependencies-
       - run:
           name: Install Dependencies
-          command: yarn install 
-
+          command: |
+            yarn install --frozen-lockfile
       - save_cache:
+          key: v4-3-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-        
-      - run: 
-          name: Run Tests
-          command: yarn test
-      
-      - run: 
-          name: Run ESLint
-          command: yarn lint
-      
-      - run: 
-          name: Run Flow
-          command: yarn flow:check
+            # cache Cypress
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .cache
+            - rta
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn run lint
+  flow:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn run flow:check
+  e2e:
+    <<: *cypress
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys:
+            - v4-3-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v4-3-dependencies-
+      - run: yarn run cypress
+  tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys:
+            - v4-3-jest-cache-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v4-3-jest-cache-
+      - run: yarn run test
+      - save_cache:
+          key: v4-3-jest-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - .jestCache
+      - persist_to_workspace:
+          root: .
+          paths: .
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn run build
+      - persist_to_workspace:
+          root: .
+          paths: .
+  build-example:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn run example:build && bash .circleci/comment-artifacts.sh
+      - store_artifacts:
+          path: ./example-build
+          destination: example
 
-      - run: 
-          name: Run Cypress
-          command: yarn cypress
+workflows:
+  version: 2
+  build:
+    jobs:
+      - install-dependencies
+      - lint:
+          requires:
+            - install-dependencies
+      - flow:
+          requires:
+            - install-dependencies
+      - tests:
+          requires:
+            - install-dependencies
+      - e2e:
+          requires:
+            - install-dependencies
+            - tests
+      - build:
+          requires:
+            - tests
+            - e2e
+      - build-example:
+          requires:
+            - tests
+            - e2e
+          filters:
+            branches:
+              ignore: master

@@ -5,12 +5,12 @@ export function defaultScrollToItem(
   item: HTMLDivElement
 ) {
   const itemHeight = parseInt(
-    getComputedStyle(item).getPropertyValue('height'),
+    getComputedStyle(item).getPropertyValue("height"),
     10
   );
 
   const containerHight =
-    parseInt(getComputedStyle(container).getPropertyValue('height'), 10) -
+    parseInt(getComputedStyle(container).getPropertyValue("height"), 10) -
     itemHeight;
 
   const itemOffsetTop = item.offsetTop;
