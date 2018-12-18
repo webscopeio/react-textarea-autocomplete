@@ -243,6 +243,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     if (oldValue !== value && this.lastValueBubbledEvent !== value) {
+      this.lastTrigger = 0;
       this._changeHandler();
     }
   }
@@ -836,6 +837,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   tokenRegExpEnding: RegExp;
 
+  // Last trigger index, to know when user selected the item and we should stop showing the autocomplete
   lastTrigger: number = 0;
 
   render() {
