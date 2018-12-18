@@ -121,7 +121,7 @@ describe("React Textarea Autocomplete", () => {
        * This is probably Cypress bug (1.0.2)
        * This test needs to be run in headed mode, otherwise fails
        */
-      cy.get('[id="caretStart"]').click();
+      cy.get('[data-test="caretStart"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
 
@@ -135,7 +135,7 @@ describe("React Textarea Autocomplete", () => {
        * This is probably Cypress bug (1.0.2)
        * This test needs to be run in headed mode, otherwise fails
        */
-      cy.get('[id="caretEnd"]').click();
+      cy.get('[data-test="caretEnd"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
 
@@ -149,7 +149,7 @@ describe("React Textarea Autocomplete", () => {
        * This is probably Cypress bug (1.0.2)
        * This test needs to be run in headed mode, otherwise fails
        */
-      cy.get('[id="caretNext"]').click();
+      cy.get('[data-test="caretNext"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
 
@@ -159,14 +159,14 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("set caret position", () => {
-      cy.get('[id="caretEnd"]').click();
+      cy.get('[data-test="caretEnd"]').click();
       cy.get(".rta__textarea").type("This is test :ro{uparrow}{enter}");
       cy.get('[data-test="setCaretPosition"]').click();
       cy.get('[data-test="actualCaretPosition"]').contains("1");
     });
 
     it("get caret position", () => {
-      cy.get('[id="caretEnd"]').click();
+      cy.get('[data-test="caretEnd"]').click();
       const stub = cy.stub();
 
       cy.on("window:alert", stub);
@@ -263,6 +263,12 @@ describe("React Textarea Autocomplete", () => {
         .get("li:nth-child(1)")
         .click();
       cy.get(".rta__textarea").should("have.value", "This is test fred");
+    });
+
+    it("change value from outside should trigger the autocomplete as well", () => {
+      cy.get(".rta__autocomplete").should("not.be.visible");
+      cy.get('[data-test="changeValueTo"]').click();
+      cy.get(".rta__autocomplete").should("be.visible");
     });
   });
 });
