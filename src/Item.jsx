@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react';
+import React from "react";
 
-import type { ItemProps } from './types';
+import type { ItemProps } from "./types";
 
 export default class Item extends React.Component<ItemProps, *> {
   clicked: boolean;
@@ -33,14 +33,14 @@ export default class Item extends React.Component<ItemProps, *> {
       item,
       selected,
       className,
-      innerRef,
+      innerRef
     } = this.props;
 
     return (
-      <li className={`rta__item ${className || ''}`} style={style}>
+      <li className={`rta__item ${className || ""}`} style={style}>
         <div
           className={`rta__entity ${
-            selected === true ? 'rta__entity--selected' : ''
+            selected === true ? "rta__entity--selected" : ""
           }`}
           role="button"
           tabIndex={0}

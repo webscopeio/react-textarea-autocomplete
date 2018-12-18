@@ -247,11 +247,7 @@ class ReactTextareaAutocomplete extends React.Component<
           throw new Error(
             `Output functor should return string or object in shape {text: string, caretPosition: string | number}.\nGot "${String(
               textToReplace
-            )}". Check the implementation for trigger "${
-              currentTrigger
-            }" and its token "${
-              actualToken
-            }"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
+            )}". Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
           );
         }
 
@@ -264,17 +260,13 @@ class ReactTextareaAutocomplete extends React.Component<
 
         if (!textToReplace.text) {
           throw new Error(
-            `Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${
-              currentTrigger
-            }" and its token "${actualToken}"\n`
+            `Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n`
           );
         }
 
         if (!textToReplace.caretPosition) {
           throw new Error(
-            `Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${
-              currentTrigger
-            }" and its token "${actualToken}"\n`
+            `Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n`
           );
         }
 
@@ -686,45 +678,42 @@ class ReactTextareaAutocomplete extends React.Component<
           value={value}
           style={style}
         />
-        {(dataLoading || suggestionData) &&
-          currentTrigger && (
-            <div
-              ref={ref => {
-                // $FlowFixMe
-                this.dropdownRef = ref;
-              }}
-              style={{ top, left, ...dropdownStyle }}
-              className={`rta__autocomplete ${dropdownClassName || ""}`}
-            >
-              {suggestionData &&
-                component &&
-                textToReplace && (
-                  <List
-                    values={suggestionData}
-                    component={component}
-                    style={listStyle}
-                    className={listClassName}
-                    itemClassName={itemClassName}
-                    itemStyle={itemStyle}
-                    getTextToReplace={textToReplace}
-                    onSelect={this._onSelect}
-                    dropdownScroll={this._dropdownScroll}
-                  />
-                )}
-              {dataLoading && (
-                <div
-                  className={`rta__loader ${
-                    suggestionData !== null
-                      ? "rta__loader--suggestion-data"
-                      : "rta__loader--empty-suggestion-data"
-                  } ${loaderClassName || ""}`}
-                  style={loaderStyle}
-                >
-                  <Loader data={suggestionData} />
-                </div>
-              )}
-            </div>
-          )}
+        {(dataLoading || suggestionData) && currentTrigger && (
+          <div
+            ref={ref => {
+              // $FlowFixMe
+              this.dropdownRef = ref;
+            }}
+            style={{ top, left, ...dropdownStyle }}
+            className={`rta__autocomplete ${dropdownClassName || ""}`}
+          >
+            {suggestionData && component && textToReplace && (
+              <List
+                values={suggestionData}
+                component={component}
+                style={listStyle}
+                className={listClassName}
+                itemClassName={itemClassName}
+                itemStyle={itemStyle}
+                getTextToReplace={textToReplace}
+                onSelect={this._onSelect}
+                dropdownScroll={this._dropdownScroll}
+              />
+            )}
+            {dataLoading && (
+              <div
+                className={`rta__loader ${
+                  suggestionData !== null
+                    ? "rta__loader--suggestion-data"
+                    : "rta__loader--empty-suggestion-data"
+                } ${loaderClassName || ""}`}
+                style={loaderStyle}
+              >
+                <Loader data={suggestionData} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
