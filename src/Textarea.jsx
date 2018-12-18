@@ -77,10 +77,14 @@ class ReactTextareaAutocomplete extends React.Component<
     Listeners.startListen();
   }
 
-  componentDidUpdate({ trigger: oldTrigger }: TextareaProps) {
-    const { trigger } = this.props;
+  componentDidUpdate({ trigger: oldTrigger, value: oldValue }: TextareaProps) {
+    const { trigger, value } = this.props;
     if (Object.keys(trigger).join("") !== Object.keys(oldTrigger).join("")) {
       this._createRegExp();
+    }
+
+    if (oldValue !== value && this.lastValueBubbledEvent !== value) {
+      this._changeHandler();
     }
   }
 
@@ -198,11 +202,8 @@ class ReactTextareaAutocomplete extends React.Component<
         dataLoading: false
       },
       () => {
-        // fire onChange event after successful selection
-        const e = new CustomEvent("change", { bubbles: true });
         this.textareaRef.value = newValue;
-        this.textareaRef.dispatchEvent(e);
-        this._changeHandler(e);
+        this._changeHandler();
 
         const scrollTop = this.textareaRef.scrollTop;
         this.setCaretPosition(newCaretPosition);
@@ -424,7 +425,7 @@ class ReactTextareaAutocomplete extends React.Component<
     return props;
   };
 
-  _changeHandler = (e: SyntheticInputEvent<*>) => {
+  _changeHandler = (e?: SyntheticInputEvent<*>) => {
     const {
       trigger,
       onChange,
@@ -434,13 +435,22 @@ class ReactTextareaAutocomplete extends React.Component<
     } = this.props;
     const { top, left } = this.state;
 
-    const textarea = e.target;
+    let event = e;
+    if (!event) {
+      // fire onChange event after successful selection
+      event = new CustomEvent("change", { bubbles: true });
+      this.textareaRef.dispatchEvent(event);
+    }
+
+    const textarea = event.target;
     const { selectionEnd } = textarea;
     const value = textarea.value;
 
-    if (onChange && e) {
-      e.persist && e.persist();
-      onChange(e);
+    this.lastValueBubbledEvent = value;
+
+    if (onChange && event) {
+      event.persist && event.persist();
+      onChange(event);
     }
 
     if (onCaretPositionChange) {
@@ -624,6 +634,8 @@ class ReactTextareaAutocomplete extends React.Component<
   dropdownRef: HTMLDivElement;
 
   tokenRegExp: RegExp;
+
+  lastValueBubbledEvent: string;
 
   render() {
     const {

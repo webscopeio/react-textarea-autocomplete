@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import emoji from '@jukben/emoji-search';
+import React from "react";
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import emoji from "@jukben/emoji-search";
 
 // import '@webscopeio/react-textarea-autocomplete/style.css'
-import '../style.css';
+import "../style.css";
 
 type ItemProps = {
   entity: {
     char: string,
-    name: string,
-  },
+    name: string
+  }
 };
 
 const Item = ({ entity: { name, char } }: ItemProps) => (
@@ -17,7 +17,7 @@ const Item = ({ entity: { name, char } }: ItemProps) => (
 );
 
 type LoadingProps = {
-  data: Array<{ name: string, char: string }>,
+  data: Array<{ name: string, char: string }>
 };
 
 const Loading = ({ data }: LoadingProps) => <div>Loading</div>;
@@ -28,57 +28,63 @@ class App extends React.Component {
     clickoutsideOption: false,
     caretPosition: 0,
     movePopupAsYouType: false,
-    text: '',
-    optionsCaret: 'start',
-    actualTokenInProvider: '',
-    showSecondTextarea: false,
+    text: "",
+    optionsCaret: "start",
+    actualTokenInProvider: "",
+    showSecondTextarea: false
   };
 
   _handleOptionsCaretEnd = () => {
     this.setState(() => ({
-      optionsCaret: 'end',
+      optionsCaret: "end"
     }));
   };
 
   _handleOptionsCaretNext = () => {
     this.setState(() => ({
-      optionsCaret: 'next',
+      optionsCaret: "next"
     }));
   };
 
   _handleOptionsCaretStart = () => {
     this.setState(() => ({
-      optionsCaret: 'start',
+      optionsCaret: "start"
     }));
   };
 
   _handleClickoutsideOption = () => {
     this.setState(({ clickoutsideOption }) => ({
-      clickoutsideOption: !clickoutsideOption,
+      clickoutsideOption: !clickoutsideOption
     }));
   };
 
   _handleShowSecondTextarea = () => {
     this.setState(({ showSecondTextarea }) => ({
-      showSecondTextarea: !showSecondTextarea,
+      showSecondTextarea: !showSecondTextarea
     }));
   };
 
   _handleMovePopupAsYouType = () => {
     this.setState(({ movePopupAsYouType }) => ({
-      movePopupAsYouType: !movePopupAsYouType,
+      movePopupAsYouType: !movePopupAsYouType
     }));
   };
 
   _onChangeHandle = ({ target: { value } }) => {
     this.setState({
-      text: value,
+      text: value
+    });
+  };
+
+  _changeValueTo = () => {
+    this.setState({
+      text: ":troph"
     });
   };
 
   _onCaretPositionChangeHandle = (position: number) => {
     this.setState({
-      caretPosition: position,
+      caretPosition: position
     });
   };
 
@@ -92,12 +98,12 @@ class App extends React.Component {
 
   _outputCaretEnd = (item, trigger) => ({
     text: item.char,
-    caretPosition: 'end',
+    caretPosition: "end"
   });
 
-  _outputCaretStart = item => ({ text: item.char, caretPosition: 'start' });
+  _outputCaretStart = item => ({ text: item.char, caretPosition: "start" });
 
-  _outputCaretNext = item => ({ text: item.char, caretPosition: 'next' });
+  _outputCaretNext = item => ({ text: item.char, caretPosition: "next" });
 
   _getSelectionPosition = () => {
     alert(JSON.stringify(this.rtaRef.getSelectionPosition()));
@@ -124,38 +130,38 @@ class App extends React.Component {
       movePopupAsYouType,
       actualTokenInProvider,
       showSecondTextarea,
-      text,
+      text
     } = this.state;
 
     return (
       <div>
         <div>
           <input
-            id="caretStart"
+            data-test="caretStart"
             name="caret"
             value="start"
             type="radio"
-            checked={this.state.optionsCaret === 'start'}
+            checked={this.state.optionsCaret === "start"}
             onChange={this._handleOptionsCaretStart}
           />
           <label htmlFor="caretStart">Place caret before word</label>
 
           <input
-            id="caretEnd"
+            data-test="caretEnd"
             name="caret"
             value="end"
             type="radio"
-            checked={this.state.optionsCaret === 'end'}
+            checked={this.state.optionsCaret === "end"}
             onChange={this._handleOptionsCaretEnd}
           />
           <label htmlFor="caretEnd">Place caret after word</label>
 
           <input
-            id="caretNext"
+            data-test="caretNext"
             name="caret"
             value="next"
             type="radio"
-            checked={this.state.optionsCaret === 'next'}
+            checked={this.state.optionsCaret === "next"}
             onChange={this._handleOptionsCaretNext}
           />
           <label htmlFor="caretNext">Place caret after word with a space</label>
@@ -194,7 +200,7 @@ class App extends React.Component {
           </label>
         </div>
         <div>
-          Actual caret position:{' '}
+          Actual caret position:{" "}
           <span data-test="actualCaretPosition">{caretPosition}</span>
         </div>
         <button data-test="setCaretPosition" onClick={this._setCaretPosition}>
@@ -215,8 +221,11 @@ class App extends React.Component {
         <button data-test="focus" onClick={this._focus}>
           Focus the textarea
         </button>
+        <button data-test="changeValueTo" onClick={this._changeValueTo}>
+          Change value to ":troph"
+        </button>
         <div>
-          Actual token in "[" provider:{' '}
+          Actual token in "[" provider:{" "}
           <span data-test="actualToken">{actualTokenInProvider}</span>
         </div>
 
@@ -230,13 +239,13 @@ class App extends React.Component {
           }}
           loadingComponent={Loading}
           style={{
-            padding: 5,
+            padding: 5
           }}
           containerStyle={{
             marginTop: 20,
             width: 400,
             height: 100,
-            margin: '20px auto',
+            margin: "20px auto"
           }}
           movePopupAsYouType={movePopupAsYouType}
           closeOnClickOutside={clickoutsideOption}
@@ -245,7 +254,7 @@ class App extends React.Component {
           value={text}
           onChange={this._onChangeHandle}
           trigger={{
-            ':': {
+            ":": {
               dataProvider: token =>
                 emoji(token)
                   .slice(0, 10)
@@ -255,25 +264,25 @@ class App extends React.Component {
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
-                next: this._outputCaretNext,
-              }[optionsCaret],
+                next: this._outputCaretNext
+              }[optionsCaret]
             },
-            '@': {
+            "@": {
               dataProvider: token =>
                 new Promise(res =>
                   setTimeout(() => {
-                    res([{ name: 'jakub', char: 'Jakub' }]);
+                    res([{ name: "jakub", char: "Jakub" }]);
                   }, 1000)
                 ),
               component: Item,
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
-                next: this._outputCaretDefault,
-              }[optionsCaret],
+                next: this._outputCaretDefault
+              }[optionsCaret]
             },
             // test of special character
-            '[': {
+            "[": {
               dataProvider: token => {
                 /**
                   Let's pass token to state to easily test it in Cypress 
@@ -281,8 +290,8 @@ class App extends React.Component {
                  */
                 this.setState({ actualTokenInProvider: token });
                 return [
-                  { name: 'alt', char: '@' },
-                  { name: 'another character', char: '/' },
+                  { name: "alt", char: "@" },
+                  { name: "another character", char: "/" }
                 ];
               },
               component: Item,
@@ -290,51 +299,51 @@ class App extends React.Component {
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
-                next: this._outputCaretNext,
-              }[optionsCaret],
+                next: this._outputCaretNext
+              }[optionsCaret]
             },
-            ';': {
+            ";": {
               dataProvider: token => [
-                { name: '1', char: 'one' },
-                { name: '2', char: 'two' },
+                { name: "1", char: "one" },
+                { name: "2", char: "two" }
               ],
               component: Item,
               afterWhitespace: true,
               output: {
                 start: this._outputCaretStart,
                 end: this._outputCaretEnd,
-                next: this._outputCaretNext,
-              }[optionsCaret],
+                next: this._outputCaretNext
+              }[optionsCaret]
             },
-            '/': {
-              dataProvider: token => [{ name: '1', char: '/kick' }],
+            "/": {
+              dataProvider: token => [{ name: "1", char: "/kick" }],
               component: Item,
-              output: this._outputCaretEnd,
+              output: this._outputCaretEnd
             },
-            '/kick': {
+            "/kick": {
               dataProvider: token => [
-                { name: '1', char: 'fred' },
-                { name: '2', char: 'jeremy' },
+                { name: "1", char: "fred" },
+                { name: "2", char: "jeremy" }
               ],
               component: Item,
-              output: this._outputCaretEnd,
-            },
+              output: this._outputCaretEnd
+            }
           }}
         />
         {!showSecondTextarea ? null : (
           <ReactTextareaAutocomplete
             style={{
-              padding: 5,
+              padding: 5
             }}
             containerStyle={{
               marginTop: 20,
               width: 400,
               height: 100,
-              margin: '20px auto',
+              margin: "20px auto"
             }}
             loadingComponent={Loading}
             trigger={{
-              ':': {
+              ":": {
                 dataProvider: token =>
                   emoji(token)
                     .slice(0, 10)
@@ -344,9 +353,9 @@ class App extends React.Component {
                 output: {
                   start: this._outputCaretStart,
                   end: this._outputCaretEnd,
-                  next: this._outputCaretNext,
-                }[optionsCaret],
-              },
+                  next: this._outputCaretNext
+                }[optionsCaret]
+              }
             }}
           />
         )}
