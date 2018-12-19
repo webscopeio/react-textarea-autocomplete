@@ -1,4 +1,5 @@
 // @flow
+/* eslint react/no-multi-comp: 0 */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -22,11 +23,108 @@ import type {
 
 const DEFAULT_CARET_POSITION = "next";
 
+const POSITION_CONFIGURATION = {
+  X: {
+    LEFT: "rta__autocomplete--left",
+    RIGHT: "rta__autocomplete--right"
+  },
+  Y: {
+    TOP: "rta__autocomplete--top",
+    BOTTOM: "rta__autocomplete--bottom"
+  }
+};
+
 const errorMessage = (message: string) =>
   console.error(
     `RTA: dataProvider fails: ${message}
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
+
+// The main purpose of this component is to figure out to witch side should be autocomplete opened
+class Autocomplete extends React.Component {
+  state = {
+    positionStyle: {
+      top: this.props.top,
+      left: this.props.left
+    },
+    xConfig: POSITION_CONFIGURATION.X.RIGHT,
+    yConfig: POSITION_CONFIGURATION.Y.BOTTOM
+  };
+
+  componentDidMount() {
+    const { top, left, boundariesElement } = this.props;
+
+    let containerElem;
+    if (typeof boundariesElement === "string") {
+      containerElem = document.querySelector(boundariesElement);
+    } else if (boundariesElement instanceof HTMLElement) {
+      containerElem = boundariesElement;
+    } else {
+      throw new Error(
+        "RTA: Invalid prop boundariesElement: it has to be string or HTMLElement."
+      );
+    }
+
+    if (!containerElem || !containerElem.contains(this.ref)) {
+      throw new Error(
+        "RTA: Invalid prop boundariesElement: it has to be one of the parents of the RTA."
+      );
+    }
+
+    const containerRects = containerElem.getClientRects()[0];
+    const dropdownRects = this.ref.getClientRects()[0];
+
+    // IE 11 doesn't know about x, y property...
+    const containerX: number = containerRects.x || containerRects.left;
+    const containerY: number = containerRects.y || containerRects.top;
+    const dropdownX: number = dropdownRects.x || dropdownRects.left;
+    const dropdownY: number = dropdownRects.y || dropdownRects.top;
+
+    const xConfig =
+      containerX + containerRects.width > dropdownX + dropdownRects.width
+        ? POSITION_CONFIGURATION.X.RIGHT
+        : POSITION_CONFIGURATION.X.LEFT;
+
+    const yConfig =
+      containerY + containerRects.height > dropdownY + dropdownRects.height
+        ? POSITION_CONFIGURATION.Y.BOTTOM
+        : POSITION_CONFIGURATION.Y.TOP;
+
+    this.setState({
+      xConfig,
+      yConfig,
+      positionStyle: {
+        top:
+          yConfig === POSITION_CONFIGURATION.Y.BOTTOM
+            ? top
+            : top - dropdownRects.height,
+        left:
+          xConfig === POSITION_CONFIGURATION.X.RIGHT
+            ? left
+            : left - dropdownRects.width
+      }
+    });
+  }
+
+  render() {
+    const { style, className, innerRef, children } = this.props;
+    const { positionStyle, xConfig, yConfig } = this.state;
+
+    return (
+      <div
+        ref={ref => {
+          // $FlowFixMe
+          this.ref = ref;
+          innerRef(ref);
+        }}
+        className={`rta__autocomplete ${xConfig} ${yConfig} ${className || ""}`}
+        style={{ ...style, ...positionStyle }}
+      >
+        {children}
+      </div>
+    );
+  }
+}
 
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -37,6 +135,7 @@ class ReactTextareaAutocomplete extends React.Component<
     movePopupAsYouType: false,
     value: null,
     minChar: 1,
+    boundariesElement: "body",
     scrollToItem: true
   };
 
@@ -45,7 +144,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
 
-    const { loadingComponent, trigger, value } = this.props;
+    const { loadingComponent, trigger, value, boundariesElement } = this.props;
 
     if (value) this.state.value = value;
 
@@ -392,6 +491,7 @@ class ReactTextareaAutocomplete extends React.Component<
     const props = { ...this.props };
     const notSafe = [
       "loadingComponent",
+      "boundariesElement",
       "containerStyle",
       "minChar",
       "scrollToItem",
@@ -644,6 +744,7 @@ class ReactTextareaAutocomplete extends React.Component<
       className,
       listStyle,
       itemStyle,
+      boundariesElement,
       listClassName,
       itemClassName,
       dropdownClassName,
@@ -691,13 +792,16 @@ class ReactTextareaAutocomplete extends React.Component<
           style={style}
         />
         {(dataLoading || suggestionData) && currentTrigger && (
-          <div
-            ref={ref => {
+          <Autocomplete
+            innerRef={ref => {
               // $FlowFixMe
               this.dropdownRef = ref;
             }}
-            style={{ top, left, ...dropdownStyle }}
-            className={`rta__autocomplete ${dropdownClassName || ""}`}
+            top={top}
+            left={left}
+            style={dropdownStyle}
+            className={dropdownClassName}
+            boundariesElement={boundariesElement}
           >
             {suggestionData && component && textToReplace && (
               <List
@@ -724,12 +828,27 @@ class ReactTextareaAutocomplete extends React.Component<
                 <Loader data={suggestionData} />
               </div>
             )}
-          </div>
+          </Autocomplete>
         )}
       </div>
     );
   }
 }
+
+const containerPropCheck = ({ boundariesElement }) => {
+  if (!boundariesElement) return null;
+
+  if (
+    typeof boundariesElement !== "string" &&
+    !(boundariesElement instanceof HTMLElement)
+  ) {
+    return Error(
+      "Invalid prop boundariesElement: it has to be string or HTMLElement."
+    );
+  }
+
+  return null;
+};
 
 const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
   if (!trigger) return Error("Invalid prop trigger. Prop missing.");
@@ -779,11 +898,13 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 };
 
 ReactTextareaAutocomplete.propTypes = {
+  value: PropTypes.string,
   loadingComponent: PropTypes.func.isRequired,
   minChar: PropTypes.number,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
+  movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
   containerStyle: PropTypes.object,
@@ -798,7 +919,7 @@ ReactTextareaAutocomplete.propTypes = {
   itemClassName: PropTypes.string,
   loaderClassName: PropTypes.string,
   dropdownClassName: PropTypes.string,
-  value: PropTypes.string,
+  boundariesElement: containerPropCheck, //eslint-disable-line
   trigger: triggerPropsCheck //eslint-disable-line
 };
 

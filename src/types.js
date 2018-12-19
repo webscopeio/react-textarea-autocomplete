@@ -75,6 +75,7 @@ export type TextareaProps = {
     | ((container: HTMLDivElement, item: HTMLDivElement) => void),
   closeOnClickOutside?: boolean,
   movePopupAsYouType?: boolean,
+  container: string | HTMLElement,
   minChar: ?number,
   value?: string,
   style: ?Object,
