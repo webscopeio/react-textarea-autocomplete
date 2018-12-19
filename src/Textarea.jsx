@@ -41,80 +41,120 @@ const errorMessage = (message: string) =>
   );
 
 // The main purpose of this component is to figure out to witch side should be autocomplete opened
-class Autocomplete extends React.Component {
+type AutocompleteProps = {
+  style: ?Object,
+  className: ?string,
+  innerRef: () => void,
+  boundariesElement: string | HTMLElement,
+  top: number,
+  left: number,
+  children: *
+};
+
+type AutocompleteState = {
+  xConfig: string,
+  yConfig: string,
+  dropdownHeight: number,
+  dropdownWidth: number
+};
+
+class Autocomplete extends React.Component<
+  AutocompleteProps,
+  AutocompleteState
+> {
   state = {
-    positionStyle: {
-      top: this.props.top,
-      left: this.props.left
-    },
     xConfig: POSITION_CONFIGURATION.X.RIGHT,
-    yConfig: POSITION_CONFIGURATION.Y.BOTTOM
+    yConfig: POSITION_CONFIGURATION.Y.BOTTOM,
+    dropdownHeight: 0,
+    dropdownWidth: 0
   };
 
-  componentDidMount() {
-    const { top, left, boundariesElement } = this.props;
+  containerElem: HTMLElement;
 
-    let containerElem;
+  ref: HTMLElement;
+
+  componentDidMount() {
+    const { boundariesElement } = this.props;
+
     if (typeof boundariesElement === "string") {
-      containerElem = document.querySelector(boundariesElement);
+      const elem = document.querySelector(boundariesElement);
+      if (!elem) {
+        throw new Error(
+          "RTA: Invalid prop boundariesElement: it has to be string or HTMLElement."
+        );
+      }
+      this.containerElem = elem;
     } else if (boundariesElement instanceof HTMLElement) {
-      containerElem = boundariesElement;
+      this.containerElem = boundariesElement;
     } else {
       throw new Error(
         "RTA: Invalid prop boundariesElement: it has to be string or HTMLElement."
       );
     }
 
-    if (!containerElem || !containerElem.contains(this.ref)) {
+    if (!this.containerElem || !this.containerElem.contains(this.ref)) {
       throw new Error(
         "RTA: Invalid prop boundariesElement: it has to be one of the parents of the RTA."
       );
     }
 
-    const containerRects = containerElem.getClientRects()[0];
+    this._calculatePosition();
+  }
+
+  _calculatePosition = () => {
+    const containerRects = this.containerElem.getClientRects()[0];
     const dropdownRects = this.ref.getClientRects()[0];
 
     // IE 11 doesn't know about x, y property...
+    // $FlowFixMe
     const containerX: number = containerRects.x || containerRects.left;
+    // $FlowFixMe
     const containerY: number = containerRects.y || containerRects.top;
+    // $FlowFixMe
     const dropdownX: number = dropdownRects.x || dropdownRects.left;
+    // $FlowFixMe
     const dropdownY: number = dropdownRects.y || dropdownRects.top;
 
+    const dropdownWidth = dropdownRects.width;
+    const dropdownHeight = dropdownRects.height;
+
     const xConfig =
-      containerX + containerRects.width > dropdownX + dropdownRects.width
+      containerX + containerRects.width > dropdownX + dropdownWidth
         ? POSITION_CONFIGURATION.X.RIGHT
         : POSITION_CONFIGURATION.X.LEFT;
 
     const yConfig =
-      containerY + containerRects.height > dropdownY + dropdownRects.height
+      containerY + containerRects.height > dropdownY + dropdownHeight
         ? POSITION_CONFIGURATION.Y.BOTTOM
         : POSITION_CONFIGURATION.Y.TOP;
 
     this.setState({
       xConfig,
       yConfig,
-      positionStyle: {
-        top:
-          yConfig === POSITION_CONFIGURATION.Y.BOTTOM
-            ? top
-            : top - dropdownRects.height,
-        left:
-          xConfig === POSITION_CONFIGURATION.X.RIGHT
-            ? left
-            : left - dropdownRects.width
-      }
+      dropdownHeight,
+      dropdownWidth
     });
-  }
+  };
 
   render() {
-    const { style, className, innerRef, children } = this.props;
-    const { positionStyle, xConfig, yConfig } = this.state;
+    const { style, className, innerRef, children, top, left } = this.props;
+    const { xConfig, yConfig, dropdownHeight, dropdownWidth } = this.state;
+
+    const positionStyle = {
+      top:
+        yConfig === POSITION_CONFIGURATION.Y.BOTTOM
+          ? top
+          : top - dropdownHeight,
+      left:
+        xConfig === POSITION_CONFIGURATION.X.RIGHT ? left : left - dropdownWidth
+    };
 
     return (
       <div
         ref={ref => {
           // $FlowFixMe
           this.ref = ref;
+          // $FlowFixMe
           innerRef(ref);
         }}
         className={`rta__autocomplete ${xConfig} ${yConfig} ${className || ""}`}
@@ -144,7 +184,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
 
-    const { loadingComponent, trigger, value, boundariesElement } = this.props;
+    const { loadingComponent, trigger, value } = this.props;
 
     if (value) this.state.value = value;
 
@@ -745,6 +785,7 @@ class ReactTextareaAutocomplete extends React.Component<
       listStyle,
       itemStyle,
       boundariesElement,
+      movePopupAsYouType,
       listClassName,
       itemClassName,
       dropdownClassName,
@@ -801,6 +842,7 @@ class ReactTextareaAutocomplete extends React.Component<
             left={left}
             style={dropdownStyle}
             className={dropdownClassName}
+            movePopupAsYouType={movePopupAsYouType}
             boundariesElement={boundariesElement}
           >
             {suggestionData && component && textToReplace && (
