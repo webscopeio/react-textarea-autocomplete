@@ -1,5 +1,10 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid red;
+}
+
+.rta {
+  margin-bottom: 60px !important;
 }
 
 /* proof for https://github.com/webscopeio/react-textarea-autocomplete/issues/70 */

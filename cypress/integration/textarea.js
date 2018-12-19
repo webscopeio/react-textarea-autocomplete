@@ -38,7 +38,7 @@ describe("React Textarea Autocomplete", () => {
     it("basic test with keyboard", () => {
       cy.get(".rta__textarea")
         .type("This is test :ro{downarrow}{enter}")
-        .should("have.value", "This is test 🤣");
+        .should("have.value", "This is test 🙄");
     });
 
     it("basic keyboard test after unmounting second instance", () => {
@@ -46,13 +46,13 @@ describe("React Textarea Autocomplete", () => {
       cy.get('[data-test="showSecondTextarea"]').click();
       cy.get(".rta__textarea")
         .type("This is test :ro{downarrow}{enter}")
-        .should("have.value", "This is test 🤣");
+        .should("have.value", "This is test 🙄");
     });
 
     it("should change only correct part of the word", () => {
       cy.get(".rta__textarea")
         .type("This is test:ro{downarrow}{enter}")
-        .should("have.value", "This is test🤣");
+        .should("have.value", "This is test🙄");
     });
 
     it("special character like [, ( should be also possible to use as trigger char", () => {
@@ -67,7 +67,7 @@ describe("React Textarea Autocomplete", () => {
         .get("li:nth-child(2)")
         .click();
 
-      cy.get(".rta__textarea").should("have.value", "This is test 🤣");
+      cy.get(".rta__textarea").should("have.value", "This is test 🙄");
     });
 
     it("do not move as you type", () => {
@@ -141,7 +141,7 @@ describe("React Textarea Autocomplete", () => {
 
       cy.get(".rta__item:nth-child(3)").click();
 
-      cy.get('[data-test="actualCaretPosition"]').contains("15"); // emoji is 2 bytes
+      cy.get('[data-test="actualCaretPosition"]').contains("18"); // emoji is 2 bytes
     });
 
     it("should caret after word with a space", () => {
@@ -155,7 +155,7 @@ describe("React Textarea Autocomplete", () => {
 
       cy.get(".rta__item:nth-child(3)").click();
 
-      cy.get('[data-test="actualCaretPosition"]').contains("16"); // emoji is 2 bytes
+      cy.get('[data-test="actualCaretPosition"]').contains("19"); // emoji is 2 bytes
     });
 
     it("set caret position", () => {
@@ -221,7 +221,7 @@ describe("React Textarea Autocomplete", () => {
         .get("li:nth-child(2)")
         .click();
 
-      cy.get(".rta__textarea").should("have.value", "This is test 🤣");
+      cy.get(".rta__textarea").should("have.value", "This is test 🙄");
 
       cy.get(".rta__autocomplete").should("not.be.visible");
     });
@@ -269,6 +269,25 @@ describe("React Textarea Autocomplete", () => {
       cy.get(".rta__autocomplete").should("not.be.visible");
       cy.get('[data-test="changeValueTo"]').click();
       cy.get(".rta__autocomplete").should("be.visible");
+    });
+
+    it("should stay within boundaries", () => {
+      cy.get(".rta__autocomplete").should("not.be.visible");
+      cy.get(".rta__textarea").type("This is test :a");
+      cy.get(".rta__autocomplete").should(
+        "have.class",
+        "rta__autocomplete--bottom"
+      );
+      cy.get(".rta__list")
+        .get("li:nth-child(1)")
+        .click();
+      cy.get(".rta__textarea").type(`${repeat("\n", 5)} test :a`, {
+        force: true
+      });
+      cy.get(".rta__autocomplete").should(
+        "have.class",
+        "rta__autocomplete--top"
+      );
     });
   });
 });

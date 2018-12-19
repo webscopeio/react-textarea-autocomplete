@@ -1,4 +1,5 @@
 // @flow
+/* eslint react/no-multi-comp: 0 */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -22,11 +23,168 @@ import type {
 
 const DEFAULT_CARET_POSITION = "next";
 
+const POSITION_CONFIGURATION = {
+  X: {
+    LEFT: "rta__autocomplete--left",
+    RIGHT: "rta__autocomplete--right"
+  },
+  Y: {
+    TOP: "rta__autocomplete--top",
+    BOTTOM: "rta__autocomplete--bottom"
+  }
+};
+
 const errorMessage = (message: string) =>
   console.error(
     `RTA: dataProvider fails: ${message}
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
+
+// The main purpose of this component is to figure out to witch side should be autocomplete opened
+type AutocompleteProps = {
+  style: ?Object,
+  className: ?string,
+  innerRef: () => void,
+  boundariesElement: string | HTMLElement,
+  top: ?number,
+  left: ?number,
+  children: *
+};
+
+type AutocompleteState = {
+  xConfig: string,
+  yConfig: string,
+  dropdownHeight: number,
+  dropdownWidth: number
+};
+
+class Autocomplete extends React.Component<
+  AutocompleteProps,
+  AutocompleteState
+> {
+  state = {
+    xConfig: POSITION_CONFIGURATION.X.RIGHT,
+    yConfig: POSITION_CONFIGURATION.Y.BOTTOM,
+    dropdownHeight: 0,
+    dropdownWidth: 0
+  };
+
+  containerElem: HTMLElement;
+
+  ref: HTMLElement;
+
+  componentDidMount() {
+    const { boundariesElement } = this.props;
+
+    if (typeof boundariesElement === "string") {
+      const elem = document.querySelector(boundariesElement);
+      if (!elem) {
+        throw new Error(
+          "RTA: Invalid prop boundariesElement: it has to be string or HTMLElement."
+        );
+      }
+      this.containerElem = elem;
+    } else if (boundariesElement instanceof HTMLElement) {
+      this.containerElem = boundariesElement;
+    } else {
+      throw new Error(
+        "RTA: Invalid prop boundariesElement: it has to be string or HTMLElement."
+      );
+    }
+
+    if (!this.containerElem || !this.containerElem.contains(this.ref)) {
+      if (process.env.NODE_ENV !== "test") {
+        throw new Error(
+          "RTA: Invalid prop boundariesElement: it has to be one of the parents of the RTA."
+        );
+      }
+    }
+
+    this._calculatePosition();
+  }
+
+  _calculatePosition = () => {
+    if (!this.containerElem || !this.ref) {
+      return;
+    }
+
+    // this is dumb fallback mostly because tests
+    const fallback = {
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0
+    };
+
+    const containerRects = this.containerElem.getClientRects()[0] || fallback;
+    const dropdownRects = this.ref.getClientRects()[0] || fallback;
+
+    // IE 11 doesn't know about x, y property...
+    // $FlowFixMe
+    const containerX: number = containerRects.x || containerRects.left;
+    // $FlowFixMe
+    const containerY: number = containerRects.y || containerRects.top;
+    // $FlowFixMe
+    const dropdownX: number = dropdownRects.x || dropdownRects.left;
+    // $FlowFixMe
+    const dropdownY: number = dropdownRects.y || dropdownRects.top;
+
+    const dropdownWidth = dropdownRects.width;
+    const dropdownHeight = dropdownRects.height;
+
+    const xConfig =
+      containerX + containerRects.width > dropdownX + dropdownWidth
+        ? POSITION_CONFIGURATION.X.RIGHT
+        : POSITION_CONFIGURATION.X.LEFT;
+
+    const yConfig =
+      containerY + containerRects.height > dropdownY + dropdownHeight
+        ? POSITION_CONFIGURATION.Y.BOTTOM
+        : POSITION_CONFIGURATION.Y.TOP;
+
+    this.setState({
+      xConfig,
+      yConfig,
+      dropdownHeight,
+      dropdownWidth
+    });
+  };
+
+  render() {
+    const { style, className, innerRef, children, top, left } = this.props;
+    const { xConfig, yConfig, dropdownHeight, dropdownWidth } = this.state;
+
+    const positionStyle = {
+      // eslint-disable-next-line
+      top: top
+        ? yConfig === POSITION_CONFIGURATION.Y.BOTTOM
+          ? top
+          : top - dropdownHeight
+        : 0,
+      // eslint-disable-next-line
+      left: left
+        ? xConfig === POSITION_CONFIGURATION.X.RIGHT
+          ? left
+          : left - dropdownWidth
+        : 0
+    };
+
+    return (
+      <div
+        ref={ref => {
+          // $FlowFixMe
+          this.ref = ref;
+          // $FlowFixMe
+          innerRef(ref);
+        }}
+        className={`rta__autocomplete ${xConfig} ${yConfig} ${className || ""}`}
+        style={{ ...style, ...positionStyle }}
+      >
+        {children}
+      </div>
+    );
+  }
+}
 
 class ReactTextareaAutocomplete extends React.Component<
   TextareaProps,
@@ -37,6 +195,7 @@ class ReactTextareaAutocomplete extends React.Component<
     movePopupAsYouType: false,
     value: null,
     minChar: 1,
+    boundariesElement: "body",
     scrollToItem: true
   };
 
@@ -392,6 +551,7 @@ class ReactTextareaAutocomplete extends React.Component<
     const props = { ...this.props };
     const notSafe = [
       "loadingComponent",
+      "boundariesElement",
       "containerStyle",
       "minChar",
       "scrollToItem",
@@ -644,6 +804,8 @@ class ReactTextareaAutocomplete extends React.Component<
       className,
       listStyle,
       itemStyle,
+      boundariesElement,
+      movePopupAsYouType,
       listClassName,
       itemClassName,
       dropdownClassName,
@@ -691,13 +853,17 @@ class ReactTextareaAutocomplete extends React.Component<
           style={style}
         />
         {(dataLoading || suggestionData) && currentTrigger && (
-          <div
-            ref={ref => {
+          <Autocomplete
+            innerRef={ref => {
               // $FlowFixMe
               this.dropdownRef = ref;
             }}
-            style={{ top, left, ...dropdownStyle }}
-            className={`rta__autocomplete ${dropdownClassName || ""}`}
+            top={top}
+            left={left}
+            style={dropdownStyle}
+            className={dropdownClassName}
+            movePopupAsYouType={movePopupAsYouType}
+            boundariesElement={boundariesElement}
           >
             {suggestionData && component && textToReplace && (
               <List
@@ -724,12 +890,27 @@ class ReactTextareaAutocomplete extends React.Component<
                 <Loader data={suggestionData} />
               </div>
             )}
-          </div>
+          </Autocomplete>
         )}
       </div>
     );
   }
 }
+
+const containerPropCheck = ({ boundariesElement }) => {
+  if (!boundariesElement) return null;
+
+  if (
+    typeof boundariesElement !== "string" &&
+    !(boundariesElement instanceof HTMLElement)
+  ) {
+    return Error(
+      "Invalid prop boundariesElement: it has to be string or HTMLElement."
+    );
+  }
+
+  return null;
+};
 
 const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
   if (!trigger) return Error("Invalid prop trigger. Prop missing.");
@@ -779,11 +960,13 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
 };
 
 ReactTextareaAutocomplete.propTypes = {
+  value: PropTypes.string,
   loadingComponent: PropTypes.func.isRequired,
   minChar: PropTypes.number,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
+  movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
   containerStyle: PropTypes.object,
@@ -798,7 +981,7 @@ ReactTextareaAutocomplete.propTypes = {
   itemClassName: PropTypes.string,
   loaderClassName: PropTypes.string,
   dropdownClassName: PropTypes.string,
-  value: PropTypes.string,
+  boundariesElement: containerPropCheck, //eslint-disable-line
   trigger: triggerPropsCheck //eslint-disable-line
 };
 

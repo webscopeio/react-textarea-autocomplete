@@ -243,7 +243,7 @@ class App extends React.Component {
           }}
           containerStyle={{
             marginTop: 20,
-            width: 400,
+            width: 500,
             height: 100,
             margin: "20px auto"
           }}
