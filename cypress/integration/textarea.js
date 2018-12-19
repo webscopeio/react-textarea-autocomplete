@@ -289,5 +289,25 @@ describe("React Textarea Autocomplete", () => {
         "rta__autocomplete--top"
       );
     });
+
+    it("another example of advanced combo usage", () => {
+      cy.get(".rta__textarea").type("This is test ({enter}");
+      cy.get(".rta__textarea").type(".");
+      cy.get(".rta__list")
+        .get("li:nth-child(1)")
+        .click();
+      cy.get(".rta__textarea").should("have.value", "This is test (country.ID");
+    });
+
+    it("once its selected dont show the autocomplete anymore", () => {
+      cy.get(".rta__textarea").type("This is test (");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__list")
+        .get("li:nth-child(1)")
+        .click();
+      cy.get(".rta__textarea").should("have.value", "This is test (country");
+      cy.get(".rta__textarea").type("somethingelse");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+    });
   });
 });

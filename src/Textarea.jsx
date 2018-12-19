@@ -243,6 +243,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     if (oldValue !== value && this.lastValueBubbledEvent !== value) {
+      this.lastTrigger = 0;
       this._changeHandler();
     }
   }
@@ -361,6 +362,11 @@ class ReactTextareaAutocomplete extends React.Component<
         dataLoading: false
       },
       () => {
+        const insertedTrigger = this.tokenRegExpEnding.exec(newTokenString);
+        const insertedTriggerModifier = insertedTrigger
+          ? insertedTrigger[0].length
+          : 1;
+        this.lastTrigger = newCaretPosition - insertedTriggerModifier;
         this.textareaRef.value = newValue;
         this._changeHandler();
 
@@ -532,6 +538,22 @@ class ReactTextareaAutocomplete extends React.Component<
         .map(a => `\\${a}`)
         .join("|")})((?:(?!\\1)[^\\s])*$)`
     );
+
+    this.tokenRegExpEnding = new RegExp(
+      `(${Object.keys(trigger)
+        // the sort is important for multi-char combos as "/kick", "/"
+        .sort((a, b) => {
+          if (a < b) {
+            return 1;
+          }
+          if (a > b) {
+            return -1;
+          }
+          return 0;
+        })
+        .map(a => `\\${a}`)
+        .join("|")})$`
+    );
   };
 
   /**
@@ -622,10 +644,27 @@ class ReactTextareaAutocomplete extends React.Component<
       value
     });
 
-    let tokenMatch = this.tokenRegExp.exec(value.slice(0, selectionEnd));
+    const cleanLastTrigger = () => {
+      this.lastTrigger = selectionEnd - 1;
+    };
+
+    if (selectionEnd <= this.lastTrigger) {
+      cleanLastTrigger();
+    }
+
+    const affectedTextareaValue = value.slice(this.lastTrigger, selectionEnd);
+
+    let tokenMatch = this.tokenRegExp.exec(affectedTextareaValue);
     let lastToken = tokenMatch && tokenMatch[0];
 
     let currentTrigger = (tokenMatch && tokenMatch[1]) || null;
+
+    // with this approach we want to know if the user just inserted a new trigger sequence
+    const isNewTrigger = this.tokenRegExpEnding.exec(affectedTextareaValue);
+
+    if (isNewTrigger) {
+      cleanLastTrigger();
+    }
 
     /*
      if we lost the trigger token or there is no following character we want to close
@@ -650,9 +689,8 @@ class ReactTextareaAutocomplete extends React.Component<
      */
     if (
       currentTrigger &&
-      value[tokenMatch.index - 1] &&
-      (trigger[currentTrigger].afterWhitespace &&
-        !value[tokenMatch.index - 1].match(/\s/))
+      trigger[currentTrigger].afterWhitespace &&
+      value[selectionEnd - 2] !== " "
     ) {
       this._closeAutocomplete();
       return;
@@ -796,6 +834,11 @@ class ReactTextareaAutocomplete extends React.Component<
   tokenRegExp: RegExp;
 
   lastValueBubbledEvent: string;
+
+  tokenRegExpEnding: RegExp;
+
+  // Last trigger index, to know when user selected the item and we should stop showing the autocomplete
+  lastTrigger: number = 0;
 
   render() {
     const {
