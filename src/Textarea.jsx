@@ -46,8 +46,8 @@ type AutocompleteProps = {
   className: ?string,
   innerRef: () => void,
   boundariesElement: string | HTMLElement,
-  top: number,
-  left: number,
+  top: ?number,
+  left: ?number,
   children: *
 };
 
@@ -93,17 +93,31 @@ class Autocomplete extends React.Component<
     }
 
     if (!this.containerElem || !this.containerElem.contains(this.ref)) {
-      throw new Error(
-        "RTA: Invalid prop boundariesElement: it has to be one of the parents of the RTA."
-      );
+      if (process.env.NODE_ENV !== "test") {
+        throw new Error(
+          "RTA: Invalid prop boundariesElement: it has to be one of the parents of the RTA."
+        );
+      }
     }
 
     this._calculatePosition();
   }
 
   _calculatePosition = () => {
-    const containerRects = this.containerElem.getClientRects()[0];
-    const dropdownRects = this.ref.getClientRects()[0];
+    if (!this.containerElem || !this.ref) {
+      return;
+    }
+
+    // this is dumb fallback mostly because tests
+    const fallback = {
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0
+    };
+
+    const containerRects = this.containerElem.getClientRects()[0] || fallback;
+    const dropdownRects = this.ref.getClientRects()[0] || fallback;
 
     // IE 11 doesn't know about x, y property...
     // $FlowFixMe
@@ -141,12 +155,18 @@ class Autocomplete extends React.Component<
     const { xConfig, yConfig, dropdownHeight, dropdownWidth } = this.state;
 
     const positionStyle = {
-      top:
-        yConfig === POSITION_CONFIGURATION.Y.BOTTOM
+      // eslint-disable-next-line
+      top: top
+        ? yConfig === POSITION_CONFIGURATION.Y.BOTTOM
           ? top
-          : top - dropdownHeight,
-      left:
-        xConfig === POSITION_CONFIGURATION.X.RIGHT ? left : left - dropdownWidth
+          : top - dropdownHeight
+        : 0,
+      // eslint-disable-next-line
+      left: left
+        ? xConfig === POSITION_CONFIGURATION.X.RIGHT
+          ? left
+          : left - dropdownWidth
+        : 0
     };
 
     return (
