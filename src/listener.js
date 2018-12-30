@@ -23,31 +23,28 @@ class Listener {
   constructor() {
     this.index = 0;
     this.listeners = {};
-    this.refCount = 0;
 
     this.f = (e: KeyboardEvent) => {
+      if (!e) return;
+
       const code = e.keyCode || e.which;
       for (let i = 0; i < this.index; i += 1) {
         const { keyCode, fn } = this.listeners[i];
-        if (keyCode.includes(code)) fn(e);
+        if (keyCode.includes(code)) {
+          e.stopPropagation();
+          e.preventDefault();
+          fn(e);
+        }
       }
     };
   }
 
-  startListen = () => {
-    if (!this.refCount) {
-      // prevent multiple listeners in case of multiple TextareaAutocomplete components on page
-      document.addEventListener("keydown", this.f);
-    }
-    this.refCount++;
+  startListen = (ref: HTMLInputElement) => {
+    ref.addEventListener("keydown", this.f);
   };
 
-  stopListen = () => {
-    this.refCount--;
-    if (!this.refCount) {
-      // prevent disable listening in case of multiple TextareaAutocomplete components on page
-      document.removeEventListener("keydown", this.f);
-    }
+  stopListen = (ref: HTMLInputElement) => {
+    ref.removeEventListener("keydown", this.f);
   };
 
   add = (keyCodes: Array<number> | number, fn: Function) => {

@@ -199,7 +199,6 @@ class ReactTextareaAutocomplete extends React.Component<
   TextareaState
 > {
   static defaultProps = {
-    closeOnClickOutside: false,
     movePopupAsYouType: false,
     value: null,
     minChar: 1,
@@ -238,9 +237,22 @@ class ReactTextareaAutocomplete extends React.Component<
     textToReplace: null
   };
 
+  escListenerInit = () => {
+    if (!this.escListener) {
+      this.escListener = Listeners.add(KEY_CODES.ESC, this._closeAutocomplete);
+    }
+  };
+
+  escListenerDestroy = () => {
+    if (this.escListener) {
+      Listeners.remove(this.escListener);
+      this.escListener = null;
+    }
+  };
+
   componentDidMount() {
     Listeners.add(KEY_CODES.ESC, this._closeAutocomplete);
-    Listeners.startListen();
+    Listeners.startListen(this.textareaRef);
   }
 
   componentDidUpdate({ trigger: oldTrigger, value: oldValue }: TextareaProps) {
@@ -264,7 +276,8 @@ class ReactTextareaAutocomplete extends React.Component<
   }
 
   componentWillUnmount() {
-    Listeners.stopListen();
+    this.escListenerDestroy();
+    Listeners.stopListen(this.textareaRef);
   }
 
   getSelectionPosition = (): ?{|
@@ -567,6 +580,7 @@ class ReactTextareaAutocomplete extends React.Component<
    * Close autocomplete, also clean up trigger (to avoid slow promises)
    */
   _closeAutocomplete = () => {
+    this.escListenerDestroy();
     this.setState({
       data: null,
       dataLoading: false,
@@ -600,7 +614,6 @@ class ReactTextareaAutocomplete extends React.Component<
       "listClassName",
       "itemClassName",
       "loaderClassName",
-      "closeOnClickOutside",
       "dropdownStyle",
       "dropdownClassName",
       "movePopupAsYouType"
@@ -750,6 +763,8 @@ class ReactTextareaAutocomplete extends React.Component<
       });
     }
 
+    this.escListenerInit();
+
     this.setState(
       {
         selectionEnd,
@@ -785,7 +800,7 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   _onClickAndBlurHandler = (e: SyntheticFocusEvent<*>) => {
-    const { closeOnClickOutside, onBlur } = this.props;
+    const { onBlur } = this.props;
 
     // If this is a click: e.target is the textarea, and e.relatedTarget is the thing
     // that was actually clicked. If we clicked inside the autoselect dropdown, then
@@ -799,9 +814,7 @@ class ReactTextareaAutocomplete extends React.Component<
       return;
     }
 
-    if (closeOnClickOutside) {
-      this._closeAutocomplete();
-    }
+    this._closeAutocomplete();
 
     if (onBlur) {
       e.persist();
@@ -832,6 +845,13 @@ class ReactTextareaAutocomplete extends React.Component<
     scrollToItem(this.dropdownRef, item);
   };
 
+  _isAutocompleteOpen = () => {
+    const { dataLoading, currentTrigger } = this.state;
+    const suggestionData = this._getSuggestions();
+
+    return (dataLoading || suggestionData) && currentTrigger;
+  };
+
   props: TextareaProps;
 
   textareaRef: HTMLInputElement;
@@ -846,6 +866,8 @@ class ReactTextareaAutocomplete extends React.Component<
 
   // Last trigger index, to know when user selected the item and we should stop showing the autocomplete
   lastTrigger: number = 0;
+
+  escListener: ?number = null;
 
   render() {
     const {
@@ -869,12 +891,12 @@ class ReactTextareaAutocomplete extends React.Component<
       left,
       top,
       dataLoading,
-      currentTrigger,
       component,
       value,
       textToReplace
     } = this.state;
 
+    const isAutocompleteOpen = this._isAutocompleteOpen();
     const suggestionData = this._getSuggestions();
 
     return (
@@ -902,7 +924,7 @@ class ReactTextareaAutocomplete extends React.Component<
           value={value}
           style={style}
         />
-        {(dataLoading || suggestionData) && currentTrigger && (
+        {isAutocompleteOpen && (
           <Autocomplete
             innerRef={ref => {
               // $FlowFixMe
@@ -1021,7 +1043,6 @@ ReactTextareaAutocomplete.propTypes = {
   className: PropTypes.string,
   containerStyle: PropTypes.object,
   containerClassName: PropTypes.string,
-  closeOnClickOutside: PropTypes.bool,
   style: PropTypes.object,
   listStyle: PropTypes.object,
   itemStyle: PropTypes.object,
