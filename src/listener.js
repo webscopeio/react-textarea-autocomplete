@@ -40,10 +40,14 @@ class Listener {
   }
 
   startListen = (ref: HTMLInputElement) => {
+    if (!ref) return;
+
     ref.addEventListener("keydown", this.f);
   };
 
   stopListen = (ref: HTMLInputElement) => {
+    if (!ref) return;
+
     ref.removeEventListener("keydown", this.f);
   };
 
