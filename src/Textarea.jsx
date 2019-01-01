@@ -48,7 +48,8 @@ type AutocompleteProps = {
   boundariesElement: string | HTMLElement,
   top: ?number,
   left: ?number,
-  children: *
+  children: *,
+  textAreaComponent: string | React.Component
 };
 
 type AutocompleteState = {
@@ -203,7 +204,8 @@ class ReactTextareaAutocomplete extends React.Component<
     value: null,
     minChar: 1,
     boundariesElement: "body",
-    scrollToItem: true
+    scrollToItem: true,
+    textAreaComponent: 'textarea'
   };
 
   constructor(props: TextareaProps) {
@@ -615,7 +617,8 @@ class ReactTextareaAutocomplete extends React.Component<
       "loaderClassName",
       "dropdownStyle",
       "dropdownClassName",
-      "movePopupAsYouType"
+      "movePopupAsYouType",
+      "textAreaComponent"
     ];
 
     // eslint-disable-next-line
@@ -646,8 +649,8 @@ class ReactTextareaAutocomplete extends React.Component<
     const textarea = event.target;
     const { selectionEnd } = textarea;
     const value = textarea.value;
-
     this.lastValueBubbledEvent = value;
+
 
     if (onChange && event) {
       event.persist && event.persist();
@@ -884,7 +887,8 @@ class ReactTextareaAutocomplete extends React.Component<
       containerStyle,
       containerClassName,
       loaderStyle,
-      loaderClassName
+      loaderClassName,
+      textAreaComponent
     } = this.props;
     const {
       left,
@@ -897,6 +901,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     const isAutocompleteOpen = this._isAutocompleteOpen();
     const suggestionData = this._getSuggestions();
+    let TextAreaComponent = textAreaComponent;
 
     return (
       <div
@@ -905,7 +910,7 @@ class ReactTextareaAutocomplete extends React.Component<
         } ${containerClassName || ""}`}
         style={containerStyle}
       >
-        <textarea
+        <TextAreaComponent
           {...this._cleanUpProps()}
           ref={ref => {
             this.props.innerRef && this.props.innerRef(ref);
