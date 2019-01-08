@@ -99,8 +99,6 @@ class Autocomplete extends React.Component<
         );
       }
     }
-
-    this._calculatePosition();
   }
 
   _calculatePosition = () => {
@@ -142,6 +140,12 @@ class Autocomplete extends React.Component<
         ? POSITION_CONFIGURATION.Y.BOTTOM
         : POSITION_CONFIGURATION.Y.TOP;
 
+    if (
+      this.state.dropdownHeight === dropdownHeight &&
+      this.state.dropdownWidth === dropdownWidth
+    )
+      return;
+
     this.setState({
       xConfig,
       yConfig,
@@ -149,6 +153,10 @@ class Autocomplete extends React.Component<
       dropdownWidth
     });
   };
+
+  componentDidUpdate() {
+    this._calculatePosition();
+  }
 
   render() {
     const { style, className, innerRef, children, top, left } = this.props;
@@ -202,8 +210,6 @@ class ReactTextareaAutocomplete extends React.Component<
   constructor(props: TextareaProps) {
     super(props);
 
-    Listeners.add(KEY_CODES.ESC, () => this._closeAutocomplete());
-
     const { loadingComponent, trigger, value } = this.props;
 
     if (value) this.state.value = value;
@@ -233,6 +239,7 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   componentDidMount() {
+    Listeners.add(KEY_CODES.ESC, this._closeAutocomplete);
     Listeners.startListen();
   }
 
