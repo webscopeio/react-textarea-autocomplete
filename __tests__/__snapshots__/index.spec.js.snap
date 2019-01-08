@@ -29,7 +29,7 @@ exports[`object-based items match the snapshot 1`] = `
 
 exports[`object-based items match the snapshot of dropdown, list, and item 1`] = `
 <div
-  class="rta__autocomplete rta__autocomplete--left rta__autocomplete--top "
+  class="rta__autocomplete rta__autocomplete--right rta__autocomplete--bottom "
   style="top: 0px; left: 0px;"
 >
   <ul
@@ -158,7 +158,7 @@ exports[`object-based items with keys match the snapshot 1`] = `
 
 exports[`object-based items with keys match the snapshot of dropdown, list, and item 1`] = `
 <div
-  class="rta__autocomplete rta__autocomplete--left rta__autocomplete--top "
+  class="rta__autocomplete rta__autocomplete--right rta__autocomplete--bottom "
   style="top: 0px; left: 0px;"
 >
   <ul
