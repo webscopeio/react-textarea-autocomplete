@@ -202,26 +202,11 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("should close the textarea when click outside happens", () => {
-      cy.get('[data-test="clickoutsideOption"]').click();
-
       cy.get(".rta__textarea").type("This is test :ro{uparrow}{uparrow}");
 
       cy.get(".rta__autocomplete").should("be.visible");
 
-      cy.get('[data-test="clickoutsideOption"]').click();
-
-      cy.get(".rta__autocomplete").should("not.be.visible");
-    });
-
-    it("should be possible to select item with click with closeOnClickOutside option enabled", () => {
-      cy.get('[data-test="clickoutsideOption"]').click();
-
-      cy.get(".rta__textarea")
-        .type("This is test :ro")
-        .get("li:nth-child(2)")
-        .click();
-
-      cy.get(".rta__textarea").should("have.value", "This is test 🙄");
+      cy.get('[data-test="dummy"]').click();
 
       cy.get(".rta__autocomplete").should("not.be.visible");
     });
@@ -308,6 +293,20 @@ describe("React Textarea Autocomplete", () => {
       cy.get(".rta__textarea").should("have.value", "This is test (country");
       cy.get(".rta__textarea").type("somethingelse");
       cy.get(".rta__autocomplete").should("not.be.visible");
+    });
+
+    it("event is successfully blocked", () => {
+      cy.window().then(async win => {
+        const spy = cy.spy(win.console, "log");
+
+        await cy
+          .get(".rta__textarea")
+          .type(":ro{uparrow}{uparrow}{enter}")
+          .then(e => {
+            // the last console.log call should not be `pressed "enter"` because that event is blocked because it's happening in autocomplete.
+            expect(spy.lastCall.args).to.eql([`pressed "o"`]);
+          });
+      });
     });
   });
 });

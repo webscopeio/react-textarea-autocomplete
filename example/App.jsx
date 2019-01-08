@@ -25,7 +25,6 @@ const Loading = ({ data }: LoadingProps) => <div>Loading</div>;
 class App extends React.Component {
   state = {
     optionsCaretStart: false,
-    clickoutsideOption: false,
     caretPosition: 0,
     movePopupAsYouType: false,
     text: "",
@@ -49,12 +48,6 @@ class App extends React.Component {
   _handleOptionsCaretStart = () => {
     this.setState(() => ({
       optionsCaret: "start"
-    }));
-  };
-
-  _handleClickoutsideOption = () => {
-    this.setState(({ clickoutsideOption }) => ({
-      clickoutsideOption: !clickoutsideOption
     }));
   };
 
@@ -126,7 +119,6 @@ class App extends React.Component {
     const {
       optionsCaret,
       caretPosition,
-      clickoutsideOption,
       movePopupAsYouType,
       actualTokenInProvider,
       showSecondTextarea,
@@ -165,17 +157,6 @@ class App extends React.Component {
             onChange={this._handleOptionsCaretNext}
           />
           <label htmlFor="caretNext">Place caret after word with a space</label>
-        </div>
-        <div>
-          <label>
-            <input
-              data-test="clickoutsideOption"
-              type="checkbox"
-              defaultChecked={clickoutsideOption}
-              onChange={this._handleClickoutsideOption}
-            />
-            Close when click outside
-          </label>
         </div>
         <div>
           <label>
@@ -224,13 +205,16 @@ class App extends React.Component {
         <button data-test="changeValueTo" onClick={this._changeValueTo}>
           Change value to ":troph"
         </button>
+        <button data-test="dummy">dummy</button>
         <div>
           Actual token in "[" provider:{" "}
           <span data-test="actualToken">{actualTokenInProvider}</span>
         </div>
-
         <ReactTextareaAutocomplete
           className="one"
+          onKeyDown={e => {
+            console.log(`pressed "${e.key}"`);
+          }}
           ref={ref => {
             this.rtaRef = ref;
           }}
@@ -248,7 +232,6 @@ class App extends React.Component {
             margin: "20px auto"
           }}
           movePopupAsYouType={movePopupAsYouType}
-          closeOnClickOutside={clickoutsideOption}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
           minChar={0}
           value={text}
