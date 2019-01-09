@@ -40,6 +40,11 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
+type textAreaComponentProps = {
+  component: React.Component,
+  ref: string
+};
+
 // The main purpose of this component is to figure out to witch side should be autocomplete opened
 type AutocompleteProps = {
   style: ?Object,
@@ -48,8 +53,7 @@ type AutocompleteProps = {
   boundariesElement: string | HTMLElement,
   top: ?number,
   left: ?number,
-  children: *,
-  textAreaComponent: string | React.Component
+  children: *
 };
 
 type AutocompleteState = {
@@ -205,7 +209,7 @@ class ReactTextareaAutocomplete extends React.Component<
     minChar: 1,
     boundariesElement: "body",
     scrollToItem: true,
-    textAreaComponent: 'textarea'
+    textAreaComponent: "textarea"
   };
 
   constructor(props: TextareaProps) {
@@ -651,7 +655,6 @@ class ReactTextareaAutocomplete extends React.Component<
     const value = textarea.value;
     this.lastValueBubbledEvent = value;
 
-
     if (onChange && event) {
       event.persist && event.persist();
       onChange(event);
@@ -901,7 +904,16 @@ class ReactTextareaAutocomplete extends React.Component<
 
     const isAutocompleteOpen = this._isAutocompleteOpen();
     const suggestionData = this._getSuggestions();
-    let TextAreaComponent = textAreaComponent;
+    const extraAttrs = {};
+    let TextAreaComponent;
+    if (textAreaComponent.component) {
+      TextAreaComponent = textAreaComponent.component;
+      extraAttrs[textAreaComponent.ref] = x => {
+        this.textareaRef = x;
+      };
+    } else {
+      TextAreaComponent = textAreaComponent;
+    }
 
     return (
       <div
@@ -927,6 +939,7 @@ class ReactTextareaAutocomplete extends React.Component<
           onBlur={this._onClickAndBlurHandler}
           value={value}
           style={style}
+          {...extraAttrs}
         />
         {isAutocompleteOpen && (
           <Autocomplete
