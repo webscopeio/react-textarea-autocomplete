@@ -251,7 +251,6 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   componentDidMount() {
-    Listeners.add(KEY_CODES.ESC, this._closeAutocomplete);
     Listeners.startListen(this.textareaRef);
   }
 
