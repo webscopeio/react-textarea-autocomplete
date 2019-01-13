@@ -164,6 +164,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "sdistefano",
+      "name": "Silvio Di Stefano",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/600021?v=4",
+      "profile": "http://sites.google.com/site/sdistefano/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "repoType": "github"
