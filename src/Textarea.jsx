@@ -203,7 +203,8 @@ class ReactTextareaAutocomplete extends React.Component<
     value: null,
     minChar: 1,
     boundariesElement: "body",
-    scrollToItem: true
+    scrollToItem: true,
+    textAreaComponent: "textarea"
   };
 
   constructor(props: TextareaProps) {
@@ -615,7 +616,8 @@ class ReactTextareaAutocomplete extends React.Component<
       "loaderClassName",
       "dropdownStyle",
       "dropdownClassName",
-      "movePopupAsYouType"
+      "movePopupAsYouType",
+      "textAreaComponent"
     ];
 
     // eslint-disable-next-line
@@ -646,7 +648,6 @@ class ReactTextareaAutocomplete extends React.Component<
     const textarea = event.target;
     const { selectionEnd } = textarea;
     const value = textarea.value;
-
     this.lastValueBubbledEvent = value;
 
     if (onChange && event) {
@@ -884,7 +885,8 @@ class ReactTextareaAutocomplete extends React.Component<
       containerStyle,
       containerClassName,
       loaderStyle,
-      loaderClassName
+      loaderClassName,
+      textAreaComponent
     } = this.props;
     const {
       left,
@@ -897,6 +899,16 @@ class ReactTextareaAutocomplete extends React.Component<
 
     const isAutocompleteOpen = this._isAutocompleteOpen();
     const suggestionData = this._getSuggestions();
+    const extraAttrs = {};
+    let TextAreaComponent;
+    if (textAreaComponent.component) {
+      TextAreaComponent = textAreaComponent.component;
+      extraAttrs[textAreaComponent.ref] = x => {
+        this.textareaRef = x;
+      };
+    } else {
+      TextAreaComponent = textAreaComponent;
+    }
 
     return (
       <div
@@ -905,7 +917,7 @@ class ReactTextareaAutocomplete extends React.Component<
         } ${containerClassName || ""}`}
         style={containerStyle}
       >
-        <textarea
+        <TextAreaComponent
           {...this._cleanUpProps()}
           ref={ref => {
             this.props.innerRef && this.props.innerRef(ref);
@@ -922,6 +934,7 @@ class ReactTextareaAutocomplete extends React.Component<
           onBlur={this._onClickAndBlurHandler}
           value={value}
           style={style}
+          {...extraAttrs}
         />
         {isAutocompleteOpen && (
           <Autocomplete
@@ -1037,6 +1050,7 @@ ReactTextareaAutocomplete.propTypes = {
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
+  textAreaComponent: PropTypes.oneOf([PropTypes.string, PropTypes.Object]),
   movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
