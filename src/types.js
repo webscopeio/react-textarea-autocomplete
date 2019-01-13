@@ -65,6 +65,10 @@ export type triggerType = {
 export type TextareaProps = {
   trigger: triggerType,
   loadingComponent: React$StatelessFunctionalComponent<*>,
+  textAreaComponent: {
+    component: React$StatelessFunctionalComponent<*>,
+    ref: "string"
+  },
   onChange: ?(SyntheticEvent<*> | Event) => void,
   onSelect: ?(SyntheticEvent<*> | Event) => void,
   onBlur: ?(SyntheticEvent<*> | Event) => void,

@@ -40,11 +40,6 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
-type textAreaComponentProps = {
-  component: React.Component,
-  ref: string
-};
-
 // The main purpose of this component is to figure out to witch side should be autocomplete opened
 type AutocompleteProps = {
   style: ?Object,
@@ -1055,6 +1050,7 @@ ReactTextareaAutocomplete.propTypes = {
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
+  textAreaComponent: PropTypes.oneOf([PropTypes.string, PropTypes.Object]),
   movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
