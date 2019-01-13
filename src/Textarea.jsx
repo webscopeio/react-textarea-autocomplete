@@ -253,6 +253,13 @@ class ReactTextareaAutocomplete extends React.Component<
 
   componentDidMount() {
     Listeners.startListen(this.textareaRef);
+    // handle caret change
+    this.textareaRef &&
+      this.textareaRef.addEventListener("focus", this._handleCaretChange);
+    this.textareaRef &&
+      this.textareaRef.addEventListener("click", this._handleCaretChange);
+    this.textareaRef &&
+      this.textareaRef.addEventListener("keydown", this._handleCaretChange);
   }
 
   componentDidUpdate({ trigger: oldTrigger, value: oldValue }: TextareaProps) {
@@ -278,6 +285,13 @@ class ReactTextareaAutocomplete extends React.Component<
   componentWillUnmount() {
     this.escListenerDestroy();
     Listeners.stopListen(this.textareaRef);
+    // handle caret change
+    this.textareaRef &&
+      this.textareaRef.removeEventListener("focus", this._handleCaretChange);
+    this.textareaRef &&
+      this.textareaRef.removeEventListener("click", this._handleCaretChange);
+    this.textareaRef &&
+      this.textareaRef.removeEventListener("keydown", this._handleCaretChange);
   }
 
   getSelectionPosition = (): ?{|
@@ -318,6 +332,26 @@ class ReactTextareaAutocomplete extends React.Component<
 
     const position = this.textareaRef.selectionEnd;
     return position;
+  };
+
+  _handleCaretChange = (e: Event) => {
+    if (e.type === "keydown") {
+      // $FlowFixMe
+      const code = e.keyCode || e.which;
+      switch (code) {
+        case KEY_CODES.UP:
+        case KEY_CODES.DOWN:
+        case KEY_CODES.LEFT:
+        case KEY_CODES.RIGHT:
+          this.lastTrigger = this.getCaretPosition() - 1;
+          break;
+        default:
+      }
+
+      return;
+    }
+
+    this.lastTrigger = this.getCaretPosition() - 1;
   };
 
   _onSelect = (newToken: textToReplaceType) => {
@@ -1050,7 +1084,7 @@ ReactTextareaAutocomplete.propTypes = {
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
-  textAreaComponent: PropTypes.oneOf([PropTypes.string, PropTypes.Object]),
+  textAreaComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
   className: PropTypes.string,
