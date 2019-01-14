@@ -426,6 +426,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
         const scrollTop = this.textareaRef.scrollTop;
         this.setCaretPosition(newCaretPosition);
+
         /*
           Chrome does not maintain scroll position
           Relevant discussion https://github.com/webscopeio/react-textarea-autocomplete/pull/97
@@ -718,6 +719,8 @@ class ReactTextareaAutocomplete extends React.Component<
 
     if (isNewTrigger) {
       cleanLastTrigger();
+    } else if (!this._isAutocompleteOpen()) {
+      this._closeAutocomplete();
     }
 
     /*
