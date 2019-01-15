@@ -420,8 +420,10 @@ class ReactTextareaAutocomplete extends React.Component<
         const insertedTriggerModifier = insertedTrigger
           ? insertedTrigger[0].length
           : 1;
+
         this.lastTrigger = newCaretPosition - insertedTriggerModifier;
         this.textareaRef.value = newValue;
+        this.textareaRef.selectionEnd = newCaretPosition;
         this._changeHandler();
 
         const scrollTop = this.textareaRef.scrollTop;
@@ -619,9 +621,7 @@ class ReactTextareaAutocomplete extends React.Component<
     this.setState({
       data: null,
       dataLoading: false,
-      currentTrigger: null,
-      top: null,
-      left: null
+      currentTrigger: null
     });
   };
 
@@ -699,8 +699,24 @@ class ReactTextareaAutocomplete extends React.Component<
       value
     });
 
+    const setTopLeft = () => {
+      const { top: newTop, left: newLeft } = getCaretCoordinates(
+        textarea,
+        selectionEnd
+      );
+
+      this.setState({
+        // make position relative to textarea
+        top: newTop - this.textareaRef.scrollTop || 0,
+        left: newLeft
+      });
+    };
+
     const cleanLastTrigger = () => {
       this.lastTrigger = selectionEnd - 1;
+
+      this._closeAutocomplete();
+      setTopLeft();
     };
 
     if (selectionEnd <= this.lastTrigger) {
@@ -788,16 +804,7 @@ class ReactTextareaAutocomplete extends React.Component<
       // if the trigger got changed, let's reposition the autocomplete
       this.state.currentTrigger !== currentTrigger
     ) {
-      const { top: newTop, left: newLeft } = getCaretCoordinates(
-        textarea,
-        selectionEnd
-      );
-
-      this.setState({
-        // make position relative to textarea
-        top: newTop - this.textareaRef.scrollTop || 0,
-        left: newLeft
-      });
+      setTopLeft();
     }
 
     this.escListenerInit();
@@ -886,7 +893,7 @@ class ReactTextareaAutocomplete extends React.Component<
     const { dataLoading, currentTrigger } = this.state;
     const suggestionData = this._getSuggestions();
 
-    return (dataLoading || suggestionData) && currentTrigger;
+    return !!((dataLoading || suggestionData) && currentTrigger);
   };
 
   props: TextareaProps;
