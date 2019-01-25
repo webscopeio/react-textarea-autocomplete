@@ -40,7 +40,7 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
-// The main purpose of this component is to figure out to witch side should be autocomplete opened
+// The main purpose of this component is to figure out to which side the autocomplete should be opened
 type AutocompleteProps = {
   style: ?Object,
   className: ?string,
@@ -48,27 +48,11 @@ type AutocompleteProps = {
   boundariesElement: string | HTMLElement,
   top: ?number,
   left: ?number,
-  children: *
+  children: *,
+  textareaRef: HTMLElement
 };
 
-type AutocompleteState = {
-  xConfig: string,
-  yConfig: string,
-  dropdownHeight: number,
-  dropdownWidth: number
-};
-
-class Autocomplete extends React.Component<
-  AutocompleteProps,
-  AutocompleteState
-> {
-  state = {
-    xConfig: POSITION_CONFIGURATION.X.RIGHT,
-    yConfig: POSITION_CONFIGURATION.Y.BOTTOM,
-    dropdownHeight: 0,
-    dropdownWidth: 0
-  };
-
+class Autocomplete extends React.Component<AutocompleteProps> {
   containerElem: HTMLElement;
 
   ref: HTMLElement;
@@ -101,81 +85,57 @@ class Autocomplete extends React.Component<
     }
   }
 
-  _calculatePosition = () => {
-    if (!this.containerElem || !this.ref) {
-      return;
+  componentDidUpdate() {
+    const top = this.props.top || 0
+    const left = this.props.left || 0
+    const usedClasses = []
+    const unusedClasses = []
+
+    let topPosition = 0
+    let leftPosition = 0
+
+    const containerBounds = this.containerElem.getBoundingClientRect()
+    const dropdownBounds = this.ref.getBoundingClientRect()
+    const textareaBounds = this.props.textareaRef.getBoundingClientRect()
+    const computedStyle = window.getComputedStyle(this.ref);
+
+    const marginTop = parseInt(computedStyle.getPropertyValue('margin-top'), 10)
+    const marginBottom = parseInt(computedStyle.getPropertyValue('margin-bottom'), 10)
+    const marginLeft = parseInt(computedStyle.getPropertyValue('margin-left'), 10)
+    const marginRight = parseInt(computedStyle.getPropertyValue('margin-right'), 10)
+
+    const dropdownBottom = marginTop + marginBottom + textareaBounds.top + top + dropdownBounds.height
+    const dropdownRight = marginLeft + marginRight + textareaBounds.left + left + dropdownBounds.width
+
+    if (dropdownRight > containerBounds.right) {
+      leftPosition = left - dropdownBounds.width
+      usedClasses.push(POSITION_CONFIGURATION.X.LEFT)
+      unusedClasses.push(POSITION_CONFIGURATION.X.RIGHT)
+    } else {
+      leftPosition = left
+      usedClasses.push(POSITION_CONFIGURATION.X.RIGHT)
+      unusedClasses.push(POSITION_CONFIGURATION.X.LEFT)
     }
 
-    // this is dumb fallback mostly because tests
-    const fallback = {
-      x: 0,
-      y: 0,
-      height: 0,
-      width: 0
-    };
+    if (dropdownBottom > containerBounds.bottom) {
+      topPosition = top - dropdownBounds.height
+      usedClasses.push(POSITION_CONFIGURATION.Y.TOP)
+      unusedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM)
+    } else {
+      topPosition = top
+      usedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM)
+      unusedClasses.push(POSITION_CONFIGURATION.Y.TOP)
+    }
 
-    const containerRects = this.containerElem.getClientRects()[0] || fallback;
-    const dropdownRects = this.ref.getClientRects()[0] || fallback;
+    this.ref.style.top  = `${topPosition}px`
+    this.ref.style.left = `${leftPosition}px`
 
-    // IE 11 doesn't know about x, y property...
-    // $FlowFixMe
-    const containerX: number = containerRects.x || containerRects.left;
-    // $FlowFixMe
-    const containerY: number = containerRects.y || containerRects.top;
-    // $FlowFixMe
-    const dropdownX: number = dropdownRects.x || dropdownRects.left;
-    // $FlowFixMe
-    const dropdownY: number = dropdownRects.y || dropdownRects.top;
-
-    const dropdownWidth = dropdownRects.width;
-    const dropdownHeight = dropdownRects.height;
-
-    const xConfig =
-      containerX + containerRects.width > dropdownX + dropdownWidth
-        ? POSITION_CONFIGURATION.X.RIGHT
-        : POSITION_CONFIGURATION.X.LEFT;
-
-    const yConfig =
-      containerY + containerRects.height > dropdownY + dropdownHeight
-        ? POSITION_CONFIGURATION.Y.BOTTOM
-        : POSITION_CONFIGURATION.Y.TOP;
-
-    if (
-      this.state.dropdownHeight === dropdownHeight &&
-      this.state.dropdownWidth === dropdownWidth
-    )
-      return;
-
-    this.setState({
-      xConfig,
-      yConfig,
-      dropdownHeight,
-      dropdownWidth
-    });
-  };
-
-  componentDidUpdate() {
-    this._calculatePosition();
+    this.ref.classList.remove(...unusedClasses)
+    this.ref.classList.add(...usedClasses)
   }
 
   render() {
-    const { style, className, innerRef, children, top, left } = this.props;
-    const { xConfig, yConfig, dropdownHeight, dropdownWidth } = this.state;
-
-    const positionStyle = {
-      // eslint-disable-next-line
-      top: top
-        ? yConfig === POSITION_CONFIGURATION.Y.BOTTOM
-          ? top
-          : top - dropdownHeight
-        : 0,
-      // eslint-disable-next-line
-      left: left
-        ? xConfig === POSITION_CONFIGURATION.X.RIGHT
-          ? left
-          : left - dropdownWidth
-        : 0
-    };
+    const { style, className, innerRef, children } = this.props;
 
     return (
       <div
@@ -185,8 +145,8 @@ class Autocomplete extends React.Component<
           // $FlowFixMe
           innerRef(ref);
         }}
-        className={`rta__autocomplete ${xConfig} ${yConfig} ${className || ""}`}
-        style={{ ...style, ...positionStyle }}
+        className={`rta__autocomplete ${className || ""}`}
+        style={style}
       >
         {children}
       </div>
@@ -992,6 +952,7 @@ class ReactTextareaAutocomplete extends React.Component<
             className={dropdownClassName}
             movePopupAsYouType={movePopupAsYouType}
             boundariesElement={boundariesElement}
+            textareaRef={this.textareaRef}
           >
             {suggestionData && component && textToReplace && (
               <List
