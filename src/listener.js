@@ -30,14 +30,13 @@ class Listener {
       if (!e) return;
 
       const code = e.keyCode || e.which;
-      for (let i = 0; i < this.index; i += 1) {
-        const { keyCode, fn } = this.listeners[i];
+      Object.values(this.listeners).forEach(({ keyCode, fn }: any) => {
         if (keyCode.includes(code)) {
           e.stopPropagation();
           e.preventDefault();
           fn(e);
         }
-      }
+      });
     };
   }
 
@@ -70,7 +69,6 @@ class Listener {
 
   remove = (id: number) => {
     delete this.listeners[id];
-    this.index -= 1;
   };
 
   removeAll = () => {
