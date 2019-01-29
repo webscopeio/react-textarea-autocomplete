@@ -29,12 +29,10 @@
 .rta__autocomplete {
   position: absolute;
   display: block;
-  width: 200px;
-}
-.rta__autocomplete--bottom {
   margin-top: 1em;
 }
 .rta__autocomplete--top {
+  margin-top: 0;
   margin-bottom: 1em;
 }
 .rta__list {

@@ -183,6 +183,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "andypearson",
+      "name": "Andy Pearson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/857?v=4",
+      "profile": "http://andypearson.co",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "repoType": "github"

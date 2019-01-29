@@ -9,6 +9,6 @@ body {
 
 /* proof for https://github.com/webscopeio/react-textarea-autocomplete/issues/70 */
 .rta__autocomplete {
-  height: 100px;
-  overflow: scroll;
+  max-height: 100px;
+  overflow-y: auto;
 }
