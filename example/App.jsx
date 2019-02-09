@@ -2,6 +2,8 @@ import React from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import emoji from "@jukben/emoji-search";
 
+import Input from "@material-ui/core/Input";
+
 // import '@webscopeio/react-textarea-autocomplete/style.css'
 import "../style.css";
 
@@ -21,6 +23,28 @@ type LoadingProps = {
 };
 
 const Loading = ({ data }: LoadingProps) => <div>Loading</div>;
+
+const InPo = React.forwardRef((props, ref) => {
+  const { onChange, onBlur, onClick, onKeyDown, onScroll, onSelect } = props;
+  return (
+    <Input
+      id="comment"
+      type={"text"}
+      multiline={true}
+      rows={2}
+      inputProps={{
+        onChange,
+        // onBlur, disabled because the callback inside Input has been passed wrongly
+        onClick,
+        onKeyDown,
+        onScroll,
+        onSelect
+      }}
+      value={props.value}
+      inputRef={ref}
+    />
+  );
+});
 
 class App extends React.Component {
   state = {
@@ -235,6 +259,7 @@ class App extends React.Component {
           onCaretPositionChange={this._onCaretPositionChangeHandle}
           minChar={0}
           value={text}
+          textAreaComponent={InPo}
           onChange={this._onChangeHandle}
           trigger={{
             ":": {
