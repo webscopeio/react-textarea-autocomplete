@@ -86,52 +86,74 @@ class Autocomplete extends React.Component<AutocompleteProps> {
   }
 
   componentDidUpdate() {
-    const top = this.props.top || 0
-    const left = this.props.left || 0
-    const usedClasses = []
-    const unusedClasses = []
+    const top = this.props.top || 0;
+    const left = this.props.left || 0;
+    const usedClasses = [];
+    const unusedClasses = [];
 
-    let topPosition = 0
-    let leftPosition = 0
+    let topPosition = 0;
+    let leftPosition = 0;
 
-    const containerBounds = this.containerElem.getBoundingClientRect()
-    const dropdownBounds = this.ref.getBoundingClientRect()
-    const textareaBounds = this.props.textareaRef.getBoundingClientRect()
+    const containerBounds = this.containerElem.getBoundingClientRect();
+    const dropdownBounds = this.ref.getBoundingClientRect();
+    const textareaBounds = this.props.textareaRef.getBoundingClientRect();
     const computedStyle = window.getComputedStyle(this.ref);
 
-    const marginTop = parseInt(computedStyle.getPropertyValue('margin-top'), 10)
-    const marginBottom = parseInt(computedStyle.getPropertyValue('margin-bottom'), 10)
-    const marginLeft = parseInt(computedStyle.getPropertyValue('margin-left'), 10)
-    const marginRight = parseInt(computedStyle.getPropertyValue('margin-right'), 10)
+    const marginTop = parseInt(
+      computedStyle.getPropertyValue("margin-top"),
+      10
+    );
+    const marginBottom = parseInt(
+      computedStyle.getPropertyValue("margin-bottom"),
+      10
+    );
+    const marginLeft = parseInt(
+      computedStyle.getPropertyValue("margin-left"),
+      10
+    );
+    const marginRight = parseInt(
+      computedStyle.getPropertyValue("margin-right"),
+      10
+    );
 
-    const dropdownBottom = marginTop + marginBottom + textareaBounds.top + top + dropdownBounds.height
-    const dropdownRight = marginLeft + marginRight + textareaBounds.left + left + dropdownBounds.width
+    const dropdownBottom =
+      marginTop +
+      marginBottom +
+      textareaBounds.top +
+      top +
+      dropdownBounds.height;
+    const dropdownRight =
+      marginLeft +
+      marginRight +
+      textareaBounds.left +
+      left +
+      dropdownBounds.width;
 
     if (dropdownRight > containerBounds.right) {
-      leftPosition = left - dropdownBounds.width
-      usedClasses.push(POSITION_CONFIGURATION.X.LEFT)
-      unusedClasses.push(POSITION_CONFIGURATION.X.RIGHT)
+      leftPosition = left - dropdownBounds.width;
+      usedClasses.push(POSITION_CONFIGURATION.X.LEFT);
+      unusedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
     } else {
-      leftPosition = left
-      usedClasses.push(POSITION_CONFIGURATION.X.RIGHT)
-      unusedClasses.push(POSITION_CONFIGURATION.X.LEFT)
+      leftPosition = left;
+      usedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
+      unusedClasses.push(POSITION_CONFIGURATION.X.LEFT);
     }
 
     if (dropdownBottom > containerBounds.bottom) {
-      topPosition = top - dropdownBounds.height
-      usedClasses.push(POSITION_CONFIGURATION.Y.TOP)
-      unusedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM)
+      topPosition = top - dropdownBounds.height;
+      usedClasses.push(POSITION_CONFIGURATION.Y.TOP);
+      unusedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM);
     } else {
-      topPosition = top
-      usedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM)
-      unusedClasses.push(POSITION_CONFIGURATION.Y.TOP)
+      topPosition = top;
+      usedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM);
+      unusedClasses.push(POSITION_CONFIGURATION.Y.TOP);
     }
 
-    this.ref.style.top  = `${topPosition}px`
-    this.ref.style.left = `${leftPosition}px`
+    this.ref.style.top = `${topPosition}px`;
+    this.ref.style.left = `${leftPosition}px`;
 
-    this.ref.classList.remove(...unusedClasses)
-    this.ref.classList.add(...usedClasses)
+    this.ref.classList.remove(...unusedClasses);
+    this.ref.classList.add(...usedClasses);
   }
 
   render() {
