@@ -193,6 +193,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "kinke",
+      "name": "Martin Kinkelin",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1889215?v=4",
+      "profile": "https://github.com/kinke",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "repoType": "github"
