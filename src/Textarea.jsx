@@ -878,6 +878,12 @@ class ReactTextareaAutocomplete extends React.Component<
     return !!((dataLoading || suggestionData) && currentTrigger);
   };
 
+  _textareaRef = (ref: HTMLInputElement) => {
+    // $FlowFixMe - ref is actually a `?HTMLTextAreaElement`
+    this.props.innerRef && this.props.innerRef(ref);
+    this.textareaRef = ref;
+  };
+
   props: TextareaProps;
 
   textareaRef: HTMLInputElement;
@@ -929,11 +935,10 @@ class ReactTextareaAutocomplete extends React.Component<
     let TextAreaComponent;
     if (textAreaComponent.component) {
       TextAreaComponent = textAreaComponent.component;
-      extraAttrs[textAreaComponent.ref] = x => {
-        this.textareaRef = x;
-      };
+      extraAttrs[textAreaComponent.ref] = this._textareaRef;
     } else {
       TextAreaComponent = textAreaComponent;
+      extraAttrs.ref = this._textareaRef;
     }
 
     return (
@@ -945,10 +950,6 @@ class ReactTextareaAutocomplete extends React.Component<
       >
         <TextAreaComponent
           {...this._cleanUpProps()}
-          ref={ref => {
-            this.props.innerRef && this.props.innerRef(ref);
-            this.textareaRef = ref;
-          }}
           className={`rta__textarea ${className || ""}`}
           onChange={this._changeHandler}
           onSelect={this._selectHandler}
