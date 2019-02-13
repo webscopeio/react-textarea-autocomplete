@@ -308,5 +308,14 @@ describe("React Textarea Autocomplete", () => {
           });
       });
     });
+
+    it("should be possible return null and do nothing", () => {
+      cy.get(".rta__textarea").type("This is test (");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__list")
+        .get("li:nth-child(3)")
+        .click();
+      cy.get(".rta__textarea").should("have.value", "This is test (");
+    });
   });
 });
