@@ -4,7 +4,7 @@ import React from "react";
 
 import Listeners, { KEY_CODES } from "./listener";
 import Item from "./Item";
-import type { ListProps, ListState, textToReplaceType } from "./types";
+import type { ListProps, ListState } from "./types";
 
 export default class List extends React.Component<ListProps, ListState> {
   state: ListState = {
@@ -59,16 +59,26 @@ export default class List extends React.Component<ListProps, ListState> {
     return values.findIndex(a => this.getId(a) === this.getId(selectedItem));
   };
 
-  getId = (item: textToReplaceType | string): string => {
+  getId = (item: Object | string): string => {
     const textToReplace = this.props.getTextToReplace(item);
-    if (textToReplace.key) {
-      return textToReplace.key;
+
+    if (textToReplace) {
+      if (textToReplace.key) {
+        return textToReplace.key;
+      }
+
+      if (typeof item === "string" || !item.key) {
+        return textToReplace.text;
+      }
     }
 
-    if (typeof item === "string" || !item.key) {
-      return textToReplace.text;
+    if (!item.key) {
+      throw new Error(
+        `Item ${JSON.stringify(item)} has to have defined "key" property`
+      );
     }
 
+    // $FlowFixMe
     return item.key;
   };
 

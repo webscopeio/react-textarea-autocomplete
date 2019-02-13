@@ -314,13 +314,24 @@ class App extends React.Component {
             "(": {
               dataProvider: token => [
                 { name: "country", char: "country" },
-                { name: "person", char: "person" }
+                { name: "person", char: "person" },
+                {
+                  name: "trigger",
+                  char: "trigger",
+                  // has to be defined because we are not gonna return nothing
+                  key: "trigger",
+                  // custom
+                  type: "trigger"
+                }
               ],
               component: Item,
-              output: (item, trigger) => ({
-                text: `${trigger}${item.name}`,
-                caretPosition: "end"
-              })
+              output: (item, trigger) => {
+                if (item.type === "trigger") return null;
+                return {
+                  text: `${trigger}${item.name}`,
+                  caretPosition: "end"
+                };
+              }
             },
             ".": {
               dataProvider: token => [
