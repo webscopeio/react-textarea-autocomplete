@@ -340,6 +340,11 @@ class ReactTextareaAutocomplete extends React.Component<
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
     const { trigger } = this.props;
 
+    if (!newToken) {
+      this._closeAutocomplete();
+      return;
+    }
+
     if (!currentTrigger) return;
 
     const computeCaretPosition = (
@@ -448,13 +453,15 @@ class ReactTextareaAutocomplete extends React.Component<
       if (output) {
         const textToReplace = output(item, currentTrigger);
 
-        if (!textToReplace || typeof textToReplace === "number") {
+        if (textToReplace === undefined || typeof textToReplace === "number") {
           throw new Error(
             `Output functor should return string or object in shape {text: string, caretPosition: string | number}.\nGot "${String(
               textToReplace
             )}". Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
           );
         }
+
+        if (textToReplace === null) return null;
 
         if (typeof textToReplace === "string") {
           return {
@@ -791,14 +798,16 @@ class ReactTextareaAutocomplete extends React.Component<
 
     this.escListenerInit();
 
+    const textToReplace = this._getTextToReplace({
+      actualToken,
+      currentTrigger
+    });
+
     this.setState(
       {
         selectionEnd,
         currentTrigger,
-        textToReplace: this._getTextToReplace({
-          actualToken,
-          currentTrigger
-        }),
+        textToReplace,
         actualToken
       },
       () => {
