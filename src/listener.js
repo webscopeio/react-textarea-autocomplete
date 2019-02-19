@@ -23,7 +23,7 @@ class Listener {
   f: Function;
 
   constructor() {
-    this.index = 0;
+    this.index = 1;
     this.listeners = {};
 
     this.f = (e: KeyboardEvent) => {
@@ -62,9 +62,7 @@ class Listener {
       fn
     };
 
-    this.index += 1;
-
-    return this.index;
+    return this.index++;
   };
 
   remove = (id: number) => {
@@ -73,7 +71,7 @@ class Listener {
 
   removeAll = () => {
     this.listeners = {};
-    this.index = 0;
+    this.index = 1;
   };
 }
 
