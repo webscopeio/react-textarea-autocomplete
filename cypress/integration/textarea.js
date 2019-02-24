@@ -317,5 +317,10 @@ describe("React Textarea Autocomplete", () => {
         .click();
       cy.get(".rta__textarea").should("have.value", "This is test (");
     });
+
+    it("arrow down and up should not stop autocomplete when dropdown is open", () => {
+      cy.get(".rta__textarea").type("This is test :cro{downarrow}w{enter}");
+      cy.get(".rta__textarea").should("have.value", "This is test 👑");
+    });
   });
 });

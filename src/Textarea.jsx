@@ -323,6 +323,10 @@ class ReactTextareaAutocomplete extends React.Component<
       switch (code) {
         case KEY_CODES.UP:
         case KEY_CODES.DOWN:
+          if (!this._isAutocompleteOpen()) {
+            this.lastTrigger = this.getCaretPosition() - 1;
+          }
+          break;
         case KEY_CODES.LEFT:
         case KEY_CODES.RIGHT:
           this.lastTrigger = this.getCaretPosition() - 1;
