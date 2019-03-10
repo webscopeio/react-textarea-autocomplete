@@ -80,7 +80,7 @@ export type TextareaProps = {
   closeOnClickOutside?: boolean,
   movePopupAsYouType?: boolean,
   boundariesElement: string | HTMLElement,
-  minChar: ?number,
+  minChar: number,
   value?: string,
   style: ?Object,
   listStyle: ?Object,

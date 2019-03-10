@@ -28,6 +28,7 @@ class App extends React.Component {
     caretPosition: 0,
     movePopupAsYouType: false,
     text: "",
+    minChar: 0,
     optionsCaret: "start",
     actualTokenInProvider: "",
     showSecondTextarea: false
@@ -81,6 +82,12 @@ class App extends React.Component {
     });
   };
 
+  _handleMinChar = ({ target: { value } }) => {
+    this.setState({
+      minChar: +value
+    });
+  };
+
   _setCaretPosition = () => {
     this.rtaRef.setCaretPosition(1);
   };
@@ -122,7 +129,8 @@ class App extends React.Component {
       movePopupAsYouType,
       actualTokenInProvider,
       showSecondTextarea,
-      text
+      text,
+      minChar
     } = this.state;
 
     return (
@@ -181,6 +189,17 @@ class App extends React.Component {
           </label>
         </div>
         <div>
+          <label>
+            <input
+              data-test="minChar"
+              type="number"
+              value={minChar}
+              onChange={this._handleMinChar}
+            />
+            Minimal characters typed to trigger autocomplete
+          </label>
+        </div>
+        <div>
           Actual caret position:{" "}
           <span data-test="actualCaretPosition">{caretPosition}</span>
         </div>
@@ -233,7 +252,7 @@ class App extends React.Component {
           }}
           movePopupAsYouType={movePopupAsYouType}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
-          minChar={0}
+          minChar={minChar}
           value={text}
           onChange={this._onChangeHandle}
           trigger={{
