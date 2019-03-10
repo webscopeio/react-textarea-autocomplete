@@ -33,6 +33,7 @@ describe("React Textarea Autocomplete", () => {
   context("basic", () => {
     beforeEach(() => {
       cy.get(".rta__textarea").clear({ force: true });
+      cy.get('[data-test="minChar"]').clear({ force: true })
     });
 
     it("basic test with keyboard", () => {
@@ -114,6 +115,7 @@ describe("React Textarea Autocomplete", () => {
   context("advanced", () => {
     beforeEach(() => {
       cy.get(".rta__textarea").clear({ force: true });
+      cy.get('[data-test="minChar"]').clear({ force: true })
     });
 
     it("should have place caret before outputted word", () => {
@@ -233,8 +235,45 @@ describe("React Textarea Autocomplete", () => {
     it("show autocomplete only after whitespace", () => {
       cy.get(".rta__textarea").type("This is test;");
       cy.get(".rta__autocomplete").should("not.be.visible");
-      cy.get(".rta__textarea").type(" ;");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("This is test;a");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type(";");
       cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("something ;");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("something ;somethingmore");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get('[data-test="minChar"]').type("{uparrow}");
+
+      cy.get(".rta__textarea").type("This is test;");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("This is test;a");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type(";a");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("something ;a");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
+
+      cy.get(".rta__textarea").type("something ;somethingmore");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__textarea").clear({ force: true });
     });
 
     it("test multi-character triggers and its possible combo", () => {

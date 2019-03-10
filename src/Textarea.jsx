@@ -752,11 +752,14 @@ class ReactTextareaAutocomplete extends React.Component<
      * from currentTrigger not this.state.currentTrigger
      *
      * Check if the currently typed token has to be afterWhitespace, or not.
+     *
+     * This setting means that there has to be whitespace before the token (on it has to be the the first character typed into textarea)
      */
     if (
       currentTrigger &&
       trigger[currentTrigger].afterWhitespace &&
-      value[selectionEnd - 2] !== " "
+      (value[selectionEnd - lastToken.length - 1] !== " " &&
+        value[selectionEnd - lastToken.length - 1] !== undefined)
     ) {
       this._closeAutocomplete();
       return;
