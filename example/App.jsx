@@ -269,6 +269,15 @@ class App extends React.Component {
                 next: this._outputCaretNext
               }[optionsCaret]
             },
+            "::": {
+              dataProvider: token => [{ name: "test", char: "test2" }],
+              component: Item,
+              output: {
+                start: this._outputCaretStart,
+                end: this._outputCaretEnd,
+                next: this._outputCaretNext
+              }[optionsCaret]
+            },
             "@": {
               dataProvider: token =>
                 new Promise(res =>
