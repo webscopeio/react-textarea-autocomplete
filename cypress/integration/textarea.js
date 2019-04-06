@@ -33,7 +33,7 @@ describe("React Textarea Autocomplete", () => {
   context("basic", () => {
     beforeEach(() => {
       cy.get(".rta__textarea").clear({ force: true });
-      cy.get('[data-test="minChar"]').clear({ force: true })
+      cy.get('[data-test="minChar"]').clear({ force: true });
     });
 
     it("basic test with keyboard", () => {
@@ -115,7 +115,7 @@ describe("React Textarea Autocomplete", () => {
   context("advanced", () => {
     beforeEach(() => {
       cy.get(".rta__textarea").clear({ force: true });
-      cy.get('[data-test="minChar"]').clear({ force: true })
+      cy.get('[data-test="minChar"]').clear({ force: true });
     });
 
     it("should have place caret before outputted word", () => {
@@ -287,6 +287,16 @@ describe("React Textarea Autocomplete", () => {
         .get("li:nth-child(1)")
         .click();
       cy.get(".rta__textarea").should("have.value", "This is test fred");
+    });
+
+    // https://github.com/webscopeio/react-textarea-autocomplete/issues/145
+    it("test multi-character triggers overlapping another trigger", () => {
+      cy.get(".rta__textarea").type("This is test ::something");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__list")
+        .get("li:nth-child(1)")
+        .click();
+      cy.get(".rta__textarea").should("have.value", "This is test test2");
     });
 
     it("change value from outside should trigger the autocomplete as well", () => {
