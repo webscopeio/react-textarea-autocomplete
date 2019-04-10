@@ -203,6 +203,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "Psyphant",
+      "name": "Christopher Tempel",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/364954?v=4",
+      "profile": "https://github.com/Psyphant",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "repoType": "github"

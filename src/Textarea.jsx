@@ -761,8 +761,8 @@ class ReactTextareaAutocomplete extends React.Component<
     if (
       currentTrigger &&
       trigger[currentTrigger].afterWhitespace &&
-      (value[selectionEnd - lastToken.length - 1] !== " " &&
-        value[selectionEnd - lastToken.length - 1] !== undefined)
+      !/\s/.test(value[selectionEnd - lastToken.length - 1]) &&
+      value[selectionEnd - lastToken.length - 1] !== undefined
     ) {
       this._closeAutocomplete();
       return;
