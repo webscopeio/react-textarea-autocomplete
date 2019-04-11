@@ -2,6 +2,7 @@
 /* eslint react/no-multi-comp: 0 */
 
 import React from "react";
+import ReactDOM from 'react-dom'
 import PropTypes from "prop-types";
 import getCaretCoordinates from "textarea-caret";
 import CustomEvent from "custom-event";
@@ -149,6 +150,10 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       unusedClasses.push(POSITION_CONFIGURATION.Y.TOP);
     }
 
+    // ToDo: Maybe define a configuration like "bodyRendering" for this
+    topPosition = topPosition + textareaBounds.top;
+    leftPosition = leftPosition + textareaBounds.left;
+
     this.ref.style.top = `${topPosition}px`;
     this.ref.style.left = `${leftPosition}px`;
 
@@ -159,7 +164,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
   render() {
     const { style, className, innerRef, children } = this.props;
 
-    return (
+    return ReactDOM.createPortal(
       <div
         ref={ref => {
           // $FlowFixMe
@@ -171,7 +176,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
         style={style}
       >
         {children}
-      </div>
+      </div>, document.body
     );
   }
 }
