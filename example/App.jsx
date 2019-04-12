@@ -1,5 +1,6 @@
 import React from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import AutoTextarea from "react-autosize-textarea";
 import emoji from "@jukben/emoji-search";
 
 // import '@webscopeio/react-textarea-autocomplete/style.css'
@@ -250,6 +251,7 @@ class App extends React.Component {
             height: 100,
             margin: "20px auto"
           }}
+          textAreaComponent={{ component: AutoTextarea, ref: "innerRef" }}
           movePopupAsYouType={movePopupAsYouType}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
           minChar={minChar}
