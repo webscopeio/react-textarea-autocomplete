@@ -31,7 +31,8 @@ class App extends React.Component {
     minChar: 0,
     optionsCaret: "start",
     actualTokenInProvider: "",
-    showSecondTextarea: false
+    showSecondTextarea: false,
+    renderToBody: false
   };
 
   _handleOptionsCaretEnd = () => {
@@ -61,6 +62,12 @@ class App extends React.Component {
   _handleMovePopupAsYouType = () => {
     this.setState(({ movePopupAsYouType }) => ({
       movePopupAsYouType: !movePopupAsYouType
+    }));
+  };
+
+  _handleRenderToBody = () => {
+    this.setState(({ renderToBody }) => ({
+      renderToBody: !renderToBody
     }));
   };
 
@@ -130,7 +137,8 @@ class App extends React.Component {
       actualTokenInProvider,
       showSecondTextarea,
       text,
-      minChar
+      minChar,
+      renderToBody
     } = this.state;
 
     return (
@@ -186,6 +194,17 @@ class App extends React.Component {
               onChange={this._handleMovePopupAsYouType}
             />
             Move popup as you type
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              data-test="renderToBody"
+              type="checkbox"
+              defaultChecked={renderToBody}
+              onChange={this._handleRenderToBody}
+            />
+            Render autocomplete to body
           </label>
         </div>
         <div>
@@ -255,6 +274,7 @@ class App extends React.Component {
           minChar={minChar}
           value={text}
           onChange={this._onChangeHandle}
+          renderToBody={renderToBody}
           trigger={{
             ":": {
               dataProvider: token =>
