@@ -152,8 +152,8 @@ class Autocomplete extends React.Component<AutocompleteProps> {
     }
 
     if(this.props.renderToBody) {
-      topPosition = topPosition + textareaBounds.top;
-      leftPosition = leftPosition + textareaBounds.left;
+      topPosition =+ textareaBounds.top;
+      leftPosition =+ textareaBounds.left;
     }
 
     this.ref.style.top = `${topPosition}px`;
@@ -165,7 +165,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
 
   render() {
     const { style, className, innerRef, children, renderToBody } = this.props;
-
+    const body = document.body;
     const autocompleteContainer = (
       <div
         ref={ref => {
@@ -181,7 +181,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       </div>
     );
 
-    return renderToBody ? ReactDOM.createPortal(autocompleteContainer, document.body) : autocompleteContainer;
+    return renderToBody && body !== null ? ReactDOM.createPortal(autocompleteContainer, body) : autocompleteContainer;
   }
 }
 
