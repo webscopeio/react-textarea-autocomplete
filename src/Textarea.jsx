@@ -152,8 +152,8 @@ class Autocomplete extends React.Component<AutocompleteProps> {
     }
 
     if(this.props.renderToBody) {
-      topPosition =+ textareaBounds.top;
-      leftPosition =+ textareaBounds.left;
+      topPosition += textareaBounds.top;
+      leftPosition += textareaBounds.left;
     }
 
     this.ref.style.top = `${topPosition}px`;
