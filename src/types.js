@@ -93,7 +93,8 @@ export type TextareaProps = {
   listClassName: ?string,
   itemClassName: ?string,
   loaderClassName: ?string,
-  dropdownClassName: ?string
+  dropdownClassName: ?string,
+  renderToBody: ?boolean
 };
 
 export type TextareaState = {

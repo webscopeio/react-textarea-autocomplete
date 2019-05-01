@@ -2,6 +2,7 @@
 /* eslint react/no-multi-comp: 0 */
 
 import React from "react";
+import ReactDOM from 'react-dom'
 import PropTypes from "prop-types";
 import getCaretCoordinates from "textarea-caret";
 import CustomEvent from "custom-event";
@@ -49,7 +50,8 @@ type AutocompleteProps = {
   top: ?number,
   left: ?number,
   children: *,
-  textareaRef: HTMLElement
+  textareaRef: HTMLElement,
+  renderToBody: ?boolean
 };
 
 class Autocomplete extends React.Component<AutocompleteProps> {
@@ -149,6 +151,11 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       unusedClasses.push(POSITION_CONFIGURATION.Y.TOP);
     }
 
+    if(this.props.renderToBody) {
+      topPosition += textareaBounds.top;
+      leftPosition += textareaBounds.left;
+    }
+
     this.ref.style.top = `${topPosition}px`;
     this.ref.style.left = `${leftPosition}px`;
 
@@ -157,9 +164,9 @@ class Autocomplete extends React.Component<AutocompleteProps> {
   }
 
   render() {
-    const { style, className, innerRef, children } = this.props;
-
-    return (
+    const { style, className, innerRef, children, renderToBody } = this.props;
+    const body = document.body;
+    const autocompleteContainer = (
       <div
         ref={ref => {
           // $FlowFixMe
@@ -173,6 +180,8 @@ class Autocomplete extends React.Component<AutocompleteProps> {
         {children}
       </div>
     );
+
+    return renderToBody && body !== null ? ReactDOM.createPortal(autocompleteContainer, body) : autocompleteContainer;
   }
 }
 
@@ -186,7 +195,8 @@ class ReactTextareaAutocomplete extends React.Component<
     minChar: 1,
     boundariesElement: "body",
     scrollToItem: true,
-    textAreaComponent: "textarea"
+    textAreaComponent: "textarea",
+    renderToBody: false
   };
 
   constructor(props: TextareaProps) {
@@ -645,7 +655,8 @@ class ReactTextareaAutocomplete extends React.Component<
       "dropdownStyle",
       "dropdownClassName",
       "movePopupAsYouType",
-      "textAreaComponent"
+      "textAreaComponent",
+      "renderToBody"
     ];
 
     // eslint-disable-next-line
@@ -937,7 +948,8 @@ class ReactTextareaAutocomplete extends React.Component<
       containerClassName,
       loaderStyle,
       loaderClassName,
-      textAreaComponent
+      textAreaComponent,
+      renderToBody
     } = this.props;
     const {
       left,
@@ -995,6 +1007,7 @@ class ReactTextareaAutocomplete extends React.Component<
             movePopupAsYouType={movePopupAsYouType}
             boundariesElement={boundariesElement}
             textareaRef={this.textareaRef}
+            renderToBody={renderToBody}
           >
             {suggestionData && component && textToReplace && (
               <List
@@ -1113,7 +1126,8 @@ ReactTextareaAutocomplete.propTypes = {
   loaderClassName: PropTypes.string,
   dropdownClassName: PropTypes.string,
   boundariesElement: containerPropCheck, //eslint-disable-line
-  trigger: triggerPropsCheck //eslint-disable-line
+  trigger: triggerPropsCheck, //eslint-disable-line
+  renderToBody: PropTypes.bool
 };
 
 export default ReactTextareaAutocomplete;
