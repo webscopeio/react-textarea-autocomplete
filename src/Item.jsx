@@ -37,7 +37,12 @@ export default class Item extends React.Component<ItemProps, *> {
     } = this.props;
 
     return (
-      <li className={`rta__item ${className || ""}`} style={style}>
+      <li
+        className={`rta__item  ${
+          selected === true ? "rta__item--selected" : ""
+        } ${className || ""}`}
+        style={style}
+      >
         <div
           className={`rta__entity ${
             selected === true ? "rta__entity--selected" : ""
