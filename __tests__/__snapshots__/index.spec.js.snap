@@ -36,7 +36,7 @@ exports[`object-based items match the snapshot of dropdown, list, and item 1`] =
     class="rta__list my-rta-list"
   >
     <li
-      class="rta__item my-rta-item"
+      class="rta__item  rta__item--selected my-rta-item"
       style="background: green;"
     >
       <div
@@ -52,7 +52,7 @@ exports[`object-based items match the snapshot of dropdown, list, and item 1`] =
       </div>
     </li>
     <li
-      class="rta__item my-rta-item"
+      class="rta__item   my-rta-item"
       style="background: green;"
     >
       <div
@@ -76,7 +76,7 @@ exports[`object-based items match the snapshot of dropdown, list, and item 2`] =
   class="rta__list my-rta-list"
 >
   <li
-    class="rta__item my-rta-item"
+    class="rta__item  rta__item--selected my-rta-item"
     style="background: green;"
   >
     <div
@@ -92,7 +92,7 @@ exports[`object-based items match the snapshot of dropdown, list, and item 2`] =
     </div>
   </li>
   <li
-    class="rta__item my-rta-item"
+    class="rta__item   my-rta-item"
     style="background: green;"
   >
     <div
@@ -112,7 +112,7 @@ exports[`object-based items match the snapshot of dropdown, list, and item 2`] =
 
 exports[`object-based items match the snapshot of dropdown, list, and item 3`] = `
 <li
-  class="rta__item my-rta-item"
+  class="rta__item  rta__item--selected my-rta-item"
   style="background: green;"
 >
   <div
@@ -165,7 +165,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
     class="rta__list my-rta-list"
   >
     <li
-      class="rta__item my-rta-item"
+      class="rta__item  rta__item--selected my-rta-item"
       style="background: green;"
     >
       <div
@@ -181,7 +181,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
       </div>
     </li>
     <li
-      class="rta__item my-rta-item"
+      class="rta__item   my-rta-item"
       style="background: green;"
     >
       <div
@@ -197,7 +197,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
       </div>
     </li>
     <li
-      class="rta__item my-rta-item"
+      class="rta__item   my-rta-item"
       style="background: green;"
     >
       <div
@@ -221,7 +221,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
   class="rta__list my-rta-list"
 >
   <li
-    class="rta__item my-rta-item"
+    class="rta__item  rta__item--selected my-rta-item"
     style="background: green;"
   >
     <div
@@ -237,7 +237,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
     </div>
   </li>
   <li
-    class="rta__item my-rta-item"
+    class="rta__item   my-rta-item"
     style="background: green;"
   >
     <div
@@ -253,7 +253,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
     </div>
   </li>
   <li
-    class="rta__item my-rta-item"
+    class="rta__item   my-rta-item"
     style="background: green;"
   >
     <div
@@ -273,7 +273,7 @@ exports[`object-based items with keys match the snapshot of dropdown, list, and 
 
 exports[`object-based items with keys match the snapshot of dropdown, list, and item 3`] = `
 <li
-  class="rta__item my-rta-item"
+  class="rta__item  rta__item--selected my-rta-item"
   style="background: green;"
 >
   <div
