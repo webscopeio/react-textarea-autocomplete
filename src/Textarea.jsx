@@ -2,7 +2,7 @@
 /* eslint react/no-multi-comp: 0 */
 
 import React from "react";
-import ReactDOM from 'react-dom'
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import getCaretCoordinates from "textarea-caret";
 import CustomEvent from "custom-event";
@@ -18,7 +18,6 @@ import type {
   caretPositionType,
   outputType,
   triggerType,
-  textToReplaceType,
   settingType
 } from "./types";
 
@@ -151,7 +150,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       unusedClasses.push(POSITION_CONFIGURATION.Y.TOP);
     }
 
-    if(this.props.renderToBody) {
+    if (this.props.renderToBody) {
       topPosition += textareaBounds.top;
       leftPosition += textareaBounds.left;
     }
@@ -181,7 +180,9 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       </div>
     );
 
-    return renderToBody && body !== null ? ReactDOM.createPortal(autocompleteContainer, body) : autocompleteContainer;
+    return renderToBody && body !== null
+      ? ReactDOM.createPortal(autocompleteContainer, body)
+      : autocompleteContainer;
   }
 }
 
@@ -350,16 +351,34 @@ class ReactTextareaAutocomplete extends React.Component<
     this.lastTrigger = this.getCaretPosition() - 1;
   };
 
-  _onSelect = (newToken: textToReplaceType) => {
+  _onSelect = (item: Object | string) => {
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
-    const { trigger } = this.props;
+    const { trigger, onItemSelected } = this.props;
+
+    if (!currentTrigger) return;
+
+    const getTextToReplaceForCurrentTrigger = this._getTextToReplace(
+      currentTrigger
+    );
+
+    if (!getTextToReplaceForCurrentTrigger) {
+      this._closeAutocomplete();
+      return;
+    }
+
+    const newToken = getTextToReplaceForCurrentTrigger(item);
 
     if (!newToken) {
       this._closeAutocomplete();
       return;
     }
 
-    if (!currentTrigger) return;
+    if (onItemSelected) {
+      onItemSelected({
+        currentTrigger,
+        item
+      });
+    }
 
     const computeCaretPosition = (
       position: caretPositionType,
@@ -441,13 +460,7 @@ class ReactTextareaAutocomplete extends React.Component<
     );
   };
 
-  _getTextToReplace = ({
-    actualToken,
-    currentTrigger
-  }: {|
-    actualToken: string,
-    currentTrigger: string
-  |}): ?outputType => {
+  _getTextToReplace = (currentTrigger: string): ?outputType => {
     const triggerSettings = this.props.trigger[currentTrigger];
 
     if (!currentTrigger || !triggerSettings) return null;
@@ -471,7 +484,7 @@ class ReactTextareaAutocomplete extends React.Component<
           throw new Error(
             `Output functor should return string or object in shape {text: string, caretPosition: string | number}.\nGot "${String(
               textToReplace
-            )}". Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more informations.\n`
+            )}". Check the implementation for trigger "${currentTrigger}"\n\nSee https://github.com/webscopeio/react-textarea-autocomplete#trigger-type for more information.\n`
           );
         }
 
@@ -486,13 +499,13 @@ class ReactTextareaAutocomplete extends React.Component<
 
         if (!textToReplace.text) {
           throw new Error(
-            `Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n`
+            `Output "text" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}"\n`
           );
         }
 
         if (!textToReplace.caretPosition) {
           throw new Error(
-            `Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}" and its token "${actualToken}"\n`
+            `Output "caretPosition" is not defined! Object should has shape {text: string, caretPosition: string | number}. Check the implementation for trigger "${currentTrigger}"\n`
           );
         }
 
@@ -656,7 +669,8 @@ class ReactTextareaAutocomplete extends React.Component<
       "dropdownClassName",
       "movePopupAsYouType",
       "textAreaComponent",
-      "renderToBody"
+      "renderToBody",
+      "onItemSelected"
     ];
 
     // eslint-disable-next-line
@@ -819,10 +833,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
     this.escListenerInit();
 
-    const textToReplace = this._getTextToReplace({
-      actualToken,
-      currentTrigger
-    });
+    const textToReplace = this._getTextToReplace(currentTrigger);
 
     this.setState(
       {

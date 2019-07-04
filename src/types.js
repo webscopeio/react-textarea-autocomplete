@@ -36,7 +36,7 @@ export type ListProps = {
   itemStyle: ?Object,
   className: ?string,
   itemClassName: ?string,
-  onSelect: textToReplaceType => void,
+  onSelect: (Object | string) => void,
   dropdownScroll: HTMLDivElement => void
 };
 
@@ -78,6 +78,7 @@ export type TextareaProps = {
     | boolean
     | ((container: HTMLDivElement, item: HTMLDivElement) => void),
   closeOnClickOutside?: boolean,
+  onItemSelected?: ({ currentTrigger: string, item: Object | string }) => void,
   movePopupAsYouType?: boolean,
   boundariesElement: string | HTMLElement,
   minChar: number,

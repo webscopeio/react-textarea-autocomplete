@@ -11,6 +11,8 @@ export default class List extends React.Component<ListProps, ListState> {
     selectedItem: null
   };
 
+  cachedIdOfItems: Map<Object | string, string> = new Map();
+
   componentDidMount() {
     this.listeners.push(
       Listeners.add([KEY_CODES.DOWN, KEY_CODES.UP], this.scroll),
@@ -60,26 +62,39 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   getId = (item: Object | string): string => {
+    if (this.cachedIdOfItems.has(item)) {
+      // $FlowFixMe
+      return this.cachedIdOfItems.get(item);
+    }
+
     const textToReplace = this.props.getTextToReplace(item);
 
-    if (textToReplace) {
-      if (textToReplace.key) {
-        return textToReplace.key;
+    const computeId = (): string => {
+      if (textToReplace) {
+        if (textToReplace.key) {
+          return textToReplace.key;
+        }
+
+        if (typeof item === "string" || !item.key) {
+          return textToReplace.text;
+        }
       }
 
-      if (typeof item === "string" || !item.key) {
-        return textToReplace.text;
+      if (!item.key) {
+        throw new Error(
+          `Item ${JSON.stringify(item)} has to have defined "key" property`
+        );
       }
-    }
 
-    if (!item.key) {
-      throw new Error(
-        `Item ${JSON.stringify(item)} has to have defined "key" property`
-      );
-    }
+      // $FlowFixMe
+      return item.key;
+    };
 
-    // $FlowFixMe
-    return item.key;
+    const id = computeId();
+
+    this.cachedIdOfItems.set(item, id);
+
+    return id;
   };
 
   props: ListProps;
@@ -93,9 +108,9 @@ export default class List extends React.Component<ListProps, ListState> {
   modifyText = (value: Object | string) => {
     if (!value) return;
 
-    const { onSelect, getTextToReplace } = this.props;
+    const { onSelect } = this.props;
 
-    onSelect(getTextToReplace(value));
+    onSelect(value);
   };
 
   selectItem = (item: Object | string, keyboard: boolean = false) => {

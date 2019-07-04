@@ -118,6 +118,18 @@ describe("React Textarea Autocomplete", () => {
       cy.get('[data-test="minChar"]').clear({ force: true });
     });
 
+    it("onSelectItem should return correct item and trigger", () => {
+      cy.get(".rta__textarea").type(":ro{uparrow}{uparrow}{enter}");
+      cy.window().then(async win => {
+        const shouldSelectItem = {
+          currentTrigger: ":",
+          item: { name: "rofl", char: "🤣" }
+        };
+
+        expect(win.__lastSelectedItem).to.deep.equal(shouldSelectItem);
+      });
+    });
+
     it("should have place caret before outputted word", () => {
       /**
        * This is probably Cypress bug (1.0.2)
