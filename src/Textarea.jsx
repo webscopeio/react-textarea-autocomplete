@@ -736,6 +736,7 @@ class ReactTextareaAutocomplete extends React.Component<
     let lastToken = tokenMatch && tokenMatch[0];
 
     let currentTrigger = (tokenMatch && tokenMatch[1]) || null;
+    const currentTriggerLength = currentTrigger ? currentTrigger.length - 1 : 0;
 
     // with this approach we want to know if the user just inserted a new trigger sequence
     const newTrigger = this.tokenRegExpEnding.exec(affectedTextareaValue);
@@ -751,7 +752,7 @@ class ReactTextareaAutocomplete extends React.Component<
      the autocomplete
     */
     if (
-      (!lastToken || lastToken.length <= minChar) &&
+      (!lastToken || lastToken.length <= minChar + currentTriggerLength) &&
       // check if our current trigger disallows whitespace
       ((this.state.currentTrigger &&
         !trigger[this.state.currentTrigger].allowWhitespace) ||
