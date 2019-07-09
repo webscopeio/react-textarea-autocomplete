@@ -271,6 +271,10 @@ class App extends React.Component {
           }}
           movePopupAsYouType={movePopupAsYouType}
           onCaretPositionChange={this._onCaretPositionChangeHandle}
+          onItemSelected={info => {
+            // save selected item to window; use it later in E2E tests
+            window.__lastSelectedItem = info;
+          }}
           minChar={minChar}
           value={text}
           onChange={this._onChangeHandle}
