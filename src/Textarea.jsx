@@ -2,7 +2,7 @@
 /* eslint react/no-multi-comp: 0 */
 
 import React from "react";
-import ReactDOM from 'react-dom'
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import getCaretCoordinates from "textarea-caret";
 import CustomEvent from "custom-event";
@@ -151,7 +151,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       unusedClasses.push(POSITION_CONFIGURATION.Y.TOP);
     }
 
-    if(this.props.renderToBody) {
+    if (this.props.renderToBody) {
       topPosition += textareaBounds.top;
       leftPosition += textareaBounds.left;
     }
@@ -181,7 +181,9 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       </div>
     );
 
-    return renderToBody && body !== null ? ReactDOM.createPortal(autocompleteContainer, body) : autocompleteContainer;
+    return renderToBody && body !== null
+      ? ReactDOM.createPortal(autocompleteContainer, body)
+      : autocompleteContainer;
   }
 }
 
@@ -327,6 +329,12 @@ class ReactTextareaAutocomplete extends React.Component<
   };
 
   _handleCaretChange = (e: Event) => {
+    const cleanLastTrigger = () => {
+      const beforeHandle = this.getCaretPosition() - 1;
+
+      this.lastTrigger = this.lastTrigger ? beforeHandle : 0;
+    };
+
     if (e.type === "keydown") {
       // $FlowFixMe
       const code = e.keyCode || e.which;
@@ -334,12 +342,12 @@ class ReactTextareaAutocomplete extends React.Component<
         case KEY_CODES.UP:
         case KEY_CODES.DOWN:
           if (!this._isAutocompleteOpen()) {
-            this.lastTrigger = this.getCaretPosition() - 1;
+            cleanLastTrigger();
           }
           break;
         case KEY_CODES.LEFT:
         case KEY_CODES.RIGHT:
-          this.lastTrigger = this.getCaretPosition() - 1;
+          cleanLastTrigger();
           break;
         default:
       }
@@ -347,7 +355,7 @@ class ReactTextareaAutocomplete extends React.Component<
       return;
     }
 
-    this.lastTrigger = this.getCaretPosition() - 1;
+    cleanLastTrigger();
   };
 
   _onSelect = (newToken: textToReplaceType) => {
@@ -422,7 +430,9 @@ class ReactTextareaAutocomplete extends React.Component<
           ? insertedTrigger[0].length
           : 1;
 
-        this.lastTrigger = newCaretPosition - insertedTriggerModifier;
+        this.lastTrigger = newCaretPosition
+          ? newCaretPosition - insertedTriggerModifier
+          : newCaretPosition;
         this.textareaRef.value = newValue;
         this.textareaRef.selectionEnd = newCaretPosition;
         this._changeHandler();
