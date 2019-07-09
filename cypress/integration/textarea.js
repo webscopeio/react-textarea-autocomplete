@@ -36,6 +36,22 @@ describe("React Textarea Autocomplete", () => {
       cy.get('[data-test="minChar"]').clear({ force: true });
     });
 
+    it("minChar works correctly basned on the lenght of the trigger char", () => {
+      cy.get('[data-test="minChar"]').type("{uparrow}"); // set minChar to 1
+
+      cy.get(".rta__textarea").type("This is test ::");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+
+      cy.get(".rta__textarea").type("This is test ::a");
+      cy.get(".rta__autocomplete").should("be.visible");
+
+      cy.get(".rta__textarea").type("This is test :");
+      cy.get(".rta__autocomplete").should("not.be.visible");
+
+      cy.get(".rta__textarea").type("This is test :a");
+      cy.get(".rta__autocomplete").should("be.visible");
+    });
+
     it("basic test with keyboard", () => {
       cy.get(".rta__textarea")
         .type("This is test :ro{downarrow}{enter}")
