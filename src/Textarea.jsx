@@ -881,7 +881,12 @@ class ReactTextareaAutocomplete extends React.Component<
     // If this is a click: e.target is the textarea, and e.relatedTarget is the thing
     // that was actually clicked. If we clicked inside the autoselect dropdown, then
     // that's not a blur, from the autoselect's point of view, so then do nothing.
-    const el = e.relatedTarget;
+    let el = e.relatedTarget;
+    // IE11 doesn't know about `relatedTarget` // https://stackoverflow.com/a/49325196/2719917
+    if (el === null) {
+      el = document.activeElement;
+    }
+
     if (
       this.dropdownRef &&
       el instanceof Node &&
