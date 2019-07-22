@@ -254,15 +254,13 @@ Your PR's are welcomed! ❤️
 
 ## Contributors
 
-| Maintainer |
-| :--------: |
-
-
-| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz)
+|                                                                Maintainer                                                                |
+| :--------------------------------------------------------------------------------------------------------------------------------------: |
+| [<img src="https://avatars3.githubusercontent.com/u/8135252?v=4" width="100px;"/><br /><sub><b>Jakub Beneš</b></sub>](https://jukben.cz) |
 
 Currently, I'm the only maintainer of this project. All related work I'm doing for is in my free time. If you like what I'm doing consider buy me a ☕. I'd appreciated! ❤️
 
-<a href="https://www.buymeacoffee.com/jukben" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H1ZPDQ)
 
 Also, I'd love to thank these wonderful people for their contribution ([emoji key](https://github.com/kentcdodds/all-contribution)). You rock! 💪
 
