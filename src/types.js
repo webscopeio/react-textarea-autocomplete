@@ -72,6 +72,7 @@ export type TextareaProps = {
   onChange: ?(SyntheticEvent<*> | Event) => void,
   onSelect: ?(SyntheticEvent<*> | Event) => void,
   onBlur: ?(SyntheticEvent<*> | Event) => void,
+  onClick: ?(SyntheticEvent<*> | Event) => void,
   onCaretPositionChange: ?(number) => void,
   innerRef: ?(HTMLTextAreaElement) => void,
   scrollToItem:

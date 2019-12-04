@@ -875,12 +875,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
   };
 
-  _onClickAndBlurHandler = (e: SyntheticFocusEvent<*>) => {
-    const { onBlur } = this.props;
-
-    // If this is a click: e.target is the textarea, and e.relatedTarget is the thing
-    // that was actually clicked. If we clicked inside the autoselect dropdown, then
-    // that's not a blur, from the autoselect's point of view, so then do nothing.
+  _shouldStayOpen = (e: SyntheticFocusEvent<*>) => {
     let el = e.relatedTarget;
     // IE11 doesn't know about `relatedTarget` // https://stackoverflow.com/a/49325196/2719917
     if (el === null) {
@@ -892,15 +887,39 @@ class ReactTextareaAutocomplete extends React.Component<
       el instanceof Node &&
       this.dropdownRef.contains(el)
     ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  _onClick = (e: SyntheticFocusEvent<*>) => {
+    const { onClick } = this.props;
+
+    if (onClick) {
+      e.persist();
+      onClick(e);
+    }
+
+    if (this._shouldStayOpen(e)) {
       return;
     }
 
     this._closeAutocomplete();
+  };
+
+  _onBlur = (e: SyntheticFocusEvent<*>) => {
+    const { onBlur } = this.props;
 
     if (onBlur) {
       e.persist();
       onBlur(e);
     }
+
+    if (this._shouldStayOpen(e)) {
+      return;
+    }
+    this._closeAutocomplete();
   };
 
   _onScrollHandler = () => {
@@ -1012,9 +1031,9 @@ class ReactTextareaAutocomplete extends React.Component<
           onScroll={this._onScrollHandler}
           onClick={
             // The textarea itself is outside the autoselect dropdown.
-            this._onClickAndBlurHandler
+            this._onClick
           }
-          onBlur={this._onClickAndBlurHandler}
+          onBlur={this._onBlur}
           value={value}
           style={style}
           {...extraAttrs}
@@ -1135,6 +1154,7 @@ ReactTextareaAutocomplete.propTypes = {
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onBlur: PropTypes.func,
+  onClick: PropTypes.func,
   textAreaComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   movePopupAsYouType: PropTypes.bool,
   onCaretPositionChange: PropTypes.func,
