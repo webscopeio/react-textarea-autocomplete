@@ -160,7 +160,7 @@ export default App;
 
   In order to skip the text replace phase let's return `null`.
 
-## [Example of usage](http://react-textarea-autocomplete.surge.sh/)
+## [Example of usage](https://1401-94480675-gh.circle-artifacts.com/0/example/index.html)
 
 `create-react-app example && cd example && yarn add @jukben/emoji-search @webscopeio/react-textarea-autocomplete`
 
