@@ -40,6 +40,31 @@ const errorMessage = (message: string) =>
     \nCheck the documentation or create issue if you think it's bug. https://github.com/webscopeio/react-textarea-autocomplete/issues`
   );
 
+const reservedRegexChars = [
+  '.',
+  '^',
+  '$',
+  '*',
+  '+',
+  '-',
+  '?',
+  '(',
+  ')',
+  '[',
+  ']',
+  '{',
+  '}',
+  '\\',
+  '|',
+]
+
+const escapeRegex = text =>
+  [...text]
+    .map(character =>
+      reservedRegexChars.includes(character) ? `\\${character}` : character
+    )
+    .join('')
+
 // The main purpose of this component is to figure out to which side the autocomplete should be opened
 type AutocompleteProps = {
   style: ?Object,
@@ -415,7 +440,7 @@ class ReactTextareaAutocomplete extends React.Component<
        * It's important to escape the currentTrigger char for chars like [, (,...
        */
       new RegExp(
-        `\\${currentTrigger}${`[^\\${currentTrigger}${
+        `${escapeRegex(currentTrigger)}${`[^${escapeRegex(currentTrigger)}${
           trigger[currentTrigger].allowWhitespace ? "" : "\\s"
         }]`}*$`
       )
@@ -616,7 +641,7 @@ class ReactTextareaAutocomplete extends React.Component<
           }
           return 0;
         })
-        .map(a => `\\${a}`)
+        .map(a => escapeRegex(a))
         .join("|")})((?:(?!\\1)[^\\s])*$)`
     );
 
@@ -632,7 +657,7 @@ class ReactTextareaAutocomplete extends React.Component<
           }
           return 0;
         })
-        .map(a => `\\${a}`)
+        .map(a => escapeRegex(a))
         .join("|")})$`
     );
   };
@@ -810,7 +835,7 @@ class ReactTextareaAutocomplete extends React.Component<
       this.state.currentTrigger &&
       trigger[this.state.currentTrigger].allowWhitespace
     ) {
-      tokenMatch = new RegExp(`\\${this.state.currentTrigger}.*$`).exec(
+      tokenMatch = new RegExp(`${escapeRegex(this.state.currentTrigger)}.*$`).exec(
         value.slice(0, selectionEnd)
       );
       lastToken = tokenMatch && tokenMatch[0];
