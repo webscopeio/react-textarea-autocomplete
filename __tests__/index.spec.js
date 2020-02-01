@@ -490,3 +490,52 @@ describe("object-based items without keys and custom unique generator", () => {
     expect(items.at(2).key()).toEqual("13");
   });
 });
+
+describe("multi character trigger", () => {
+  const mockedChangeFn = jest.fn();
+  const mockedSelectFn = jest.fn();
+  const mockedCaretPositionChangeFn = jest.fn();
+
+  const rtaComponent = (
+    <ReactTextareaAutocomplete      
+      className="my-rta"
+      containerClassName="my-rta-container"
+      listClassName="my-rta-list"
+      itemClassName="my-rta-item"
+      loaderClassName="my-rta-loader"
+      placeholder="Write a message."
+      value="Controlled text"
+      onChange={mockedChangeFn}
+      onSelect={mockedSelectFn}
+      onCaretPositionChange={mockedCaretPositionChangeFn}
+      loadingComponent={Loading}
+      trigger={{
+        ":(": {
+          output: item => `___${item.text}___`,
+          dataProvider: () => [
+            { id: 1, label: ":)", text: "happy_face" },
+            { id: 2, label: ":(", text: "sad_face" }
+          ],
+          component: SmileItemComponent
+        }
+      }}
+    />
+  );
+
+  const rta = mount(rtaComponent);
+
+  it("match the snapshot", () => {
+    expect(shallow(rtaComponent)).toMatchSnapshot();
+  });
+
+  it("Textarea exists", () => {
+    expect(rta.find("textarea")).toHaveLength(1);
+  });
+
+  it("After the trigger was typed, it should appear list of options", () => {
+    rta
+      .find("textarea")
+      .simulate("change", { target: { value: "some test :(a" } });
+    expect(rta.find(".rta__autocomplete")).toHaveLength(1);
+  });
+});
