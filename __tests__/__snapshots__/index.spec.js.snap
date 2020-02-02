@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`multi character trigger match the snapshot 1`] = `
+<div
+  className="rta  my-rta-container"
+>
+  <textarea
+    className="rta__textarea my-rta"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onClick={[Function]}
+    onScroll={[Function]}
+    onSelect={[Function]}
+    placeholder="Write a message."
+    value="Controlled text"
+  />
+</div>
+`;
+
 exports[`object-based items match the snapshot 1`] = `
 <div
   className="rta  my-rta-container"
