@@ -666,11 +666,14 @@ class ReactTextareaAutocomplete extends React.Component<
    * Close autocomplete, also clean up trigger (to avoid slow promises)
    */
   _closeAutocomplete = () => {
+    const { currentTrigger } = this.state;
     this.escListenerDestroy();
     this.setState({
       data: null,
       dataLoading: false,
       currentTrigger: null
+    }, () => {
+      if(currentTrigger) this._onItemHighlightedHandler(null);
     });
   };
 
@@ -703,7 +706,8 @@ class ReactTextareaAutocomplete extends React.Component<
       "movePopupAsYouType",
       "textAreaComponent",
       "renderToBody",
-      "onItemSelected"
+      "onItemSelected",
+      "onItemHighlighted"
     ];
 
     // eslint-disable-next-line
@@ -951,6 +955,18 @@ class ReactTextareaAutocomplete extends React.Component<
     this._closeAutocomplete();
   };
 
+  _onItemHighlightedHandler = (item: Object | string | null) => {
+    const { onItemHighlighted } = this.props;
+    const { currentTrigger } = this.state;
+    if(onItemHighlighted) {
+      if(typeof onItemHighlighted === "function") {
+        onItemHighlighted({currentTrigger, item});
+      } else {
+        throw new Error("`onItemHighlighted` has to be a function");
+      }
+    }
+  }
+
   _dropdownScroll = (item: HTMLDivElement) => {
     const { scrollToItem } = this.props;
 
@@ -1087,6 +1103,7 @@ class ReactTextareaAutocomplete extends React.Component<
                 itemClassName={itemClassName}
                 itemStyle={itemStyle}
                 getTextToReplace={textToReplace}
+                onItemHighlighted={this._onItemHighlightedHandler}
                 onSelect={this._onSelect}
                 dropdownScroll={this._dropdownScroll}
               />
@@ -1197,7 +1214,9 @@ ReactTextareaAutocomplete.propTypes = {
   dropdownClassName: PropTypes.string,
   boundariesElement: containerPropCheck, //eslint-disable-line
   trigger: triggerPropsCheck, //eslint-disable-line
-  renderToBody: PropTypes.bool
+  renderToBody: PropTypes.bool,
+  onItemSelected: PropTypes.func,
+  onItemHighlighted: PropTypes.func,
 };
 
 export default ReactTextareaAutocomplete;
