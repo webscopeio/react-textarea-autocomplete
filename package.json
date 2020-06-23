@@ -47,6 +47,7 @@
     "@babel/runtime": "7.2.0",
     "@jukben/emoji-search": "1.1.7",
     "@jukben/eslint-config": "0.0.6",
+    "all-contributors-cli": "^6.16.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",

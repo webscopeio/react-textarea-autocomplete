@@ -223,6 +223,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "SamuelBolduc",
+      "name": "Samuel Bolduc",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4836669?v=4",
+      "profile": "https://sambolduc.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "repoType": "github",
