@@ -114,9 +114,13 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   selectItem = (item: Object | string, keyboard: boolean = false) => {
+    const { onItemHighlighted } = this.props;
+
     if (this.state.selectedItem === item) return;
 
     this.setState({ selectedItem: item }, () => {
+      onItemHighlighted(item);
+
       if (keyboard) {
         this.props.dropdownScroll(this.itemsRef[this.getId(item)]);
       }
