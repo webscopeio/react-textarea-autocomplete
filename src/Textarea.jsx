@@ -18,7 +18,7 @@ import type {
   caretPositionType,
   outputType,
   triggerType,
-  settingType
+  settingType,
 } from "./types";
 
 const DEFAULT_CARET_POSITION = "next";
@@ -26,12 +26,12 @@ const DEFAULT_CARET_POSITION = "next";
 const POSITION_CONFIGURATION = {
   X: {
     LEFT: "rta__autocomplete--left",
-    RIGHT: "rta__autocomplete--right"
+    RIGHT: "rta__autocomplete--right",
   },
   Y: {
     TOP: "rta__autocomplete--top",
-    BOTTOM: "rta__autocomplete--bottom"
-  }
+    BOTTOM: "rta__autocomplete--bottom",
+  },
 };
 
 const errorMessage = (message: string) =>
@@ -41,29 +41,29 @@ const errorMessage = (message: string) =>
   );
 
 const reservedRegexChars = [
-  '.',
-  '^',
-  '$',
-  '*',
-  '+',
-  '-',
-  '?',
-  '(',
-  ')',
-  '[',
-  ']',
-  '{',
-  '}',
-  '\\',
-  '|',
-]
+  ".",
+  "^",
+  "$",
+  "*",
+  "+",
+  "-",
+  "?",
+  "(",
+  ")",
+  "[",
+  "]",
+  "{",
+  "}",
+  "\\",
+  "|",
+];
 
-const escapeRegex = text =>
+const escapeRegex = (text) =>
   [...text]
-    .map(character =>
+    .map((character) =>
       reservedRegexChars.includes(character) ? `\\${character}` : character
     )
-    .join('')
+    .join("");
 
 // The main purpose of this component is to figure out to which side the autocomplete should be opened
 type AutocompleteProps = {
@@ -75,7 +75,7 @@ type AutocompleteProps = {
   left: ?number,
   children: *,
   textareaRef: HTMLElement,
-  renderToBody: ?boolean
+  renderToBody: ?boolean,
 };
 
 class Autocomplete extends React.Component<AutocompleteProps> {
@@ -192,7 +192,7 @@ class Autocomplete extends React.Component<AutocompleteProps> {
     const body = document.body;
     const autocompleteContainer = (
       <div
-        ref={ref => {
+        ref={(ref) => {
           // $FlowFixMe
           this.ref = ref;
           // $FlowFixMe
@@ -222,7 +222,7 @@ class ReactTextareaAutocomplete extends React.Component<
     boundariesElement: "body",
     scrollToItem: true,
     textAreaComponent: "textarea",
-    renderToBody: false
+    renderToBody: false,
   };
 
   constructor(props: TextareaProps) {
@@ -253,7 +253,7 @@ class ReactTextareaAutocomplete extends React.Component<
     dataLoading: false,
     selectionEnd: 0,
     component: null,
-    textToReplace: null
+    textToReplace: null,
   };
 
   escListenerInit = () => {
@@ -296,7 +296,7 @@ class ReactTextareaAutocomplete extends React.Component<
     if (value === null || value === undefined) return null;
 
     return {
-      value
+      value,
     };
   }
 
@@ -314,13 +314,13 @@ class ReactTextareaAutocomplete extends React.Component<
 
   getSelectionPosition = (): ?{|
     selectionStart: number,
-    selectionEnd: number
+    selectionEnd: number,
   |} => {
     if (!this.textareaRef) return null;
 
     return {
       selectionStart: this.textareaRef.selectionStart,
-      selectionEnd: this.textareaRef.selectionEnd
+      selectionEnd: this.textareaRef.selectionEnd,
     };
   };
 
@@ -407,7 +407,7 @@ class ReactTextareaAutocomplete extends React.Component<
     if (onItemSelected) {
       onItemSelected({
         currentTrigger,
-        item
+        item,
       });
     }
 
@@ -464,7 +464,7 @@ class ReactTextareaAutocomplete extends React.Component<
     this.setState(
       {
         value: newValue,
-        dataLoading: false
+        dataLoading: false,
       },
       () => {
         const insertedTrigger = this.tokenRegExpEnding.exec(newTokenString);
@@ -526,7 +526,7 @@ class ReactTextareaAutocomplete extends React.Component<
         if (typeof textToReplace === "string") {
           return {
             text: textToReplace,
-            caretPosition: DEFAULT_CARET_POSITION
+            caretPosition: DEFAULT_CARET_POSITION,
           };
         }
 
@@ -551,7 +551,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
       return {
         text: `${currentTrigger}${item}${currentTrigger}`,
-        caretPosition: DEFAULT_CARET_POSITION
+        caretPosition: DEFAULT_CARET_POSITION,
       };
     };
   };
@@ -579,7 +579,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     this.setState({
-      dataLoading: true
+      dataLoading: true,
     });
 
     let providedData = dataProvider(actualToken);
@@ -589,7 +589,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     providedData
-      .then(data => {
+      .then((data) => {
         if (!Array.isArray(data)) {
           throw new Error("Trigger provider has to provide an array!");
         }
@@ -610,10 +610,10 @@ class ReactTextareaAutocomplete extends React.Component<
         this.setState({
           dataLoading: false,
           data,
-          component
+          component,
         });
       })
-      .catch(e => errorMessage(e.message));
+      .catch((e) => errorMessage(e.message));
   };
 
   _getSuggestions = (): ?Array<Object | string> => {
@@ -641,7 +641,7 @@ class ReactTextareaAutocomplete extends React.Component<
           }
           return 0;
         })
-        .map(a => escapeRegex(a))
+        .map((a) => escapeRegex(a))
         .join("|")})((?:(?!\\1)[^\\s])*$)`
     );
 
@@ -657,9 +657,11 @@ class ReactTextareaAutocomplete extends React.Component<
           }
           return 0;
         })
-        .map(a => escapeRegex(a))
+        .map((a) => escapeRegex(a))
         .join("|")})$`
     );
+
+    console.log(this.tokenRegExpEnding);
   };
 
   /**
@@ -668,13 +670,16 @@ class ReactTextareaAutocomplete extends React.Component<
   _closeAutocomplete = () => {
     const { currentTrigger } = this.state;
     this.escListenerDestroy();
-    this.setState({
-      data: null,
-      dataLoading: false,
-      currentTrigger: null
-    }, () => {
-      if(currentTrigger) this._onItemHighlightedHandler(null);
-    });
+    this.setState(
+      {
+        data: null,
+        dataLoading: false,
+        currentTrigger: null,
+      },
+      () => {
+        if (currentTrigger) this._onItemHighlightedHandler(null);
+      }
+    );
   };
 
   _cleanUpProps = (): Object => {
@@ -707,7 +712,7 @@ class ReactTextareaAutocomplete extends React.Component<
       "textAreaComponent",
       "renderToBody",
       "onItemSelected",
-      "onItemHighlighted"
+      "onItemHighlighted",
     ];
 
     // eslint-disable-next-line
@@ -724,7 +729,7 @@ class ReactTextareaAutocomplete extends React.Component<
       onChange,
       minChar,
       onCaretPositionChange,
-      movePopupAsYouType
+      movePopupAsYouType,
     } = this.props;
     const { top, left } = this.state;
 
@@ -751,7 +756,7 @@ class ReactTextareaAutocomplete extends React.Component<
     }
 
     this.setState({
-      value
+      value,
     });
 
     const setTopLeft = () => {
@@ -763,11 +768,11 @@ class ReactTextareaAutocomplete extends React.Component<
       this.setState({
         // make position relative to textarea
         top: newTop - this.textareaRef.scrollTop || 0,
-        left: newLeft
+        left: newLeft,
       });
     };
 
-    const cleanLastTrigger = triggerLength => {
+    const cleanLastTrigger = (triggerLength) => {
       this.lastTrigger = selectionEnd - triggerLength;
 
       this._closeAutocomplete();
@@ -839,9 +844,9 @@ class ReactTextareaAutocomplete extends React.Component<
       this.state.currentTrigger &&
       trigger[this.state.currentTrigger].allowWhitespace
     ) {
-      tokenMatch = new RegExp(`${escapeRegex(this.state.currentTrigger)}.*$`).exec(
-        value.slice(0, selectionEnd)
-      );
+      tokenMatch = new RegExp(
+        `${escapeRegex(this.state.currentTrigger)}.*$`
+      ).exec(value.slice(0, selectionEnd));
       lastToken = tokenMatch && tokenMatch[0];
 
       if (!lastToken) {
@@ -850,7 +855,11 @@ class ReactTextareaAutocomplete extends React.Component<
       }
 
       currentTrigger =
-        Object.keys(trigger).find(a => a === lastToken[0]) || null;
+        Object.keys(trigger).find(
+          (a) =>
+            a.slice(0, currentTriggerLength + 1) ===
+            lastToken.slice(0, currentTriggerLength + 1)
+        ) || null;
     }
 
     const actualToken = lastToken.slice(1);
@@ -878,7 +887,7 @@ class ReactTextareaAutocomplete extends React.Component<
         selectionEnd,
         currentTrigger,
         textToReplace,
-        actualToken
+        actualToken,
       },
       () => {
         try {
@@ -958,14 +967,14 @@ class ReactTextareaAutocomplete extends React.Component<
   _onItemHighlightedHandler = (item: Object | string | null) => {
     const { onItemHighlighted } = this.props;
     const { currentTrigger } = this.state;
-    if(onItemHighlighted) {
-      if(typeof onItemHighlighted === "function") {
-        onItemHighlighted({currentTrigger, item});
+    if (onItemHighlighted) {
+      if (typeof onItemHighlighted === "function") {
+        onItemHighlighted({ currentTrigger, item });
       } else {
         throw new Error("`onItemHighlighted` has to be a function");
       }
     }
-  }
+  };
 
   _dropdownScroll = (item: HTMLDivElement) => {
     const { scrollToItem } = this.props;
@@ -1034,7 +1043,7 @@ class ReactTextareaAutocomplete extends React.Component<
       loaderStyle,
       loaderClassName,
       textAreaComponent,
-      renderToBody
+      renderToBody,
     } = this.props;
     const {
       left,
@@ -1042,7 +1051,7 @@ class ReactTextareaAutocomplete extends React.Component<
       dataLoading,
       component,
       value,
-      textToReplace
+      textToReplace,
     } = this.state;
 
     const isAutocompleteOpen = this._isAutocompleteOpen();
@@ -1081,7 +1090,7 @@ class ReactTextareaAutocomplete extends React.Component<
         />
         {isAutocompleteOpen && (
           <Autocomplete
-            innerRef={ref => {
+            innerRef={(ref) => {
               // $FlowFixMe
               this.dropdownRef = ref;
             }}
@@ -1164,7 +1173,7 @@ const triggerPropsCheck = ({ trigger }: { trigger: triggerType }) => {
       dataProvider,
       output,
       afterWhitespace,
-      allowWhitespace
+      allowWhitespace,
     } = triggerSetting;
 
     if (!component || typeof component !== "function") {
