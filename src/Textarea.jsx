@@ -660,8 +660,6 @@ class ReactTextareaAutocomplete extends React.Component<
         .map((a) => escapeRegex(a))
         .join("|")})$`
     );
-
-    console.log(this.tokenRegExpEnding);
   };
 
   /**
