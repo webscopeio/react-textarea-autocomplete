@@ -9,6 +9,7 @@
   "files": [
     "dist",
     "types.js",
+    "index.d.ts",
     "style.css"
   ],
   "main": "dist/react-textarea-autocomplete.cjs.js",
@@ -27,7 +28,7 @@
     "react"
   ],
   "scripts": {
-    "build": "cp src/types.js types.js && rollup -c",
+    "build": "cp src/types.js types.js && cp src/types.js index.d.ts && rollup -c",
     "dev": "yarn run example --open",
     "example": "webpack-dev-server --config webpack.dev.config.js",
     "example:build": "webpack --config webpack.prod.config.js",
