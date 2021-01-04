@@ -299,6 +299,7 @@ Also, I'd love to thank these wonderful people for their contribution ([emoji ke
   <tr>
     <td align="center"><a href="http://www.louisbourque.ca/"><img src="https://avatars2.githubusercontent.com/u/1115170?v=4" width="100px;" alt=""/><br /><sub><b>Louis Bourque</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/issues?q=author%3Alouisbourque" title="Bug reports">🐛</a> <a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=louisbourque" title="Code">💻</a></td>
     <td align="center"><a href="https://sambolduc.com/"><img src="https://avatars1.githubusercontent.com/u/4836669?v=4" width="100px;" alt=""/><br /><sub><b>Samuel Bolduc</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=SamuelBolduc" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/anukul"><img src="https://avatars1.githubusercontent.com/u/44864521?v=4" width="100px;" alt=""/><br /><sub><b>Anukul Sangwan</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=anukul" title="Code">💻</a></td>
   </tr>
 </table>
 
