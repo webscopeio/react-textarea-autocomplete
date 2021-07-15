@@ -339,6 +339,16 @@ describe("React Textarea Autocomplete", () => {
       cy.get(".rta__textarea").should("have.value", "This is test test2");
     });
 
+    // https://github.com/webscopeio/react-textarea-autocomplete/issues/219
+    it("test multi-character trigger doesn't replace entire text", () => {
+      cy.get(".rta__textarea").type("This is test /filtere");
+      cy.get(".rta__autocomplete").should("be.visible");
+      cy.get(".rta__list")
+        .get("li:nth-child(1)")
+        .click();
+      cy.get(".rta__textarea").should("have.value", "This is test emily");
+    });
+
     it("change value from outside should trigger the autocomplete as well", () => {
       cy.get(".rta__autocomplete").should("not.be.visible");
       cy.get('[data-test="changeValueTo"]').click();
