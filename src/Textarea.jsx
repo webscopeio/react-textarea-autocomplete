@@ -738,14 +738,22 @@ class ReactTextareaAutocomplete extends React.Component<
       this.textareaRef.dispatchEvent(event);
     }
 
-    const textarea = event.target;
+    const textarea = event.target || this.textareaRef; // fallback to support Shadow DOM
     const { selectionEnd } = textarea;
     const value = textarea.value;
     this.lastValueBubbledEvent = value;
 
     if (onChange && event) {
       event.persist && event.persist();
-      onChange(event);
+
+      onChange(new Proxy(event, {
+        get(original, prop, receiver) {
+          if(prop === "target"){
+            return textarea;
+          }
+          return Reflect.get(original, prop, receiver);
+        }
+      }));
     }
 
     if (onCaretPositionChange) {
