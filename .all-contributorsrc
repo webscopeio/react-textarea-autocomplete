@@ -241,6 +241,33 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Hisham-Pak",
+      "name": "Hisham Mahmood",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45965466?v=4",
+      "profile": "https://github.com/Hisham-Pak",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lukaszmn",
+      "name": "Łukasz Nojek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9399633?v=4",
+      "profile": "https://lukaszmn.github.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "twrichards",
+      "name": "Tom Richards",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19289579?v=4",
+      "profile": "https://github.com/twrichards",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "repoType": "github",
