@@ -435,14 +435,14 @@ class ReactTextareaAutocomplete extends React.Component<
 
     const textToModify = textareaValue.slice(0, selectionEnd);
 
+    /**
+     * It's important to escape the currentTrigger char for chars like [, (,...
+     */
+    const escapedCurrentTrigger = escapeRegex(currentTrigger);
+    const escapedCurrentTriggerWithWhitespace = escapedCurrentTrigger + (trigger[currentTrigger].allowWhitespace ? "" : "\\s");
     const startOfTokenPosition = textToModify.search(
-      /**
-       * It's important to escape the currentTrigger char for chars like [, (,...
-       */
       new RegExp(
-        `${escapeRegex(currentTrigger)}${`[^${escapeRegex(currentTrigger)}${
-          trigger[currentTrigger].allowWhitespace ? "" : "\\s"
-        }]`}*$`
+        `${escapedCurrentTrigger}((?!${escapedCurrentTriggerWithWhitespace}).)*$`
       )
     );
 

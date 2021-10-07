@@ -367,6 +367,17 @@ class App extends React.Component {
               component: Item,
               output: this._outputCaretEnd
             },
+            "/filter": {
+              dataProvider: token => [
+                { name: "a", char: "amy" },
+                { name: "b", char: "ben" },
+                { name: "c", char: "cheryl" },
+                { name: "d", char: "daniel" },
+                { name: "e", char: "emily" }
+              ].filter(x => x.name == token.slice(6) || token.length === 6),
+              component: Item,
+              output: this._outputCaretEnd
+            },
             "(": {
               dataProvider: token => [
                 { name: "country", char: "country" },
