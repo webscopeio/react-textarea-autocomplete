@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Hit the bot https://github.com/jukben/rta-bot
-URL="https://rta-bot.vercel.app"
+URL="https://rta-bot-jukben.vercel.app"
 
 read -r -d '' DATA << EOM
 {
