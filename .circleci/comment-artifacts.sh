@@ -12,7 +12,7 @@ read -r -d '' DATA << EOM
 EOM
 
 curl \
+  --insecure \
   -H "Content-Type: application/json" \
   -d "$DATA" \
   -X POST $URL
-  --insecure
