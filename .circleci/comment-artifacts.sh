@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Hit the bot https://github.com/jukben/rta-bot
-URL="https://rta-bot.now.sh/"
+URL="https://rta-bot-jukben.vercel.app"
 
 read -r -d '' DATA << EOM
 {
@@ -12,6 +12,7 @@ read -r -d '' DATA << EOM
 EOM
 
 curl \
+  --insecure \
   -H "Content-Type: application/json" \
   -d "$DATA" \
   -X POST $URL
