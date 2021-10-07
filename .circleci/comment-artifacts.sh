@@ -15,3 +15,4 @@ curl \
   -H "Content-Type: application/json" \
   -d "$DATA" \
   -X POST $URL
+  --insecure
