@@ -72,6 +72,12 @@ describe("React Textarea Autocomplete", () => {
         .should("have.value", "This is test🙄");
     });
 
+    it("should respect already written tokens", () => {
+      cy.get(".rta__textarea")
+        .type("This is test -f{enter} and -s{downarrow}{enter}")
+        .should("have.value", "This is test -first and -second");
+    });
+
     it("special character like [, ( should be also possible to use as trigger char", () => {
       cy.get(".rta__textarea")
         .type("This is test [{enter}")
@@ -99,7 +105,7 @@ describe("React Textarea Autocomplete", () => {
         .then(() => {
           const endLeft = Cypress.$(".rta__autocomplete").css("left");
           cy.get(".rta__autocomplete").should("to.have.css", {
-            left: startLeft
+            left: startLeft,
           });
 
           expect(startLeft).to.be.equal(endLeft);
@@ -136,10 +142,10 @@ describe("React Textarea Autocomplete", () => {
 
     it("onItemHighlighted should return correct item and trigger", () => {
       cy.get(".rta__textarea").type(":ro{uparrow}{uparrow}");
-      cy.window().then(async win => {
+      cy.window().then(async (win) => {
         const shouldSelectItem = {
           currentTrigger: ":",
-          item: { name: "rofl", char: "🤣" }
+          item: { name: "rofl", char: "🤣" },
         };
 
         expect(win.__lastHighlightedItem).to.deep.equal(shouldSelectItem);
@@ -148,10 +154,10 @@ describe("React Textarea Autocomplete", () => {
 
     it("onItemSelected should return correct item and trigger", () => {
       cy.get(".rta__textarea").type(":ro{uparrow}{uparrow}{enter}");
-      cy.window().then(async win => {
+      cy.window().then(async (win) => {
         const shouldSelectItem = {
           currentTrigger: ":",
-          item: { name: "rofl", char: "🤣" }
+          item: { name: "rofl", char: "🤣" },
         };
 
         expect(win.__lastSelectedItem).to.deep.equal(shouldSelectItem);
@@ -159,10 +165,6 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("should have place caret before outputted word", () => {
-      /**
-       * This is probably Cypress bug (1.0.2)
-       * This test needs to be run in headed mode, otherwise fails
-       */
       cy.get('[data-test="caretStart"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
@@ -173,10 +175,6 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("should place caret after word", () => {
-      /**
-       * This is probably Cypress bug (1.0.2)
-       * This test needs to be run in headed mode, otherwise fails
-       */
       cy.get('[data-test="caretEnd"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
@@ -187,10 +185,6 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("should caret after word with a space", () => {
-      /**
-       * This is probably Cypress bug (1.0.2)
-       * This test needs to be run in headed mode, otherwise fails
-       */
       cy.get('[data-test="caretNext"]').click();
 
       cy.get(".rta__textarea").type("This is test :ro{downarrow}{downarrow}");
@@ -266,7 +260,7 @@ describe("React Textarea Autocomplete", () => {
       cy.get(".rta__textarea").type(
         `${repeat("{backspace}", 13)} again {downarrow}{enter}`,
         {
-          force: true
+          force: true,
         }
       );
       cy.get(".rta__textarea").should("have.value", "This is test /");
@@ -366,7 +360,7 @@ describe("React Textarea Autocomplete", () => {
         .get("li:nth-child(1)")
         .click();
       cy.get(".rta__textarea").type(`${repeat("\n", 5)} test :a`, {
-        force: true
+        force: true,
       });
       cy.get(".rta__autocomplete").should(
         "have.class",
@@ -395,13 +389,13 @@ describe("React Textarea Autocomplete", () => {
     });
 
     it("event is successfully blocked", () => {
-      cy.window().then(async win => {
+      cy.window().then(async (win) => {
         const spy = cy.spy(win.console, "log");
 
         await cy
           .get(".rta__textarea")
           .type(":ro{uparrow}{uparrow}{enter}")
-          .then(e => {
+          .then((e) => {
             // the last console.log call should not be `pressed "enter"` because that event is blocked because it's happening in autocomplete.
             expect(spy.lastCall.args).to.eql([`pressed "o"`]);
           });

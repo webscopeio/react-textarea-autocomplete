@@ -384,7 +384,7 @@ class ReactTextareaAutocomplete extends React.Component<
 
   _onSelect = (item: Object | string) => {
     const { selectionEnd, currentTrigger, value: textareaValue } = this.state;
-    const { trigger, onItemSelected } = this.props;
+    const { onItemSelected } = this.props;
 
     if (!currentTrigger) return;
 
@@ -437,14 +437,15 @@ class ReactTextareaAutocomplete extends React.Component<
 
     /**
      * It's important to escape the currentTrigger char for chars like [, (,...
+     * This is a ridiculous dark magic, basically we found position of the last current token (from current trigger) and then we replace the text from that position (calculating the offset)
      */
     const escapedCurrentTrigger = escapeRegex(currentTrigger);
-    const escapedCurrentTriggerWithWhitespace = escapedCurrentTrigger + (trigger[currentTrigger].allowWhitespace ? "" : "\\s");
+    const triggerOffset = textToModify.length - textToModify.lastIndexOf(currentTrigger);
     const startOfTokenPosition = textToModify.search(
       new RegExp(
-        `${escapedCurrentTrigger}((?!${escapedCurrentTriggerWithWhitespace}).)*$`
+          `(?!${escapedCurrentTrigger})$`
       )
-    );
+    ) - triggerOffset;
 
     // we add space after emoji is selected if a caret position is next
     const newTokenString =

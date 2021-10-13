@@ -411,7 +411,17 @@ class App extends React.Component {
                 text: `${trigger}${item.name}`,
                 caretPosition: "end"
               })
-            }
+            },
+            "-": {
+              dataProvider: token => {
+                return [
+                  { name: "f", char: "-first" },
+                  { name: "s", char: "-second" }
+                ];
+              },
+              component: Item,
+              output: this._outputCaretEnd
+            },
           }}
         />
         {!showSecondTextarea ? null : (
