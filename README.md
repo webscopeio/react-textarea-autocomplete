@@ -303,6 +303,7 @@ Also, I'd love to thank these wonderful people for their contribution ([emoji ke
     <td align="center"><a href="https://github.com/Hisham-Pak"><img src="https://avatars.githubusercontent.com/u/45965466?v=4" width="100px;" alt=""/><br /><sub><b>Hisham Mahmood</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=Hisham-Pak" title="Code">💻</a></td>
     <td align="center"><a href="https://lukaszmn.github.io/"><img src="https://avatars.githubusercontent.com/u/9399633?v=4" width="100px;" alt=""/><br /><sub><b>Łukasz Nojek</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=lukaszmn" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/twrichards"><img src="https://avatars.githubusercontent.com/u/19289579?v=4" width="100px;" alt=""/><br /><sub><b>Tom Richards</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=twrichards" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jakejakeho-seekers"><img src="https://avatars.githubusercontent.com/u/34710113?v=4" width="100px;" alt=""/><br /><sub><b>Jake Ho</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jakejakeho-seekers" title="Code">💻</a></td>
   </tr>
 </table>
 
