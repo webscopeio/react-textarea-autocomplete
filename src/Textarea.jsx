@@ -155,17 +155,19 @@ class Autocomplete extends React.Component<AutocompleteProps> {
       left +
       dropdownBounds.width;
 
-    if (dropdownRight > containerBounds.right) {
-      leftPosition = left - dropdownBounds.width;
-      usedClasses.push(POSITION_CONFIGURATION.X.LEFT);
-      unusedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
-    } else {
-      leftPosition = left;
-      usedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
-      unusedClasses.push(POSITION_CONFIGURATION.X.LEFT);
-    }
+      if (dropdownRight > containerBounds.right &&
+        textareaBounds.left + left > dropdownBounds.width) {
+        leftPosition = left - dropdownBounds.width;
+        usedClasses.push(POSITION_CONFIGURATION.X.LEFT);
+        unusedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
+      } else {
+        leftPosition = left;
+        usedClasses.push(POSITION_CONFIGURATION.X.RIGHT);
+        unusedClasses.push(POSITION_CONFIGURATION.X.LEFT);
+      }
 
-    if (dropdownBottom > containerBounds.bottom) {
+    if (dropdownBottom > containerBounds.bottom && 
+      textareaBounds.top + top > dropdownBounds.height) {
       topPosition = top - dropdownBounds.height;
       usedClasses.push(POSITION_CONFIGURATION.Y.TOP);
       unusedClasses.push(POSITION_CONFIGURATION.Y.BOTTOM);
