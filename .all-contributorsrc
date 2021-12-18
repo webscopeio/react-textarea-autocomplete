@@ -277,6 +277,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jwtong",
+      "name": "jwtong",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11378491?v=4",
+      "profile": "https://github.com/jwtong",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "repoType": "github",

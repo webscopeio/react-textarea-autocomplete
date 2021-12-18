@@ -305,6 +305,9 @@ Also, I'd love to thank these wonderful people for their contribution ([emoji ke
     <td align="center"><a href="https://github.com/twrichards"><img src="https://avatars.githubusercontent.com/u/19289579?v=4" width="100px;" alt=""/><br /><sub><b>Tom Richards</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=twrichards" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/jakejakeho-seekers"><img src="https://avatars.githubusercontent.com/u/34710113?v=4" width="100px;" alt=""/><br /><sub><b>Jake Ho</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/commits?author=jakejakeho-seekers" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/jwtong"><img src="https://avatars.githubusercontent.com/u/11378491?v=4" width="100px;" alt=""/><br /><sub><b>jwtong</b></sub></a><br /><a href="https://github.com/webscopeio/react-textarea-autocomplete/issues?q=author%3Ajwtong" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
