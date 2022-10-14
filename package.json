@@ -83,8 +83,8 @@
   },
   "peerDependencies": {
     "prop-types": "^15.0.0",
-    "react": "^16.0.0 || ^17",
-    "react-dom": "^16.0.0 || ^17"
+    "react": "^16.0.0 || ^17 || ^18",
+    "react-dom": "^16.0.0 || ^17 || ^18"
   },
   "dependencies": {
     "custom-event": "^1.0.1",
